@@ -1,0 +1,29 @@
+# Cloudora Weather
+
+> A free Android weather app with real-time conditions, hourly and 5-day forecasts, air quality index, UV/wind/pressure details, and an AI-generated weather insight for the day. Built by Vernoka Technology. Privacy-first: preferences and consent choices stay on the user's device; location is used only to fetch the weather.
+
+Cloudora Weather is a mobile app, not a web app — this site is its marketing
+and documentation home. The app itself is distributed through Google Play.
+Every page here is statically prerendered, so the HTML a crawler receives is
+the complete content of the page; no JavaScript execution is required to read
+it.
+
+## Pages
+
+- [Home](https://cloudora-weather.app/): Product overview, feature summary, and download link.
+- [Features](https://cloudora-weather.app/features): Full capability list — Real-Time Conditions, AI Weather Insight, Hourly Forecast, 5-Day Forecast, Air Quality Index, UV/Wind/Pressure/Visibility details, Rain Heads-Up, and Privacy-First design.
+- [Contact](https://cloudora-weather.app/contact): Contact form and support address.
+- [Privacy Policy](https://cloudora-weather.app/privacy-policy): What the app stores (locally) and what it transmits (location coordinates to OpenWeatherMap; forecast context to OpenRouter for the optional AI insight). The app ships no analytics, trackers, or ad networks; this website uses Google Analytics only after the visitor accepts.
+- [Terms of Service](https://cloudora-weather.app/terms-of-service): Terms covering use of the app and this site, including the weather-accuracy disclaimer.
+
+## Product facts
+
+- Platform: Android, via [Google Play](https://play.google.com/store/apps/details?id=com.cloudora.app).
+- Price: free, with no ads.
+- Data sources: weather, forecast, air-pollution and UV data from OpenWeatherMap; AI insight generated via OpenRouter.
+- Data handling: preferences, cached forecasts, and consent choices are stored in device-local storage and are not transmitted. Location coordinates are sent only to the weather provider; a forecast summary (no personal data) is sent to OpenRouter when the AI insight is enabled.
+- Support: support@cloudora-weather.app
+
+## Optional
+
+- [Sitemap](https://cloudora-weather.app/sitemap.xml): Machine-readable list of every indexable URL.

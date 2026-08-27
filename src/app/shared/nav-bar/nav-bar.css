@@ -1,0 +1,49 @@
+/* Transparent over the hero, frosted-glass once scrolled — same recipe as
+   .glass-nav in styles.css, scoped here so the two states can transition
+   smoothly (mixing a shared utility class with animated Tailwind utilities
+   for the same properties fights the cascade, so this is kept self-contained). */
+.nav-header {
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    backdrop-filter 0.3s ease;
+}
+
+.nav-header.is-scrolled {
+  background: rgba(6, 21, 47, 0.7);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+}
+
+/* Active-route indicator: small underline bar instead of color alone */
+.nav-link {
+  position: relative;
+  padding-bottom: 0.35rem;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-brand-secondary);
+  transform: scaleX(0);
+  transition: transform 0.2s ease;
+}
+.nav-link-active::after {
+  transform: scaleX(1);
+}
+
+/* Wordmark mirrors the app header (cloudora-weather-app home.scss
+   .hero__brand-name): bold "Cloudora", regular-weight "Weather" at 85%. */
+.brand-name {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}

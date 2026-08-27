@@ -29,6 +29,19 @@ yarn-error.log
 !.vscode/mcp.json
 .history/*
 
+# Environment / secrets — never commit real SMTP/API keys
+.env
+.env.local
+
+# Cloudflare Pages local secrets (SMTP_PASS etc.) — same danger as .env.local
+.dev.vars
+.dev.vars.*
+
+# wrangler's local state/cache
+.wrangler/
+.env*.local
+.vercel
+
 # Miscellaneous
 /.angular/cache
 .sass-cache/
@@ -38,6 +51,7 @@ yarn-error.log
 testem.log
 /typings
 __screenshots__/
+/lighthouse-reports
 
 # System files
 .DS_Store

@@ -1,0 +1,65 @@
+<footer class="relative z-10 border-t border-white/8 mt-24 bg-brand-dark/60 backdrop-blur-sm">
+  <div
+    class="max-w-6xl mx-auto px-5 md:px-8 py-14 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[1.3fr_1fr_1fr_1.2fr] md:gap-10"
+  >
+    <div class="col-span-2 md:col-span-1">
+      <a routerLink="/" class="flex items-center gap-2.5">
+        <img src="logo-192.webp" alt="Cloudora Weather" class="w-8 h-8 rounded-lg object-contain" width="32" height="32" />
+        <span class="brand-name text-white text-lg whitespace-nowrap"
+        >Cloudora <span class="font-normal opacity-85">Weather</span></span
+      >
+      </a>
+      <p class="text-sm text-gray-400 mt-4 max-w-xs leading-relaxed">
+        Real-time weather, hourly and 5-day forecasts, air quality, and an AI insight for your day
+        &mdash; private, ad-free, and free on Android.
+      </p>
+    </div>
+
+    <div>
+      <h3 class="text-xs font-semibold text-gray-300 tracking-wide uppercase mb-4">Site</h3>
+      <ul class="space-y-3 text-sm">
+        <li><a routerLink="/" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+        <li>
+          <a routerLink="/features" class="text-gray-400 hover:text-white transition-colors"
+            >Features</a
+          >
+        </li>
+        <li>
+          <a routerLink="/contact" class="text-gray-400 hover:text-white transition-colors"
+            >Contact</a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="text-xs font-semibold text-gray-300 tracking-wide uppercase mb-4">Legal</h3>
+      <ul class="space-y-3 text-sm">
+        <li>
+          <a routerLink="/privacy-policy" class="text-gray-400 hover:text-white transition-colors"
+            >Privacy Policy</a
+          >
+        </li>
+        <li>
+          <a routerLink="/terms-of-service" class="text-gray-400 hover:text-white transition-colors"
+            >Terms of Service</a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-span-2 md:col-span-1 md:text-right">
+      <h3 class="text-xs font-semibold text-gray-300 tracking-wide uppercase mb-4 md:hidden">
+        Get the app
+      </h3>
+      <app-play-store-button variant="secondary" />
+    </div>
+  </div>
+
+  <div
+    class="max-w-6xl mx-auto px-5 md:px-8 pb-10 text-xs text-gray-400 flex flex-col md:flex-row gap-2 md:justify-between"
+  >
+    <span>&copy; {{ year }} {{ company }}. All rights reserved.</span>
+    <span>Cloudora Weather is available on Android via Google Play.</span>
+  </div>
+</footer>

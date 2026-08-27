@@ -1,0 +1,263 @@
+/* Fixed, viewport-anchored "sky" behind every page: a soft brand-colour glow plus
+   three bands of slowly drifting clouds. `--progress` (0 = page top, 1 = bottom,
+   set by ScrollProgressService) drives a gentle parallax — nearer bands rise
+   further as you scroll — and cools the glow from cyan toward deep blue. */
+
+.sky-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* ---------- Brand glow ---------- */
+.sky-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(6px);
+  transition: transform 0.15s linear, opacity 0.15s linear;
+}
+
+.sky-glow--primary {
+  width: min(900px, 120vw);
+  height: min(900px, 120vw);
+  left: 50%;
+  top: -35%;
+  transform: translate(-50%, calc(var(--progress, 0) * -8vh));
+  opacity: calc(1 - var(--progress, 0) * 0.45);
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(0, 217, 255, 0.22),
+    rgba(22, 140, 255, 0.12) 45%,
+    transparent 70%
+  );
+}
+
+.sky-glow--secondary {
+  width: min(700px, 100vw);
+  height: min(700px, 100vw);
+  right: -25%;
+  bottom: -30%;
+  transform: translateY(calc(var(--progress, 0) * -14vh));
+  opacity: calc(0.35 + var(--progress, 0) * 0.65);
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(22, 140, 255, 0.22),
+    rgba(0, 217, 255, 0.08) 45%,
+    transparent 70%
+  );
+}
+
+/* ---------- The sun ---------- */
+/* Anchored to the viewport centre; `--progress` lifts it from just below the
+   horizon (page top) to roughly a third of the way up the screen (page
+   bottom). All three rings share the same transform so they move as one. */
+.sun {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  transform: translate(-50%, calc(22vh - var(--progress, 0) * 68vh));
+  transition: transform 0.15s linear;
+  will-change: transform;
+}
+
+.sun > span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Wide, soft atmosphere: warm gold at the centre cooling to brand cyan at the
+   edge — the same sun-into-sky handoff as the app icon. Gains presence as the
+   sun climbs. */
+.sun-halo {
+  width: min(880px, 140vw);
+  height: min(880px, 140vw);
+  opacity: calc(0.45 + var(--progress, 0) * 0.55);
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 210, 31, 0.28),
+    rgba(255, 160, 60, 0.16) 22%,
+    rgba(0, 217, 255, 0.1) 48%,
+    transparent 68%
+  );
+  filter: blur(10px);
+}
+
+/* Faint ray fan, slowly turning. Masked to a ring so it reads as rays leaving
+   the disc, not a starburst pinned to it. */
+.sun-rays {
+  width: min(520px, 90vw);
+  height: min(520px, 90vw);
+  opacity: calc(0.18 + var(--progress, 0) * 0.32);
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(255, 210, 31, 0.22) 0deg 6deg,
+    transparent 6deg 24deg
+  );
+  mask-image: radial-gradient(circle, transparent 30%, black 34%, black 62%, transparent 78%);
+  -webkit-mask-image: radial-gradient(circle, transparent 30%, black 34%, black 62%, transparent 78%);
+  animation: sun-spin 120s linear infinite;
+}
+
+ sun-spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* The disc itself: brand golden yellow with a hot orange rim and a bloom. */
+.sun-core {
+  width: min(180px, 34vw);
+  height: min(180px, 34vw);
+  background: radial-gradient(circle at 42% 38%, #fff1a8, #ffd21f 45%, #ff9d1f 100%);
+  box-shadow:
+    0 0 40px 10px rgba(255, 210, 31, 0.45),
+    0 0 120px 40px rgba(255, 157, 31, 0.25);
+  opacity: calc(0.7 + var(--progress, 0) * 0.3);
+}
+
+/* ---------- Horizon ---------- */
+.horizon {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 22vh;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 214, 120, calc(0.08 + var(--progress, 0) * 0.3)) 50%,
+    transparent
+  );
+}
+
+/* ---------- Cloud bands ---------- */
+.cloud-band {
+  position: absolute;
+  inset-inline: 0;
+  display: flex;
+  justify-content: space-between;
+  /* Twice the viewport width so the drift loop never shows a gap. */
+  width: 200vw;
+  animation: drift var(--drift-duration, 90s) linear infinite;
+  transform: translate3d(0, calc(var(--progress, 0) * var(--parallax, 0px)), 0);
+  will-change: transform;
+}
+
+/* Parallax + drift share the transform, so the keyframes move the band and the
+   parallax offset rides along via the custom property read inside them. */
+@keyframes drift {
+  from {
+    transform: translate3d(0, calc(var(--progress, 0) * var(--parallax, 0px)), 0);
+  }
+  to {
+    transform: translate3d(-50%, calc(var(--progress, 0) * var(--parallax, 0px)), 0);
+  }
+}
+
+.cloud-band--far {
+  top: 12vh;
+  --drift-duration: 160s;
+  --parallax: -6vh;
+  opacity: 0.35;
+  transform: scale(0.7);
+}
+
+.cloud-band--mid {
+  top: 38vh;
+  --drift-duration: 115s;
+  --parallax: -14vh;
+  opacity: 0.55;
+}
+
+.cloud-band--near {
+  top: 64vh;
+  --drift-duration: 80s;
+  --parallax: -26vh;
+  opacity: 0.8;
+  transform: scale(1.25);
+}
+
+/* ---------- Individual clouds ---------- */
+.cloud {
+  position: relative;
+  display: block;
+  flex: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  filter: blur(18px);
+}
+
+/* Two bumps make the classic cumulus silhouette. */
+.cloud::before,
+.cloud::after {
+  content: '';
+  position: absolute;
+  bottom: 35%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.cloud--s {
+  width: 180px;
+  height: 56px;
+}
+.cloud--s::before {
+  width: 80px;
+  height: 80px;
+  left: 22%;
+}
+.cloud--s::after {
+  width: 60px;
+  height: 60px;
+  left: 55%;
+}
+
+.cloud--m {
+  width: 300px;
+  height: 80px;
+}
+.cloud--m::before {
+  width: 130px;
+  height: 130px;
+  left: 20%;
+}
+.cloud--m::after {
+  width: 100px;
+  height: 100px;
+  left: 54%;
+}
+
+.cloud--l {
+  width: 440px;
+  height: 110px;
+}
+.cloud--l::before {
+  width: 190px;
+  height: 190px;
+  left: 18%;
+}
+.cloud--l::after {
+  width: 150px;
+  height: 150px;
+  left: 52%;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .cloud-band,
+  .sun-rays {
+    animation: none;
+  }
+  .sun {
+    transition: none;
+  }
+  .sky-glow {
+    transition: none;
+  }
+}

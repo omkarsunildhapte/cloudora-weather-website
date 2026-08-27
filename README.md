@@ -1,59 +1,32 @@
-# Web
+# Cloudora Weather — Website
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.7.
+Marketing / landing site for the **Cloudora Weather** Android app (`../cloudora-weather-app`).
+Angular 22 + Tailwind CSS v4, fully prerendered at build time (`@angular/ssr`, `outputMode: 'static'`),
+deployed as a Cloudflare Worker with static assets plus two API routes (`/api/contact`, `/api/feedback`)
+that relay email through Resend.
 
-## Development server
+The structure, components and tooling are a 1:1 port of `d:\arithmaxa\arithmaxa-website`, rethemed to
+the Cloudora v2 brand palette (see `src/styles.css` and `../TASKS.md` → "Brand — v2") with
+weather-specific copy, legal pages, icons and screenshots.
 
-To start a local development server, run:
+## Scripts
 
-```bash
-ng serve
-```
+| Command | What it does |
+| --- | --- |
+| `npm start` | Dev server on http://localhost:5300 |
+| `npm run build` | Production build, prerenders every route to `dist/cloudora-weather-website/browser` |
+| `npm test` | Vitest unit tests |
+| `npm run lighthouse` | Builds, serves the static output, audits `/`, `/features/`, `/contact/` |
+| `npm run worker:dev` | Build + `wrangler dev` (needs `.dev.vars`, see `.env.example`) |
+| `npm run worker:deploy` | Build + `wrangler deploy` |
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Before launch — values that still need confirming
 
-## Code scaffolding
+- `src/constants/constants.ts`: `PLAY_STORE_URL` package id (`com.cloudora.app`), `SITE_URL`,
+  `CONTACT_EMAIL`, `COMPANY_URL`. The app's `capacitor.config.ts` still uses `io.ionic.starter`.
+- `src/index.html`: GA4 measurement id `G-XXXXXXXXXX`.
+- `public/robots.txt`, `public/sitemap.xml`, `public/llms.txt`: production domain.
+- `worker/lib/email.ts` / Worker secrets: `RESEND_API_KEY`, `MAIL_FROM` on a Resend-verified domain.
+- `public/screenshots/`: currently the app design mockups; swap for on-device captures when available.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+See `.agents/` for the coding, SEO and launch-readiness rules the site follows.

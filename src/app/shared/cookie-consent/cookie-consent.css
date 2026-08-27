@@ -1,0 +1,33 @@
+/* Layout handled via Tailwind utilities; the panel surface is defined here
+   rather than reusing .glass-panel from styles.css. That class is 3% white
+   over a backdrop-filter, which is fine for a panel sitting on the page
+   background but not for a fixed overlay — the footer text underneath showed
+   straight through it. This is an opaque surface instead, so the banner is
+   always readable whatever it happens to be floating over.
+
+   The bottom-[76px] offset on the host (see the template) clears
+   StickyDownloadCta (fixed bottom-0, z-40) so the two bars stack instead of
+   overlapping; from md up that CTA is hidden (md:hidden) and the banner sits
+   flush at the bottom. */
+.consent-panel {
+  background: var(--color-brand-surface, #06152f);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1.5rem;
+  /* Lifts the bar off the page so the edge reads as an overlay, not a band
+     spliced into the layout. */
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.6),
+    0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* The Accept button is brand cyan with *dark* text: white on #00D9FF is only
+   ~1.6:1, far below WCAG AA, whereas #020817 on it is ~13:1. Hover shifts a
+   step lighter, still well clear of AA. */
+.consent-accept {
+  background: var(--color-brand-primary, #00d9ff);
+  color: var(--color-brand-dark, #020817);
+}
+
+.consent-accept:hover {
+  background: #4de5ff;
+}

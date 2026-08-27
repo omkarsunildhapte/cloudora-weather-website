@@ -1,0 +1,16 @@
+<div class="feature-card glass-panel p-5 h-full flex flex-col" [class.featured]="!!tag()">
+  <div class="icon-well w-11 h-11 p-2.5 rounded-2xl mb-4">
+    <app-feature-icon [key]="icon()" />
+  </div>
+
+  <div class="flex items-center gap-2 mb-1.5">
+    <h3 class="text-base font-semibold text-white">{{ title() }}</h3>
+    @if (tag()) {
+      <span
+        class="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded-full bg-brand-primary/20 text-brand-primary"
+        >{{ tag() }}</span
+      >
+    }
+  </div>
+  <p class="text-sm text-gray-400 leading-relaxed">{{ description() }}</p>
+</div>

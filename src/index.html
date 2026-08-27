@@ -1,13 +1,121 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Web</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-</head>
-<body>
-  <app-root></app-root>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <title>Cloudora Weather - Real-Time Forecasts, Air Quality and AI Weather Insight</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Fast, beautiful, and privacy-first. Real-time conditions, hourly and 5-day forecasts, air quality, and an AI insight for your day — free on Android via Google Play."
+    />
+    <meta name="theme-color" content="#020817" />
+
+    <!-- Google Analytics 4 (site only). The Cloudora Weather *app* remains
+         analytics-free — see the privacy policy's "No Ads" summary — so this
+         tag must never be carried into cloudora-weather-app's index.html.
+
+         gtag.js itself is NOT loaded here. It is 161KB of JavaScript that can
+         legally do nothing until the visitor accepts, so fetching it up front
+         spent the bytes on every first view and showed up as the site's single
+         largest block of unused JS. Only this tiny stub is inline: it defines
+         dataLayer, sets Consent Mode v2 defaults, and exposes loadAnalytics()
+         for CookieConsent to call on Accept.
+
+         TODO: replace G-XXXXXXXXXX with the real GA4 measurement id for this
+         site before launch (the previous value belonged to a different
+         product's property). -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      // Defaults must be on the dataLayer before gtag.js initialises, which is
+      // guaranteed here since the library can only arrive via loadAnalytics().
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        wait_for_update: 500,
+      });
+
+      // Injects gtag.js and fires the initial page view. Idempotent — Accept
+      // on a page where a stored grant already loaded it must not double-load.
+      window.loadAnalytics = function () {
+        if (window.__gaLoaded) return;
+        window.__gaLoaded = true;
+
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX';
+        document.head.appendChild(s);
+
+        gtag('js', new Date());
+        // No automatic hit: AnalyticsService sends exactly one page_view per
+        // route (initial load, SPA navigations, and consent granted mid-page).
+        gtag('config', 'G-XXXXXXXXXX', { send_page_view: false });
+      };
+
+      // Returning visitor who already accepted: grant and load synchronously
+      // here rather than waiting for Angular to bootstrap, so their page view
+      // is measured rather than dropped. Key must match ConsentService's.
+      try {
+        if (localStorage.getItem('cloudora_site_consent_v1') === 'granted') {
+          gtag('consent', 'update', { analytics_storage: 'granted' });
+          window.loadAnalytics();
+        }
+      } catch (e) {
+        /* private mode / storage disabled — stay denied, load nothing */
+      }
+    </script>
+
+    <!-- icon-256.png is the one PNG kept in public/ — every other logo use
+         on the site is WebP-only, but iOS's apple-touch-icon fetcher
+         doesn't accept WebP, and favicon needs something other than .ico
+         for browsers that support higher-res PNG favicons. .ico stays as
+         the legacy fallback. -->
+    <link rel="icon" type="image/png" href="icon-256.png" />
+    <link rel="apple-touch-icon" href="icon-256.png" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <!-- The Play badge is the LCP element on mobile (the sticky download bar
+         renders it in the initial viewport). Preloading starts its fetch
+         during head parsing rather than when the body's <img> is reached. -->
+    <link rel="preload" as="image" href="badges/google-play-badge.webp" fetchpriority="high" />
+
+    <meta
+      property="og:title"
+      content="Cloudora Weather - Real-Time Forecasts, Air Quality and AI Weather Insight"
+    />
+    <meta
+      property="og:description"
+      content="Fast, beautiful, and privacy-first. Real-time conditions, hourly and 5-day forecasts, air quality, and an AI insight for your day — free on Android via Google Play."
+    />
+    <meta property="og:type" content="website" />
+    <!-- og:image also stays on the kept PNG — some social-share crawlers
+         (notably Facebook/Meta) have unreliable WebP support for link
+         previews. -->
+    <meta property="og:image" content="icon-256.png" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "MobileApplication",
+        "name": "Cloudora Weather",
+        "operatingSystem": "ANDROID",
+        "applicationCategory": "WeatherApplication",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "installUrl": "https://play.google.com/store/apps/details?id=com.cloudora.app"
+      }
+    </script>
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
 </html>

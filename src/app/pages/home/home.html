@@ -1,0 +1,252 @@
+<!-- Sunrise layer: fixed, viewport-anchored, rises as the page scrolls.
+     Sibling of every section (not nested inside the hero) so it isn't
+     clipped by the hero's own overflow-hidden. -->
+<app-sunrise-layer />
+
+<!-- Page content sits in its own stacking context, explicitly above the
+     fixed sunrise layer — negative z-index on the sunrise layer alone isn't
+     reliable here since several sections below are themselves `position:
+     relative` (they'd otherwise stack per DOM order, not intent). -->
+<div class="relative z-10">
+  <!-- Hero -->
+  <section class="hero relative overflow-hidden">
+    <!-- Layered atmosphere: two brand-color blobs + a faint dot grid -->
+    <div class="absolute inset-0 -z-20 hero-glow-primary" aria-hidden="true"></div>
+    <div class="absolute inset-0 -z-20 hero-glow-accent" aria-hidden="true"></div>
+    <div class="absolute inset-0 -z-10 hero-grid" aria-hidden="true"></div>
+
+    <!-- Faint floating weather glyphs, echoing the app icon's sun/cloud/rain motif -->
+    <div class="hero-symbols" aria-hidden="true">
+      <span class="sym sym-1">☀</span>
+      <span class="sym sym-2">☁</span>
+      <span class="sym sym-3">☂</span>
+      <span class="sym sym-4">❄</span>
+      <span class="sym sym-5">⚡</span>
+      <span class="sym sym-6">°</span>
+    </div>
+
+    <div class="relative max-w-6xl mx-auto px-5 md:px-8 pt-16 md:pt-24 pb-20 md:pb-28 text-center">
+      <img
+        src="logo-192.webp"
+        alt="Cloudora Weather logo"
+        width="96"
+        height="96"
+        class="hero-in hero-in-1 w-20 h-20 md:w-24 md:h-24 mx-auto mb-6 rounded-3xl shadow-[0_0_60px_-12px_rgba(0,217,255,0.7)]"
+        fetchpriority="high"
+      />
+
+      <div
+        class="hero-in hero-in-2 inline-flex items-center gap-2 text-xs text-brand-primary bg-brand-primary/10 border border-brand-primary/25 rounded-full px-3.5 py-1.5 mb-6"
+      >
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-primary"></span>
+        Now on Google Play
+      </div>
+
+      <h1
+        class="hero-in hero-in-3 text-4xl md:text-6xl font-bold text-white tracking-tight leading-[1.05] max-w-3xl mx-auto"
+      >
+        Know Your Sky.<br /><span class="hero-gradient-text">Plan Your Day.</span>
+      </h1>
+
+      <p
+        class="hero-in hero-in-4 text-base md:text-lg text-gray-400 mt-6 max-w-xl mx-auto leading-relaxed"
+      >
+        Real-time conditions, hourly and 5-day forecasts, air quality, and an AI insight that
+        tells you what the day actually feels like. Private, ad-free, and free on Android.
+      </p>
+
+      <div
+        class="hero-in hero-in-5 mt-9 flex flex-col sm:flex-row items-center justify-center gap-4"
+      >
+        <app-play-store-button variant="primary" />
+        <a
+          routerLink="/features"
+          class="text-sm font-medium text-gray-300 hover:text-white transition-colors inline-flex items-center gap-1.5"
+        >
+          Explore features
+          <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4">
+            <path
+              d="M9 6l6 6-6 6"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </a>
+      </div>
+
+      <div
+        class="hero-in hero-in-6 mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs text-gray-500"
+      >
+        <span class="flex items-center gap-1.5"
+          ><span class="w-1 h-1 rounded-full bg-gray-600"></span>100% Free</span
+        >
+        <span class="flex items-center gap-1.5"
+          ><span class="w-1 h-1 rounded-full bg-gray-600"></span>No Ads</span
+        >
+        <span class="flex items-center gap-1.5"
+          ><span class="w-1 h-1 rounded-full bg-gray-600"></span>No Trackers</span
+        >
+        <span class="flex items-center gap-1.5"
+          ><span class="w-1 h-1 rounded-full bg-gray-600"></span>No Account Needed</span
+        >
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature preview grid — @defer(on viewport): not in the DOM until
+       scrolled near, then renders with the shared .animate-fade-in-up
+       entrance (see seo-rules.md Rule 7 for why this is fine for
+       below-the-fold, non-primary content but not for the hero above). -->
+  <section class="max-w-6xl mx-auto px-5 md:px-8 pb-20 md:pb-28">
+    @defer (on viewport) {
+      <div class="flex items-end justify-between mb-8 gap-4 animate-fade-in-up">
+        <div>
+          <span class="text-xs font-semibold tracking-[0.15em] uppercase text-brand-primary"
+            >Features</span
+          >
+          <h2 class="text-2xl md:text-3xl font-semibold text-white mt-2">
+            Everything you need, nothing you don't
+          </h2>
+        </div>
+        <a
+          routerLink="/features"
+          class="hidden sm:inline-flex items-center gap-1.5 text-sm text-brand-primary hover:text-white transition-colors whitespace-nowrap"
+        >
+          View all 8
+          <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4">
+            <path
+              d="M9 6l6 6-6 6"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </a>
+      </div>
+    } @placeholder {
+      <div class="mb-8" style="height: 52px" aria-hidden="true"></div>
+    }
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      @for (f of previewFeatures; track f.title; let i = $index) {
+        @defer (on viewport) {
+          <app-feature-card
+            class="animate-fade-in-up"
+            [style.animation-delay.ms]="i * 70"
+            [icon]="f.icon"
+            [title]="f.title"
+            [description]="f.description"
+            [tag]="f.tag"
+          />
+        } @placeholder {
+          <div class="glass-panel" style="min-height: 160px" aria-hidden="true"></div>
+        }
+      }
+    </div>
+    <a routerLink="/features" class="sm:hidden mt-6 inline-block text-sm text-brand-primary"
+      >View all 8 features →</a
+    >
+  </section>
+
+  <!-- AI spotlight -->
+  <section class="max-w-6xl mx-auto px-5 md:px-8 pb-20 md:pb-28">
+    @defer (on viewport) {
+      <div
+        class="glass-panel p-8 md:p-12 flex flex-col md:flex-row items-center gap-10 animate-fade-in-up"
+      >
+        <div
+          class="w-16 h-16 rounded-2xl bg-brand-primary/15 border border-brand-primary/30 flex items-center justify-center text-brand-primary shrink-0"
+        >
+          <svg viewBox="0 0 24 24" fill="none" class="w-8 h-8" aria-hidden="true">
+            <path
+              d="M12 3v3M12 18v3M3 12h3M18 12h3M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+            />
+            <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6" />
+          </svg>
+        </div>
+        <div class="text-center md:text-left">
+          <h2 class="text-2xl font-semibold text-white">Numbers are fine. Context is better.</h2>
+          <p class="text-sm md:text-base text-gray-400 mt-3 leading-relaxed max-w-xl">
+            Cloudora's AI Weather Insight turns the forecast into a short, plain-language read on
+            your day — whether it's an umbrella morning, a sunscreen afternoon, or a perfect evening
+            to be outside.
+          </p>
+        </div>
+      </div>
+    } @placeholder {
+      <div class="glass-panel" style="min-height: 220px" aria-hidden="true"></div>
+    }
+  </section>
+
+  <!-- Screenshot showcase — see shared/screenshot-gallery, which has its own
+       independent @defer(on viewport) internally -->
+  <section class="max-w-6xl mx-auto px-5 md:px-8 pb-20 md:pb-28">
+    @defer (on viewport) {
+      <div class="text-center mb-10 animate-fade-in-up">
+        <span class="text-xs font-semibold tracking-[0.15em] uppercase text-brand-primary"
+          >Preview</span
+        >
+        <h2 class="text-2xl md:text-3xl font-semibold text-white mt-2">Inside Cloudora Weather</h2>
+        <p class="text-sm text-gray-500 mt-2">A look at each screen of the app.</p>
+      </div>
+    } @placeholder {
+      <div class="mb-10" style="height: 84px" aria-hidden="true"></div>
+    }
+    <app-screenshot-gallery [items]="screenshotSlots" />
+  </section>
+
+  <!-- Privacy-first band -->
+  <section class="max-w-6xl mx-auto px-5 md:px-8 pb-20 md:pb-28">
+    @defer (on viewport) {
+      <div class="glass-panel p-8 md:p-12 text-center animate-fade-in-up">
+        <h2 class="text-2xl md:text-3xl font-semibold text-white">Your location stays yours</h2>
+        <p class="text-sm md:text-base text-gray-400 mt-4 max-w-2xl mx-auto leading-relaxed">
+          Your coordinates are used only to fetch the weather, and your preferences are stored
+          locally on your device. No account, no ads, no analytics, no trackers — and we never sell
+          your data.
+        </p>
+        <a
+          routerLink="/privacy-policy"
+          class="inline-block mt-6 text-sm font-medium text-brand-primary hover:text-white transition-colors"
+          >Read the Privacy Policy →</a
+        >
+      </div>
+    } @placeholder {
+      <div class="glass-panel" style="min-height: 200px" aria-hidden="true"></div>
+    }
+  </section>
+
+  <!-- Final CTA -->
+  <section class="max-w-6xl mx-auto px-5 md:px-8 pb-24 md:pb-32">
+    @defer (on viewport) {
+      <div
+        class="cta-panel relative overflow-hidden text-center px-6 py-14 md:py-20 animate-fade-in-up"
+      >
+        <div class="absolute inset-0 -z-10 cta-glow" aria-hidden="true"></div>
+
+        <img src="logo-192.webp" alt="" aria-hidden="true" width="56" height="56" class="w-14 h-14 mx-auto mb-6 rounded-2xl" />
+
+        <h2 class="text-3xl md:text-5xl font-bold text-white tracking-tight">
+          Get Cloudora Weather today
+        </h2>
+        <p class="text-sm md:text-base text-gray-400 mt-4 max-w-md mx-auto">
+          Free to download. Free to use. No catch.
+        </p>
+        <div class="mt-9 flex justify-center">
+          <app-play-store-button variant="primary" />
+        </div>
+        <p class="mt-6 text-xs text-gray-500 flex items-center justify-center gap-1.5">
+          <span class="w-1 h-1 rounded-full bg-gray-600"></span>
+          Available now on Google Play
+        </p>
+      </div>
+    } @placeholder {
+      <div class="cta-panel" style="min-height: 280px" aria-hidden="true"></div>
+    }
+  </section>
+</div>

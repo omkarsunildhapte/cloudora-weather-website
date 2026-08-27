@@ -1,0 +1,197 @@
+<!-- Sunrise layer: fixed, viewport-anchored, rises as the page scrolls.
+     Sibling of every section (not nested inside the hero) so it isn't
+     clipped by the hero's own overflow-hidden. -->
+<app-sunrise-layer />
+
+<!-- Page content sits in its own stacking context, explicitly above the
+     fixed sunrise layer — see shared/sunrise-layer for why this can't be a
+     negative z-index on the layer itself. -->
+<div class="relative z-10">
+  <section class="legal-hero relative overflow-hidden">
+    <div class="absolute inset-0 -z-10 legal-glow" aria-hidden="true"></div>
+    <div class="relative max-w-3xl mx-auto px-5 md:px-8 pt-16 md:pt-24 pb-14 text-center">
+      <img
+        src="logo-192.webp"
+        alt="Cloudora Weather logo"
+        width="96"
+        height="96"
+        class="con-in con-in-1 w-20 h-20 md:w-24 md:h-24 mx-auto mb-6 rounded-3xl shadow-[0_0_60px_-12px_rgba(0,217,255,0.7)]"
+        fetchpriority="high"
+      />
+
+      <div
+        class="con-in con-in-2 inline-flex items-center gap-2 text-xs text-brand-primary bg-brand-primary/10 border border-brand-primary/25 rounded-full px-3.5 py-1.5 mb-6"
+      >
+        <span class="w-3.5 h-3.5 text-brand-primary"><app-feature-icon key="mail" /></span>
+        Get in Touch
+      </div>
+
+      <h1 class="con-in con-in-3 text-3xl md:text-5xl font-bold text-white tracking-tight">
+        Contact <span class="legal-gradient-text">Us</span>
+      </h1>
+      <p class="con-in con-in-4 text-sm text-gray-400 mt-5 leading-relaxed max-w-xl mx-auto">
+        Questions, feedback, or a bug to report — send us a message and we'll get back to you.
+      </p>
+    </div>
+  </section>
+
+  <!-- Summary strip: same recipe as the legal pages — one bordered row with
+       dividers, not three separate cards -->
+  <section class="con-in con-in-5 max-w-3xl mx-auto px-5 md:px-8 pb-10">
+    <div
+      class="summary-strip flex flex-col sm:flex-row border-y border-white/8 divide-y sm:divide-y-0 sm:divide-x divide-white/8"
+    >
+      <div class="flex items-center gap-3 py-4 sm:py-5 sm:px-5 flex-1">
+        <span class="summary-icon shrink-0"><app-feature-icon key="history" /></span>
+        <div>
+          <p class="text-sm font-semibold text-white">Quick Reply</p>
+          <p class="text-xs text-gray-500 mt-0.5">Usually within 1–2 business days</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 py-4 sm:py-5 sm:px-5 flex-1">
+        <span class="summary-icon shrink-0"><app-feature-icon key="lock" /></span>
+        <div>
+          <p class="text-sm font-semibold text-white">Kept Private</p>
+          <p class="text-xs text-gray-500 mt-0.5">Used only to get back to you, never shared</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 py-4 sm:py-5 sm:px-5 flex-1">
+        <span class="summary-icon shrink-0"><app-feature-icon key="mail" /></span>
+        <div>
+          <p class="text-sm font-semibold text-white">A Real Reply</p>
+          <p class="text-xs text-gray-500 mt-0.5">No bots, no auto-responder spam</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="con-in con-in-6 max-w-2xl mx-auto px-5 md:px-8 pb-24">
+    <div class="glass-panel p-6 md:p-10">
+      <form (submit)="submit($event)" novalidate>
+        <!-- Honeypot — visually hidden, real visitors never fill this -->
+        <div class="hp-field" aria-hidden="true">
+          <label for="company">Company</label>
+          <input
+            id="company"
+            name="company"
+            type="text"
+            tabindex="-1"
+            autocomplete="off"
+            [value]="company()"
+            (input)="setFromEvent(company, $event)"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6 sm:gap-y-0">
+          <div class="field-row paired">
+            <label for="name" class="field-label">Name</label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              class="field-input"
+              placeholder="Your name"
+              [value]="name()"
+              (input)="setFromEvent(name, $event)"
+              [disabled]="status() === 'submitting'"
+            />
+          </div>
+
+          <div class="field-row paired">
+            <label for="email" class="field-label">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              class="field-input"
+              placeholder="you@example.com"
+              [value]="emailField()"
+              (input)="setFromEvent(emailField, $event)"
+              [disabled]="status() === 'submitting'"
+            />
+          </div>
+        </div>
+
+        <div class="field-row">
+          <label for="subject" class="field-label"
+            >Subject <span class="text-gray-600">(optional)</span></label
+          >
+          <input
+            id="subject"
+            name="subject"
+            type="text"
+            class="field-input"
+            placeholder="What's this about?"
+            [value]="subject()"
+            (input)="setFromEvent(subject, $event)"
+            [disabled]="status() === 'submitting'"
+          />
+        </div>
+
+        <div class="field-row">
+          <label for="message" class="field-label">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="5"
+            class="field-input field-textarea"
+            placeholder="Tell us what's on your mind…"
+            [value]="message()"
+            (input)="setFromEvent(message, $event)"
+            [disabled]="status() === 'submitting'"
+          ></textarea>
+        </div>
+
+        @if (status() === 'error') {
+          <div class="feedback-note feedback-error mt-5">
+            <span class="w-4 h-4 mt-0.5 shrink-0"><app-feature-icon key="warning" /></span>
+            {{ errorMessage() }}
+          </div>
+        }
+        @if (status() === 'success') {
+          <div class="feedback-note feedback-success mt-5">
+            <svg viewBox="0 0 20 20" fill="none" class="w-4 h-4 mt-0.5 shrink-0" aria-hidden="true">
+              <path
+                d="M5 10.5l3 3 7-7"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Message sent — thanks for reaching out. We'll reply by email soon.
+          </div>
+        }
+
+        <button
+          type="submit"
+          class="submit-btn mt-6 inline-flex items-center justify-center gap-2"
+          [disabled]="status() === 'submitting'"
+        >
+          @if (status() === 'submitting') {
+            Sending…
+          } @else {
+            <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4" aria-hidden="true">
+              <path
+                d="M4.5 4.5l15 7.5-15 7.5 3-7.5-3-7.5Z"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Send Message
+          }
+        </button>
+
+        <p class="text-xs text-gray-500 mt-6 text-center">
+          Prefer email? Reach us directly at
+          <a
+            [href]="'mailto:' + email"
+            class="text-brand-primary hover:text-white underline underline-offset-2"
+            >{{ email }}</a
+          >
+        </p>
+      </form>
+    </div>
+  </section>
+</div>

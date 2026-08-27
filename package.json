@@ -1,13 +1,16 @@
 {
   "name": "cloudora-weather-website",
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port 5300",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:web": "node dist/web/server/server.mjs"
+    "lighthouse": "node scripts/lighthouse.mjs",
+    "worker:dev": "npm run build && wrangler dev",
+    "worker:deploy": "npm run build && wrangler deploy"
   },
   "private": true,
   "packageManager": "npm@11.9.0",
@@ -17,10 +20,10 @@
     "@angular/core": "^22.0.0",
     "@angular/forms": "^22.0.0",
     "@angular/platform-browser": "^22.0.0",
-    "@angular/platform-server": "^22.0.0",
+    "@angular/platform-server": "^22.1.0",
     "@angular/router": "^22.0.0",
-    "@angular/ssr": "^22.0.7",
-    "express": "^5.1.0",
+    "@angular/ssr": "^22.1.0",
+    "resend": "^6.22.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
@@ -28,14 +31,17 @@
     "@angular/build": "^22.0.7",
     "@angular/cli": "^22.0.7",
     "@angular/compiler-cli": "^22.0.0",
+    "@cloudflare/workers-types": "^5.20260825.1",
     "@tailwindcss/postcss": "^4.3.3",
-    "@types/express": "^5.0.1",
-    "@types/node": "^20.17.19",
+    "@types/node": "^26.2.0",
+    "http-server": "^14.1.1",
     "jsdom": "^28.0.0",
-    "postcss": "^8.5.26",
+    "lighthouse": "^13.4.1",
+    "postcss": "^8.5.25",
     "prettier": "^3.8.1",
     "tailwindcss": "^4.3.3",
     "typescript": "~6.0.2",
-    "vitest": "^4.0.8"
+    "vitest": "^4.0.8",
+    "wrangler": "^4.125.0"
   }
 }

@@ -1,0 +1,417 @@
+<section class="legal-hero relative overflow-hidden">
+  <div class="absolute inset-0 -z-10 legal-glow" aria-hidden="true"></div>
+  <div class="relative max-w-3xl mx-auto px-5 md:px-8 pt-16 md:pt-24 pb-20 text-center">
+    <img
+      src="logo-192.webp"
+      alt="Cloudora Weather logo"
+      width="96"
+      height="96"
+      class="leg-in leg-in-1 w-20 h-20 md:w-24 md:h-24 mx-auto mb-6 rounded-3xl shadow-[0_0_60px_-12px_rgba(0,217,255,0.7)]"
+      fetchpriority="high"
+    />
+
+    <div
+      class="leg-in leg-in-2 inline-flex items-center gap-2 text-xs text-brand-primary bg-brand-primary/10 border border-brand-primary/25 rounded-full px-3.5 py-1.5 mb-6"
+    >
+      <span class="w-3.5 h-3.5 text-brand-primary"><app-feature-icon key="lock" /></span>
+      Privacy First
+    </div>
+
+    <h1 class="leg-in leg-in-3 text-3xl md:text-5xl font-bold text-white tracking-tight">
+      Privacy <span class="legal-gradient-text">Policy</span>
+    </h1>
+    <p class="leg-in leg-in-4 text-xs text-gray-500 mt-3">Last Updated: {{ lastUpdated }}</p>
+    <p class="leg-in leg-in-5 text-sm text-gray-400 mt-5 leading-relaxed max-w-xl mx-auto">
+      Cloudora Weather is built with a privacy-first approach. Your preferences stay on your device,
+      your location is used only to fetch the weather, and we don't run ads or sell your data.
+    </p>
+
+    <div class="leg-in leg-in-6 mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <app-play-store-button variant="primary" />
+      <a
+        routerLink="/"
+        class="text-sm font-medium text-gray-300 hover:text-white transition-colors inline-flex items-center gap-1.5"
+      >
+        Back to home
+        <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4">
+          <path
+            d="M9 6l6 6-6 6"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Summary strip: one bordered row with dividers, not three separate cards -->
+<section class="max-w-3xl mx-auto px-5 md:px-8 pb-10">
+  <div
+    class="summary-strip flex flex-col sm:flex-row border-y border-white/8 divide-y sm:divide-y-0 sm:divide-x divide-white/8"
+  >
+    <div class="flex items-center gap-3 py-4 sm:py-5 sm:px-5 flex-1">
+      <span class="summary-icon shrink-0"><app-feature-icon key="location" /></span>
+      <div>
+        <p class="text-sm font-semibold text-white">Location, Only for Weather</p>
+        <p class="text-xs text-gray-500 mt-0.5">Coordinates go to the weather provider, nowhere else</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3 py-4 sm:py-5 sm:px-5 flex-1">
+      <span class="summary-icon shrink-0"><app-feature-icon key="ai" /></span>
+      <div>
+        <p class="text-sm font-semibold text-white">AI Insight</p>
+        <p class="text-xs text-gray-500 mt-0.5">Optional &mdash; weather context only, no personal data</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3 py-4 sm:py-5 sm:px-5 flex-1">
+      <span class="summary-icon shrink-0"><app-feature-icon key="blocked" /></span>
+      <div>
+        <p class="text-sm font-semibold text-white">No Ads</p>
+        <p class="text-xs text-gray-500 mt-0.5">No analytics, trackers, or ad networks in the app</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="max-w-3xl mx-auto px-5 md:px-8 pb-24">
+  <app-legal-section heading="1. What We Collect">
+    <h3 class="text-sm font-semibold text-gray-300">Stored Only On Your Device</h3>
+    <p>All of the following is kept in the app's local storage and never transmitted to us:</p>
+    <ul class="list-disc pl-5 space-y-1">
+      <li>
+        <strong class="text-gray-300">App Preferences</strong> &mdash; onboarding state, display
+        settings, and your last-viewed location.
+      </li>
+      <li>
+        <strong class="text-gray-300">Cached Weather Data</strong> &mdash; the most recent forecast
+        response, kept so the app can show something useful while it refreshes.
+      </li>
+      <li>
+        <strong class="text-gray-300">Privacy Consent</strong> &mdash; your choices from the in-app
+        consent dialog (AI processing, notifications).
+      </li>
+    </ul>
+    <h3 class="text-sm font-semibold text-gray-300 mt-4">Sent to Third-Party Services</h3>
+    <ul class="list-disc pl-5 space-y-1">
+      <li>
+        <strong class="text-gray-300">Location Coordinates</strong> &mdash; to show weather for
+        where you are, your device's latitude and longitude (or the coordinates of a place you
+        search for) are sent to <strong class="text-gray-300">OpenWeatherMap</strong> to fetch
+        current conditions, the forecast, air quality, and UV index. No account identifier or other
+        personal data is attached to these requests.
+      </li>
+      <li>
+        <strong class="text-gray-300">Weather Context for AI Insight</strong> &mdash; when the AI
+        Weather Insight is enabled, a summary of the current forecast (temperature, humidity, wind,
+        rain chance, and the location name) is sent to
+        <strong class="text-gray-300">Google Gemini</strong>, falling back to
+        <strong class="text-gray-300">OpenRouter</strong> when Gemini is unavailable, so a language
+        model can write the insight. Nothing you type is involved, and you can switch AI processing
+        off in the app's privacy preferences at any time.
+      </li>
+      <li>
+        <strong class="text-gray-300">How These Requests Travel</strong> &mdash; the app does not
+        contact these providers directly. Requests pass through Cloudora's own server on
+        Cloudflare, which attaches our provider credentials and forwards them. That server sees the
+        coordinates being looked up and, as any web server does, your IP address; it does not log
+        request contents or associate them with an identity.
+      </li>
+    </ul>
+  </app-legal-section>
+
+  <app-legal-section heading="2. Device Permissions">
+    <ul class="list-disc pl-5 space-y-1">
+      <li>
+        <strong class="text-gray-300">Location (while using the app)</strong> &mdash; requested so
+        the app can show weather for your current position. If you decline, Cloudora Weather falls
+        back to a default location and still works; you can also search for a place instead.
+        Location is never collected in the background.
+      </li>
+      <li>
+        <strong class="text-gray-300">Notifications</strong> &mdash; requested only if you opt in to
+        weather alerts. Alerts are generated on your device from the forecast data; there is no
+        push-notification server.
+      </li>
+      <li>
+        <strong class="text-gray-300">Local Storage</strong> &mdash; used to persist preferences,
+        cached forecasts, and consent choices between sessions.
+      </li>
+    </ul>
+    <p>No other device permissions are requested or used.</p>
+  </app-legal-section>
+
+  <app-legal-section heading="3. How We Use Your Data">
+    <ul class="list-disc pl-5 space-y-1">
+      <li>Fetch and display weather, forecast, and air-quality information for your location.</li>
+      <li>Generate the optional AI Weather Insight for the day.</li>
+      <li>Remember your preferences and consent choices across sessions.</li>
+    </ul>
+    <p>
+      We do <strong class="text-gray-300">not</strong> sell, rent, share, or monetize your data in
+      any way, and we do not build a profile of your location history.
+    </p>
+  </app-legal-section>
+
+  <app-legal-section heading="4. Third-Party Services">
+    <div class="legal-callout">
+      <div class="flex items-center gap-2 mb-2">
+        <strong class="text-gray-300">OpenWeatherMap</strong>
+        <span
+          class="text-[10px] uppercase tracking-wide px-1.5 py-0.5 rounded-full bg-white/8 text-gray-400"
+          >Weather Data</span
+        >
+      </div>
+      <p>
+        Weather, forecast, air-pollution, and UV data are provided by OpenWeatherMap. Requests
+        contain the coordinates being looked up. Review the
+        <a
+          href="https://openweather.co.uk/privacy-policy"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-brand-primary hover:text-white underline underline-offset-2"
+          >OpenWeatherMap Privacy Policy</a
+        >
+        to understand how they handle request data.
+      </p>
+    </div>
+    <div class="legal-callout mt-3">
+      <div class="flex items-center gap-2 mb-2">
+        <strong class="text-gray-300">OpenRouter AI</strong>
+        <span
+          class="text-[10px] uppercase tracking-wide px-1.5 py-0.5 rounded-full bg-white/8 text-gray-400"
+          >AI Insight Feature</span
+        >
+      </div>
+      <p>
+        The AI Weather Insight is generated by language models accessed through OpenRouter and its
+        partner model providers. Review the
+        <a
+          href="https://openrouter.ai/privacy"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-brand-primary hover:text-white underline underline-offset-2"
+          >OpenRouter Privacy Policy</a
+        >
+        to understand how they handle prompt data.
+      </p>
+    </div>
+    <div class="legal-callout mt-3">
+      <div class="flex items-center gap-2 mb-2">
+        <strong class="text-gray-300">Google Gemini</strong>
+        <span
+          class="text-[10px] uppercase tracking-wide px-1.5 py-0.5 rounded-full bg-white/8 text-gray-400"
+          >AI Insight Feature</span
+        >
+      </div>
+      <p>
+        The primary model behind the AI Weather Insight. Requests carry the weather summary described above and no personal identifier. Review the
+        <a
+          href="https://ai.google.dev/gemini-api/terms"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-brand-primary hover:text-white underline underline-offset-2"
+          >Gemini API Terms</a
+        >
+      </p>
+    </div>
+    <div class="legal-callout mt-3">
+      <div class="flex items-center gap-2 mb-2">
+        <strong class="text-gray-300">Open-Meteo</strong>
+        <span
+          class="text-[10px] uppercase tracking-wide px-1.5 py-0.5 rounded-full bg-white/8 text-gray-400"
+          >History &amp; UV Data</span
+        >
+      </div>
+      <p>
+        Past-weather charts and the UV index come from Open-Meteo, which receives the coordinates being looked up. Review the
+        <a
+          href="https://open-meteo.com/en/terms"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-brand-primary hover:text-white underline underline-offset-2"
+          >Open-Meteo Terms</a
+        >
+      </p>
+    </div>
+    <div class="legal-callout mt-3">
+      <div class="flex items-center gap-2 mb-2">
+        <strong class="text-gray-300">RainViewer</strong>
+        <span
+          class="text-[10px] uppercase tracking-wide px-1.5 py-0.5 rounded-full bg-white/8 text-gray-400"
+          >Radar Imagery</span
+        >
+      </div>
+      <p>
+        Animated precipitation radar on the map is served by RainViewer. Requests are for map tiles covering a geographic area, not for your exact position. Review the
+        <a
+          href="https://www.rainviewer.com/privacy.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-brand-primary hover:text-white underline underline-offset-2"
+          >RainViewer Privacy Policy</a
+        >
+      </p>
+    </div>
+    <div class="legal-callout mt-3">
+      <div class="flex items-center gap-2 mb-2">
+        <strong class="text-gray-300">Esri</strong>
+        <span
+          class="text-[10px] uppercase tracking-wide px-1.5 py-0.5 rounded-full bg-white/8 text-gray-400"
+          >Base Map</span
+        >
+      </div>
+      <p>
+        The dark base map underneath the radar is served by Esri's ArcGIS tile service, which receives requests for the map tiles being displayed. Review the
+        <a
+          href="https://www.esri.com/en-us/privacy/overview"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-brand-primary hover:text-white underline underline-offset-2"
+          >Esri Privacy Statement</a
+        >
+      </p>
+    </div>
+    <div class="legal-callout mt-3">
+      <div class="flex items-center gap-2 mb-2">
+        <strong class="text-gray-300">News Publishers</strong>
+        <span
+          class="text-[10px] uppercase tracking-wide px-1.5 py-0.5 rounded-full bg-white/8 text-gray-400"
+          >Weather News</span
+        >
+      </div>
+      <p>
+        The news feed is assembled from the public RSS feeds of the BBC, NPR, The Guardian and DW, retrieved through the rss2json conversion service. Article links open on the publisher's own site, where their privacy policy applies.
+      </p>
+    </div>
+    <div class="legal-callout mt-3">
+      <div class="flex items-center gap-2 mb-2">
+        <strong class="text-gray-300">Cloudflare</strong>
+        <span
+          class="text-[10px] uppercase tracking-wide px-1.5 py-0.5 rounded-full bg-white/8 text-gray-400"
+          >Hosting &amp; API Proxy</span
+        >
+      </div>
+      <p>
+        This site and the API proxy described above run on Cloudflare Workers. Cloudflare processes request metadata, including IP addresses, to route and protect traffic. Review the
+        <a
+          href="https://www.cloudflare.com/privacypolicy/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-brand-primary hover:text-white underline underline-offset-2"
+          >Cloudflare Privacy Policy</a
+        >
+      </p>
+    </div>
+  </app-legal-section>
+
+  <app-legal-section heading="5. Your Rights">
+    <p>You have full control over your data:</p>
+    <ul class="list-disc pl-5 space-y-1">
+      <li>
+        <strong class="text-gray-300">Revoke Location Access</strong> &mdash; at any time from your
+        device's app settings. The app then falls back to the last location it resolved, or asks
+        you to turn location access back on &mdash; it never guesses a place for you.
+      </li>
+      <li>
+        <strong class="text-gray-300">Change Consent</strong> &mdash; withdraw or update your AI
+        processing and notification choices at any time from inside the app.
+      </li>
+      <li>
+        <strong class="text-gray-300">Delete Everything</strong> &mdash; use "Delete All My Data"
+        in the app, or uninstall it; all data lives in the app's local storage on your device.
+      </li>
+      <li>
+        <strong class="text-gray-300">GDPR Rights (EU / EEA)</strong> &mdash; you have rights to
+        access, rectify, erase, and port your data. Contact us for requests.
+      </li>
+      <li>
+        <strong class="text-gray-300">CCPA Rights (California)</strong> &mdash; you have the right
+        to know what data is collected, delete it, and opt out of its sale (we don't sell data).
+      </li>
+    </ul>
+  </app-legal-section>
+
+  <app-legal-section heading="6. Children's Privacy">
+    <p>
+      Cloudora Weather does not knowingly collect personal information from anyone under the age of
+      13. If you believe a child has provided personal data through the app, please contact us so we
+      can take appropriate action.
+    </p>
+  </app-legal-section>
+
+  <app-legal-section heading="7. Security">
+    <p>
+      All local data is protected by your device's operating system security. Transmissions to
+      OpenWeatherMap and OpenRouter use industry-standard HTTPS/TLS encryption. We cannot guarantee
+      absolute security of data transmitted over the internet.
+    </p>
+  </app-legal-section>
+
+  <app-legal-section heading="8. Local Storage vs Cookies">
+    <p>
+      The Cloudora Weather app uses on-device local storage, not traditional HTTP cookies. This data
+      stays entirely on your device and is not automatically sent to any server, unlike cookies. You
+      can clear it at any time from within the app.
+    </p>
+    <p>
+      This website is different: it may use Google Analytics, but only after you accept the consent
+      banner. Decline it and nothing is loaded or stored.
+    </p>
+  </app-legal-section>
+
+  <app-legal-section heading="9. Changes to This Policy">
+    <p>
+      We may update this Privacy Policy from time to time. When we do, we will update the "Last
+      Updated" date above and notify you within the app if the changes are material. Continued use
+      of Cloudora Weather after an update constitutes acceptance of the revised policy.
+    </p>
+  </app-legal-section>
+
+  <app-legal-section heading="10. Contact Us">
+    <p>For privacy inquiries, data deletion requests, or to exercise your rights:</p>
+    <p class="flex items-center gap-2">
+      <span class="w-4 h-4 text-gray-500 shrink-0"><app-feature-icon key="mail" /></span>
+      <a
+        [href]="'mailto:' + email"
+        class="text-brand-primary hover:text-white underline underline-offset-2"
+        >{{ email }}</a
+      >
+    </p>
+    <p class="flex items-center gap-2">
+      <span class="w-4 h-4 text-gray-500 shrink-0"><app-feature-icon key="globe" /></span>
+      <a
+        [href]="companyUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-brand-primary hover:text-white underline underline-offset-2"
+        >{{ company }}</a
+      >
+      &mdash; Cloudora Weather
+    </p>
+  </app-legal-section>
+
+  <a
+    routerLink="/terms-of-service"
+    class="related-link flex items-center justify-between py-5 border-t border-white/8"
+  >
+    <span class="flex items-center gap-3">
+      <span class="w-5 h-5 text-brand-primary shrink-0"><app-feature-icon key="document" /></span>
+      <span>
+        <span class="block text-sm font-semibold text-white">Terms of Service</span>
+        <span class="block text-xs text-gray-500">Rules governing app use</span>
+      </span>
+    </span>
+    <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4 text-gray-500 shrink-0">
+      <path
+        d="M9 6l6 6-6 6"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </a>
+</section>

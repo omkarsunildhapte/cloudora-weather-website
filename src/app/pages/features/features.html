@@ -1,0 +1,166 @@
+<!-- Sunrise layer: fixed, viewport-anchored, rises as the page scrolls.
+     Sibling of every section (not nested inside the hero) so it isn't
+     clipped by the hero's own overflow-hidden. -->
+<app-sunrise-layer />
+
+<!-- Page content sits in its own stacking context, explicitly above the
+     fixed sunrise layer — see shared/sunrise-layer for why this can't be a
+     negative z-index on the layer itself. -->
+<div class="relative z-10">
+  <!-- Header -->
+  <section class="features-hero relative overflow-hidden">
+    <div class="absolute inset-0 -z-20 features-glow" aria-hidden="true"></div>
+    <div class="absolute inset-0 -z-10 features-grid" aria-hidden="true"></div>
+
+    <!-- Faint floating symbols, same motif as the home hero, themed to
+       page's tools (percentages, angles, conversion) rather than a copy. -->
+    <div class="features-symbols" aria-hidden="true">
+      <span class="fsym fsym-1">☀</span>
+      <span class="fsym fsym-2">☁</span>
+      <span class="fsym fsym-3">☂</span>
+      <span class="fsym fsym-4">❄</span>
+      <span class="fsym fsym-5">°</span>
+      <span class="fsym fsym-6">⚡</span>
+    </div>
+
+    <div class="relative max-w-4xl mx-auto px-5 md:px-8 pt-16 md:pt-24 pb-20 md:pb-28 text-center">
+      <img
+        src="logo-192.webp"
+        alt="Cloudora Weather logo"
+        width="96"
+        height="96"
+        class="feat-in feat-in-1 w-20 h-20 md:w-24 md:h-24 mx-auto mb-6 rounded-3xl shadow-[0_0_60px_-12px_rgba(0,217,255,0.7)]"
+        fetchpriority="high"
+      />
+
+      <div
+        class="feat-in feat-in-2 inline-flex items-center gap-2 text-xs text-brand-primary bg-brand-primary/10 border border-brand-primary/25 rounded-full px-3.5 py-1.5 mb-6"
+      >
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-primary"></span>
+        All 8 Features
+      </div>
+
+      <h1 class="feat-in feat-in-3 text-4xl md:text-5xl font-bold text-white tracking-tight">
+        Everything you need.<br /><span class="features-gradient-text">Nothing you don't.</span>
+      </h1>
+
+      <p class="feat-in feat-in-4 text-base text-gray-400 mt-5 max-w-xl mx-auto leading-relaxed">
+        Everything you need to plan your day in one fast, private weather app — no bloat, no clutter.
+      </p>
+
+      <div
+        class="feat-in feat-in-5 mt-9 flex flex-col sm:flex-row items-center justify-center gap-4"
+      >
+        <app-play-store-button variant="primary" />
+        <a
+          routerLink="/"
+          class="text-sm font-medium text-gray-300 hover:text-white transition-colors inline-flex items-center gap-1.5"
+        >
+          Back to home
+          <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4">
+            <path
+              d="M9 6l6 6-6 6"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </a>
+      </div>
+
+      <div
+        class="feat-in feat-in-6 mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs text-gray-500"
+      >
+        <span class="flex items-center gap-1.5"
+          ><span class="w-1 h-1 rounded-full bg-gray-600"></span>8 Features</span
+        >
+        <span class="flex items-center gap-1.5"
+          ><span class="w-1 h-1 rounded-full bg-gray-600"></span>100% Free</span
+        >
+        <span class="flex items-center gap-1.5"
+          ><span class="w-1 h-1 rounded-full bg-gray-600"></span>No Ads</span
+        >
+        <span class="flex items-center gap-1.5"
+          ><span class="w-1 h-1 rounded-full bg-gray-600"></span>No Account Needed</span
+        >
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature list -->
+  <section class="max-w-4xl mx-auto px-5 md:px-8 pb-24 space-y-5">
+    @for (f of features; track f.title; let i = $index) {
+      @defer (on viewport) {
+        <div
+          class="feature-row glass-panel p-6 md:p-8 flex flex-col md:flex-row gap-6 items-start animate-fade-in-up"
+          [style.animation-delay.ms]="i * 70"
+          [class.featured]="!!f.tag"
+        >
+          <div class="flex md:flex-col items-center md:items-start gap-4 shrink-0">
+            <span class="feature-index">{{ f.index }}</span>
+            <div class="icon-well w-12 h-12 p-3 rounded-xl">
+              <app-feature-icon [key]="f.icon" />
+            </div>
+          </div>
+
+          <div class="flex-1">
+            <div class="flex items-center gap-2 mb-1.5">
+              <h2 class="text-xl font-semibold text-white">{{ f.title }}</h2>
+              @if (f.tag) {
+                <span
+                  class="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded-full bg-brand-primary/20 text-brand-primary"
+                  >{{ f.tag }}</span
+                >
+              }
+            </div>
+            <p class="text-sm md:text-base text-gray-400 leading-relaxed">{{ f.description }}</p>
+            <ul class="mt-4 space-y-1.5">
+              @for (point of f.points; track point) {
+                <li class="text-sm text-gray-500 flex items-start gap-2">
+                  <svg
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    class="check-icon shrink-0"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M5 10.5l3 3 7-7"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  {{ point }}
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+      } @placeholder {
+        <div class="glass-panel" style="min-height: 220px" aria-hidden="true"></div>
+      }
+    }
+  </section>
+
+  <!-- Final CTA -->
+  <section class="max-w-6xl mx-auto px-5 md:px-8 pb-24 md:pb-32">
+    @defer (on viewport) {
+      <div
+        class="cta-panel relative overflow-hidden text-center px-6 py-14 md:py-20 animate-fade-in-up"
+      >
+        <div class="absolute inset-0 -z-10 cta-glow" aria-hidden="true"></div>
+        <h2 class="text-3xl md:text-5xl font-bold text-white tracking-tight">Ready to try it?</h2>
+        <p class="text-sm md:text-base text-gray-400 mt-4">
+          Free to download. Free to use. No catch.
+        </p>
+        <div class="mt-9 flex justify-center">
+          <app-play-store-button variant="primary" />
+        </div>
+      </div>
+    } @placeholder {
+      <div class="cta-panel" style="min-height: 280px" aria-hidden="true"></div>
+    }
+  </section>
+</div>

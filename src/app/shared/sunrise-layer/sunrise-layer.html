@@ -1,0 +1,32 @@
+<div class="sky-layer" aria-hidden="true" [style.--progress]="progress()">
+  <div class="sky-glow sky-glow--primary"></div>
+  <div class="sky-glow sky-glow--secondary"></div>
+
+  <!-- The sun: a golden disc that rises from below the fold as the page scrolls
+       (0 = just under the horizon, 1 = high in the sky). Sits behind the cloud
+       bands so nearer clouds drift across it. -->
+  <div class="sun">
+    <span class="sun-halo"></span>
+    <span class="sun-rays"></span>
+    <span class="sun-core"></span>
+  </div>
+
+  <!-- Three cloud bands at different depths: the farther the band, the smaller,
+       fainter and slower it drifts, and the less it parallaxes with scroll. -->
+  <div class="cloud-band cloud-band--far">
+    <span class="cloud cloud--s"></span>
+    <span class="cloud cloud--m"></span>
+    <span class="cloud cloud--s"></span>
+  </div>
+  <div class="cloud-band cloud-band--mid">
+    <span class="cloud cloud--m"></span>
+    <span class="cloud cloud--l"></span>
+  </div>
+  <div class="cloud-band cloud-band--near">
+    <span class="cloud cloud--l"></span>
+    <span class="cloud cloud--m"></span>
+  </div>
+
+  <!-- Horizon: a thin warm line that brightens as the sun clears it. -->
+  <div class="horizon"></div>
+</div>

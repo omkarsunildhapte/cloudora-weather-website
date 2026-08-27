@@ -1,3 +1,153 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;400;500;700&display=swap');
+@import 'tailwindcss';
 
-/* You can add global styles to this file, and also import other style files */
+/*
+ * Cloudora Weather brand tokens — the v2 palette from the imported Claude
+ * Design mockup (see TASKS.md "Brand — v2" at the repo root and
+ * cloudora-weather-app/src/theme/variables.scss) so the marketing site reads
+ * as the same product as the app, not a reinterpretation.
+ *
+ *   primary    Electric Cyan  #00D9FF   (links, accents, glows)
+ *   secondary  Bright Blue    #168CFF   (gradient partner)
+ *   accent     Neon Green     #39E66A   (AI accent)
+ *   sun        Golden Yellow  #FFD21F   (sunrise layer, weather sun)
+ *   dark       Deep Navy      #020817   (page background)
+ *   surface    Midnight Blue  #06152F   (cards / overlays)
+ */
+@theme {
+  --color-brand-primary: #00d9ff;
+  --color-brand-secondary: #168cff;
+  --color-brand-accent: #39e66a;
+  --color-brand-sun: #ffd21f;
+  --color-brand-dark: #020817;
+  --color-brand-surface: #06152f;
+  --font-sans: 'Outfit', system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  html,
+  body {
+    /* min-height, not height: with a fixed height:100% here, both html and
+       body get pinned to exactly the viewport's height regardless of how
+       tall the actual page content is — which breaks position:sticky
+       (nav-bar, in particular) once you scroll past that boundary, since
+       sticky elements stick within their containing block's box, not the
+       page's true scroll height. min-height still guarantees full-viewport
+       dark background on short pages, but lets the box grow for real content. */
+    min-height: 100%;
+    margin: 0;
+    /* Sky gradient, not a flat near-black: midnight blue at the top fading
+       into deep navy — the same atmosphere as the app's home hero, so the
+       site reads as the same product. background-attachment: fixed keeps the
+       gradient anchored to the viewport instead of stretching over the whole
+       (very tall) document, where it would flatten to a single colour. */
+    background-color: var(--color-brand-dark);
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(22, 140, 255, 0.28), transparent 70%),
+      radial-gradient(ellipse 60% 40% at 100% 100%, rgba(0, 217, 255, 0.08), transparent 70%),
+      linear-gradient(180deg, var(--color-brand-surface) 0%, var(--color-brand-dark) 60%);
+    background-attachment: fixed;
+    color: #f7faff;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Room for the fixed sticky-download-cta bar on mobile */
+  @media (max-width: 767px) {
+    body {
+      padding-bottom: 4.5rem;
+    }
+  }
+}
+
+@layer components {
+  /* Frosted-glass card, matches the app's glassmorphism card recipe */
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-radius: 1.5rem;
+  }
+
+  /* Sticky nav / persistent bars, matches the app's translucent toolbar */
+  .glass-nav {
+    background: rgba(6, 21, 47, 0.7);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Screenshot placeholder slot — CSS-only, no external image.
+     See shared/screenshot-gallery for the annotated real-image spec. */
+  .placeholder-fill {
+    background: linear-gradient(
+      160deg,
+      rgba(0, 217, 255, 0.18),
+      rgba(6, 21, 47, 0.6) 45%,
+      rgba(22, 140, 255, 0.12)
+    );
+    background-size: 200% 200%;
+    animation: placeholder-shift 8s ease-in-out infinite;
+  }
+
+  @keyframes placeholder-shift {
+    0%,
+    100% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 100% 100%;
+    }
+  }
+
+  /* Horizontal scroll-snap gallery, single column on desktop grid instead */
+  .snap-row {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .snap-item {
+    scroll-snap-align: center;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* @defer(on viewport) sections use .animate-fade-in-up as their entrance —
+   skip the motion for users who've asked for it, content still appears. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in-up {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+}

@@ -1,0 +1,7 @@
+/* Layout handled via Tailwind utilities */
+
+/* Wordmark mirrors the app header — see shared/nav-bar/nav-bar.css. */
+.brand-name {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}

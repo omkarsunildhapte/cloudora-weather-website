@@ -1,0 +1,20 @@
+{
+  // Pages Functions run on workerd, not in the browser and not on Node — so
+  // they need the Workers globals (PagesFunction, Response, fetch) rather
+  // than Angular's DOM lib. Kept separate from the root tsconfig, whose
+  // project references cover src/ only, so `ng build` never sees these files
+  // and this config never leaks Workers types into the app.
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022"],
+    "types": ["@cloudflare/workers-types"],
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["**/*.ts"]
+}

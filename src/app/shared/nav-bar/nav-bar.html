@@ -1,0 +1,75 @@
+<header class="nav-header sticky top-0 z-50" [class.is-scrolled]="scrolled()">
+  <nav class="max-w-6xl mx-auto px-5 md:px-8 h-16 flex items-center justify-between">
+    <a
+      routerLink="/"
+      (click)="closeMenu()"
+      class="flex items-center gap-2.5 shrink-0"
+      aria-label="Cloudora Weather home"
+    >
+      <img src="logo-192.webp" alt="Cloudora Weather" class="w-8 h-8 rounded-lg object-contain" width="32" height="32" />
+      <span class="brand-name text-white text-lg whitespace-nowrap"
+        >Cloudora <span class="font-normal opacity-85">Weather</span></span
+      >
+    </a>
+
+    <div class="hidden md:flex items-center gap-8">
+      <a
+        routerLink="/"
+        routerLinkActive="nav-link-active text-white"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-link text-sm text-gray-300 hover:text-white transition-colors"
+        >Home</a
+      >
+      <a
+        routerLink="/features"
+        routerLinkActive="nav-link-active text-white"
+        class="nav-link text-sm text-gray-300 hover:text-white transition-colors"
+        >Features</a
+      >
+      <a
+        routerLink="/contact"
+        routerLinkActive="nav-link-active text-white"
+        class="nav-link text-sm text-gray-300 hover:text-white transition-colors"
+        >Contact</a
+      >
+      <app-play-store-button variant="compact" />
+    </div>
+
+    <button
+      type="button"
+      class="md:hidden p-2 -mr-2 rounded-lg text-gray-200 hover:text-white hover:bg-white/5 transition-colors"
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="mobileMenuOpen()"
+      aria-label="Toggle menu"
+    >
+      @if (!mobileMenuOpen()) {
+        <svg viewBox="0 0 24 24" fill="none" class="w-6 h-6">
+          <path
+            d="M4 6h16M4 12h16M4 18h16"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          />
+        </svg>
+      } @else {
+        <svg viewBox="0 0 24 24" fill="none" class="w-6 h-6">
+          <path
+            d="M6 6l12 12M18 6L6 18"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          />
+        </svg>
+      }
+    </button>
+  </nav>
+
+  @if (mobileMenuOpen()) {
+    <div class="md:hidden glass-nav border-t border-white/5 px-5 py-4 flex flex-col gap-4">
+      <a routerLink="/" (click)="closeMenu()" class="text-sm text-gray-200">Home</a>
+      <a routerLink="/features" (click)="closeMenu()" class="text-sm text-gray-200">Features</a>
+      <a routerLink="/contact" (click)="closeMenu()" class="text-sm text-gray-200">Contact</a>
+      <app-play-store-button variant="secondary" />
+    </div>
+  }
+</header>

@@ -1,0 +1,59 @@
+<!--
+  home.ts's screenshotSlots now point at real captures in
+  public/screenshots/ — see there for the current set. This component still
+  supports mixed state though: any slot with `src: null` falls back to the
+  CSS-gradient placeholder frame below (with its `brief` text rendered
+  under it), so adding a new slot before its screenshot exists still works.
+  To add a new slot with a real screenshot:
+    1. Take an actual on-device screenshot (portrait, ~1080x2400px, PNG,
+       no added filters/frames — this component supplies the phone frame).
+    2. Save it to public/screenshots/<name>.png in this project, then also
+       generate public/screenshots/<name>.webp alongside it (e.g. via sharp:
+       `.webp({ quality: 82 })`) — webpSrc() below derives that path from
+       `src` automatically, so both files must exist with matching names.
+    3. Set that item's `src` to 'screenshots/<name>.png' in the page that
+       renders <app-screenshot-gallery [items]="...">.
+-->
+@defer (on viewport) {
+  <div
+    class="gallery flex gap-5 overflow-x-auto snap-row md:grid md:grid-cols-4 md:overflow-visible pb-2"
+  >
+    @for (item of items(); track item.caption; let i = $index) {
+      <div
+        class="gallery-item snap-item shrink-0 w-64 md:w-auto flex flex-col items-center animate-fade-in-up"
+        [style.animation-delay.ms]="i * 90"
+      >
+        <div class="phone-frame w-full aspect-[9/19.5] relative">
+          <span class="phone-notch" aria-hidden="true"></span>
+          <div class="phone-screen w-full h-full overflow-hidden relative bg-brand-surface">
+            @if (item.src) {
+              <picture>
+                <source [srcset]="webpSrc(item.src)" type="image/webp" />
+                <img
+                  [src]="item.src"
+                  [alt]="item.alt"
+                  class="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </picture>
+            } @else {
+              <div
+                class="w-full h-full placeholder-fill flex flex-col items-center justify-center gap-3 p-4"
+              >
+                <div class="placeholder-icon w-11 h-11 p-2.5 rounded-2xl">
+                  <app-feature-icon [key]="item.icon" />
+                </div>
+                <span class="text-[11px] text-gray-400 text-center leading-relaxed">{{
+                  item.brief
+                }}</span>
+              </div>
+            }
+          </div>
+        </div>
+        <p class="mt-3 text-sm text-gray-400 text-center">{{ item.caption }}</p>
+      </div>
+    }
+  </div>
+} @placeholder {
+  <div class="gallery-placeholder" aria-hidden="true"></div>
+}

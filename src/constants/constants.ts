@@ -1,0 +1,28 @@
+/**
+ * Single source of truth for the Google Play Store listing.
+ * Every download CTA on the site imports this constant — never hardcode
+ * the URL in a component.
+ *
+ * NOTE: cloudora-weather-app's capacitor.config.ts / android build.gradle
+ * still carry the Ionic starter id (`io.ionic.starter`). This is the
+ * intended release id — when the app's package id is finalised, update it
+ * here and in the app in the same change.
+ */
+export const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.cloudora.app';
+
+/** Canonical production origin — used for sitemap/robots (see public/) and
+ *  per-page structured-data `url` fields. Keep in sync with those files if
+ *  the deployment domain ever changes. No trailing slash. */
+export const SITE_URL = 'https://cloudora-weather.app';
+
+export const CONTACT_EMAIL = 'support@cloudora-weather.app';
+
+export const COMPANY_NAME = 'Vernoka Technology';
+
+export const COMPANY_URL = 'https://vernoka-sand.vercel.app/';
+
+/** GA4 measurement id for this website (not the app — the app ships no
+ *  analytics). Also hardcoded in the inline consent stub in src/index.html,
+ *  which can't import from here — change both together. Placeholder until
+ *  the site's own GA4 property exists. */
+export const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX';
