@@ -5,7 +5,7 @@ import { Resend } from 'resend';
  *
  * Replaces the Gmail SMTP transport this migration first used (worker-mailer
  * over cloudflare:sockets): with a verified sending domain, mail genuinely
- * originates from cloudora-weather.app rather than a Gmail account,
+ * originates from vernokasoftwaretechnology.com (the Resend-verified domain shared with arithmaxa) rather than a Gmail account,
  * so there's no "Send mail as" verification to maintain and no SMTP socket to
  * keep alive inside a Worker request.
  *
@@ -22,10 +22,10 @@ export interface Env {
 }
 
 /** Sending identity. Resend rejects a From on an unverified domain outright. */
-const DEFAULT_FROM = 'noreply@cloudora-weather.app';
+const DEFAULT_FROM = 'noreply@vernokasoftwaretechnology.com';
 
 /** Public support inbox — served by Cloudflare Email Routing on the zone. */
-export const SUPPORT_EMAIL = 'support@cloudora-weather.app';
+export const SUPPORT_EMAIL = 'support@vernokasoftwaretechnology.com';
 
 /** Whether email is configured — gates sends so misconfiguration fails clean, not silently. */
 export function isEmailConfigured(env: Env): boolean {

@@ -15,7 +15,7 @@ export const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com
  *  the deployment domain ever changes. No trailing slash. */
 export const SITE_URL = 'https://cloudora-weather.app';
 
-export const CONTACT_EMAIL = 'support@cloudora-weather.app';
+export const CONTACT_EMAIL = 'support@vernokasoftwaretechnology.com';
 
 export const COMPANY_NAME = 'Vernoka Technology';
 
