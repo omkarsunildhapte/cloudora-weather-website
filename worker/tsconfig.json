@@ -16,5 +16,8 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts"],
+  // Specs are compiled and run by vitest (vitest.worker.config.ts), not this
+  // type-check pass — they rely on test-only globals and loose casts.
+  "exclude": ["**/*.spec.ts"]
 }

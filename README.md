@@ -31,3 +31,11 @@ weather-specific copy, legal pages, icons and screenshots.
 - `public/screenshots/`: currently the app design mockups; swap for on-device captures when available.
 
 See `.agents/` for the coding, SEO and launch-readiness rules the site follows.
+
+## CI/CD & Cloudflare
+
+- **CI** (`.github/workflows/ci.yml`) — every push/PR: site unit tests, Worker route tests, Worker type-check, prerendered build, and a check that all 5 routes exist. Uploads the built site as an artifact.
+- **Deploy** (`.github/workflows/deploy.yml`) — runs `wrangler deploy` after CI succeeds on `main` (or manually via *Run workflow*). Needs two repository secrets: `CLOUDFLARE_API_TOKEN` (template "Edit Cloudflare Workers") and `CLOUDFLARE_ACCOUNT_ID`.
+- **Runtime secrets** live on the Worker, not in GitHub: `npx wrangler secret put RESEND_API_KEY` (and `OPENWEATHER_API_KEY`, `GEMINI_API_KEY`, `OPENROUTER_API_KEY`, optional `MAIL_FROM` / `CONTACT_TO_EMAIL` / `FEEDBACK_TO_EMAIL`). Until they're set the `/api/*` routes return a clean `{ ok: false, error }` 500.
+- **Manual deploy** from a logged-in machine: `npm run worker:deploy`.
+- Live: https://cloudora-weather-website.dhapteomkar38.workers.dev — add a custom domain under Workers & Pages → cloudora-weather-website → Settings → Domains & Routes once DNS for the production domain is on Cloudflare.

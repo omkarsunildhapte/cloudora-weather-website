@@ -1,0 +1,56 @@
+name: CI
+
+# Runs on every push and pull request: unit tests for the Angular site, the
+# Worker's route tests, and a full prerendered production build (the same
+# artifact deploy.yml ships). deploy.yml waits for this to succeed on main.
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-and-build:
+    name: Test & build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Unit tests (site)
+        run: npm test -- --watch=false
+
+      - name: Unit tests (worker)
+        run: npm run test:worker
+
+      - name: Type-check worker
+        run: npx tsc -p worker/tsconfig.json
+
+      - name: Build (prerendered)
+        run: npm run build
+
+      - name: Sanity-check prerendered routes
+        run: |
+          set -e
+          for r in "" features contact privacy-policy terms-of-service; do
+            f="dist/cloudora-weather-website/browser/$r/index.html"
+            test -f "$f" || { echo "missing prerendered route: /$r"; exit 1; }
+          done
+          echo "All 5 routes prerendered."
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site-dist
+          path: dist/cloudora-weather-website/browser
+          retention-days: 7
