@@ -15,7 +15,8 @@ weather-specific copy, legal pages, icons and screenshots.
 | --- | --- |
 | `npm start` | Dev server on http://localhost:5300 |
 | `npm run build` | Production build, prerenders every route to `dist/cloudora-weather-website/browser` |
-| `npm test` | Vitest unit tests |
+| `npm test` | Vitest unit tests for the Angular app (`src/**/*.spec.ts`) |
+| `npm run test:worker` | Vitest unit tests for the Worker routes (`worker/**/*.spec.ts`, Node environment) |
 | `npm run lighthouse` | Builds, serves the static output, audits `/`, `/features/`, `/contact/` |
 | `npm run worker:dev` | Build + `wrangler dev` (needs `.dev.vars`, see `.env.example`) |
 | `npm run worker:deploy` | Build + `wrangler deploy` |

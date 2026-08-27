@@ -10,7 +10,8 @@
     "test": "ng test",
     "lighthouse": "node scripts/lighthouse.mjs",
     "worker:dev": "npm run build && wrangler dev",
-    "worker:deploy": "npm run build && wrangler deploy"
+    "worker:deploy": "npm run build && wrangler deploy",
+    "test:worker": "vitest run --config vitest.worker.config.ts"
   },
   "private": true,
   "packageManager": "npm@11.9.0",
