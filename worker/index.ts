@@ -3,6 +3,7 @@ import { handleContact } from './routes/contact';
 import { handleFeedback } from './routes/feedback';
 import { handleAi, AiEnv } from './routes/ai';
 import { handleWeather, handleTile, WeatherEnv } from './routes/weather';
+import { handleVersion, VersionEnv } from './routes/version';
 
 /**
  * Worker entry point, fronting the prerendered Angular site.
@@ -24,13 +25,14 @@ import { handleWeather, handleTile, WeatherEnv } from './routes/weather';
 export default {
   async fetch(
     request: Request,
-    env: Env & AiEnv & WeatherEnv & { ASSETS: Fetcher },
+    env: Env & AiEnv & WeatherEnv & VersionEnv & { ASSETS: Fetcher },
   ): Promise<Response> {
     const { pathname } = new URL(request.url);
 
     if (pathname === '/api/contact') return handleContact(request, env);
     if (pathname === '/api/feedback') return handleFeedback(request, env);
     if (pathname === '/api/ai') return handleAi(request, env);
+    if (pathname === '/api/version') return handleVersion(request, env);
     if (pathname.startsWith('/api/owm/')) return handleWeather(request, env);
     if (pathname.startsWith('/api/tiles/')) return handleTile(request, env);
 
