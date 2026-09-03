@@ -12,7 +12,6 @@ Allowed Aliases (mapped in `tsconfig.json`):
 - `@services/*`: `services/*`
 - `@app/*`: `app/*`
 - `@environments/*`: `environments/*`
-- `@directives/*`: `directives/*`
 - `@appTypes/*`: `types/*`
 - `@guards/*`: `guards/*`
 - `@interceptors/*`: `interceptors/*`
@@ -74,11 +73,11 @@ on success/error, reset the form" — forcing that into `resource()` would fight
 use it. Any *other* future POST/PUT-style user action (not a reactive data read) should follow
 this same plain-`fetch()`-in-an-async-method pattern rather than contorting `resource()` to fit.
 
-**Note on `api/`:** as of the contact form, this repo also has server-side code — see
-`AGENTS.md`'s "Deployment target: Vercel" section. `api/contact.ts` and `api/_lib/email-config.ts`
-are Vercel serverless functions/Node modules, not part of the Angular application (`src/`) at all,
-so this document's rules (standalone components, signals, Angular DI, etc.) don't apply to them —
-they're plain TypeScript/Node, reviewed against normal backend conventions instead.
+**Note on `worker/`:** this repo also has server-side code — see `AGENTS.md`'s "Deployment
+target: Cloudflare Workers" section. Everything under `worker/` runs on the edge runtime and is
+not part of the Angular application (`src/`) at all, so this document's rules (standalone
+components, signals, Angular DI, etc.) don't apply there — it is plain TypeScript reviewed
+against normal backend conventions, with its own Vitest config (`npm run test:worker`).
 
 ## 9. Constants & Typings
 `src/constants/constants.ts` (`PLAY_STORE_URL`, `CONTACT_EMAIL`, `COMPANY_NAME`, `COMPANY_URL`,

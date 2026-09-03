@@ -51,16 +51,16 @@ pattern. No two routes may share an identical title/description pair.
 
 - HTML5 `pushState` routing is already the default (no `HashLocationStrategy`) — keep it that
   way.
-- `vercel.json`'s `rewrites` must NOT include a catch-all `"/(.*)" → "/index.html"` now that every
-  route is prerendered to its own real file (`dist/.../browser/features/index.html`, etc. — see
-  Rule 0). That catch-all was correct for the old pure-CSR setup (nothing else existed to serve),
-  but with prerendering it silently makes every route serve the homepage's HTML while the URL bar
-  stays correct — invisible in a browser (client JS hydrates and the router "fixes" it), but wrong
-  for every crawler and social-preview bot, and directly poisons the sitemap (Rule 8's "exclude
-  canonicalized-away URLs" / "check `<loc>`" become false once this regresses). Vercel serves
-  clean URLs from `outputDirectory` natively — no rewrite needed for the 5 known routes; genuinely
-  unknown paths should 404, not fake a 200 with the wrong page's content. Only the `/api/*` rewrite
-  belongs here.
+- The site is served by Cloudflare Workers (`wrangler.jsonc`), not Vercel. Its `assets` binding
+  serves each prerendered route from its own real file, and `worker/index.ts` matches the
+  `/api/*` routes before handing anything else back to the asset server. Do not reintroduce a
+  catch-all rewrite to `/index.html`: with prerendering it silently makes every route serve the
+  homepage's HTML while the URL bar stays correct — invisible in a browser (client JS hydrates
+  and the router "fixes" it), but wrong for every crawler and social-preview bot, and it poisons
+  the sitemap (Rule 8's "check `<loc>`" becomes false once this regresses).
+- `not_found_handling: "single-page-application"` in `wrangler.jsonc` is the one deliberate
+  exception: it serves `index.html` for paths with no prerendered file so the Angular router can
+  render an unknown deep link, rather than Cloudflare's default 404 page.
 - `SeoService.update()` sets a canonical `<link>` from `SITE_URL + path` on every route (baked into
   the prerendered HTML, same as title/OG) — keep passing a correct, sitemap-matching `path` on
   every `.update()` call; it's what keeps trailing-slash/query-param variants from being treated as
@@ -119,10 +119,10 @@ genuinely non-critical UI, and this project doesn't currently use it anywhere.
 
 Before treating a deploy as launch-ready:
 
-- [x] `public/robots.txt` and `public/sitemap.xml` have the real production domain
-      (`https://cloudora.vercel.app`) — no `example.com` placeholder left in either file. If the
-      domain changes again (e.g. a custom domain replaces the `.vercel.app` one), update both.
-      `robots.txt` disallows only `/api/` (the contact/feedback serverless relays — real backend
+- [x] `public/robots.txt`, `public/sitemap.xml` and `public/llms.txt` all use the real production
+      domain (`https://cloudora-weather.app`, matching `SITE_URL` in `constants/constants.ts`) —
+      no placeholder left in any of them. If the domain changes, update all four together.
+      `robots.txt` disallows only `/api/` (the Worker routes — real backend
       endpoints, not content; blocking them avoids wasted crawl budget, not a security control)
       — every real page, plus all CSS/JS/image assets, stays crawlable. Don't add more Disallow
       entries as a substitute for `noindex` (Rule 6) — robots.txt keeps crawlers from _visiting_ a
