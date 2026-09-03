@@ -5,13 +5,14 @@
   CSS-gradient placeholder frame below (with its `brief` text rendered
   under it), so adding a new slot before its screenshot exists still works.
   To add a new slot with a real screenshot:
-    1. Take an actual on-device screenshot (portrait, ~1080x2400px, PNG,
-       no added filters/frames — this component supplies the phone frame).
-    2. Save it to public/screenshots/<name>.png in this project, then also
-       generate public/screenshots/<name>.webp alongside it (e.g. via sharp:
-       `.webp({ quality: 82 })`) — webpSrc() below derives that path from
-       `src` automatically, so both files must exist with matching names.
-    3. Set that item's `src` to 'screenshots/<name>.png' in the page that
+    1. Capture the screen in portrait, no added filters or frames — this
+       component supplies the phone frame.
+    2. Save it as public/screenshots/<name>.webp, resized to 540px wide
+       (via sharp: `.resize({ width: 540 }).webp({ quality: 80 })`). The frame
+       renders ~257 CSS px across, so 540 stays crisp at 2x without shipping
+       four times the pixels the layout can use. WebP only — every browser
+       this site supports decodes it, so a PNG fallback is dead weight.
+    3. Set that item's `src` to 'screenshots/<name>.webp' in the page that
        renders <app-screenshot-gallery [items]="...">.
 -->
 @defer (on viewport) {
@@ -27,15 +28,15 @@
           <span class="phone-notch" aria-hidden="true"></span>
           <div class="phone-screen w-full h-full overflow-hidden relative bg-brand-surface">
             @if (item.src) {
-              <picture>
-                <source [srcset]="webpSrc(item.src)" type="image/webp" />
-                <img
-                  [src]="item.src"
-                  [alt]="item.alt"
-                  class="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              </picture>
+              <img
+                [src]="item.src"
+                [alt]="item.alt"
+                width="540"
+                height="1170"
+                class="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
+              />
             } @else {
               <div
                 class="w-full h-full placeholder-fill flex flex-col items-center justify-center gap-3 p-4"

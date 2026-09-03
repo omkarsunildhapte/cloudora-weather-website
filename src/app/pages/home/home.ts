@@ -70,28 +70,28 @@ export class Home implements OnInit {
 
   readonly screenshotSlots: ScreenshotSlot[] = [
     {
-      src: 'screenshots/home.png',
+      src: 'screenshots/home.webp',
       alt: 'Cloudora Weather home screen with current conditions, hourly and daily forecast',
       caption: 'Home',
       brief: 'Home screen: current conditions, hourly + 5-day forecast, AI insight',
       icon: 'sun',
     },
     {
-      src: 'screenshots/forecast.png',
+      src: 'screenshots/forecast.webp',
       alt: 'Cloudora Weather 10-day forecast screen with temperature and precipitation charts',
       caption: 'Forecast',
       brief: 'Forecast screen: temperature trend, precipitation chart, daily list',
       icon: 'forecast',
     },
     {
-      src: 'screenshots/radar.png',
+      src: 'screenshots/radar.webp',
       alt: 'Cloudora Weather live precipitation radar screen',
       caption: 'Radar',
       brief: 'Radar screen: live precipitation map with timeline scrubber',
       icon: 'radar',
     },
     {
-      src: 'screenshots/air-quality.png',
+      src: 'screenshots/air-quality.webp',
       alt: 'Cloudora Weather air quality screen with AQI gauge and pollutant breakdown',
       caption: 'Air Quality',
       brief: 'Air quality screen: AQI gauge, pollutants, health recommendations',

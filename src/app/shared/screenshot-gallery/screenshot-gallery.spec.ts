@@ -11,7 +11,7 @@ const sampleItems: ScreenshotSlot[] = [
     icon: 'sun',
   },
   {
-    src: 'screenshots/ai.png',
+    src: 'screenshots/ai.webp',
     alt: 'AI insight screen',
     caption: 'AI Insight',
     brief: 'Real screenshot: AI chat',
@@ -53,6 +53,6 @@ describe('ScreenshotGallery', () => {
 
     const img: HTMLImageElement | null = items[1].querySelector('img');
     expect(img).toBeTruthy();
-    expect(img?.getAttribute('src')).toBe('screenshots/ai.png');
+    expect(img?.getAttribute('src')).toBe('screenshots/ai.webp');
   });
 });

@@ -1,5 +1,5 @@
 export interface ScreenshotSlot {
-  /** Path under public/screenshots/, e.g. 'screenshots/scientific.png'. Leave null to render the placeholder. */
+  /** Path under public/screenshots/, e.g. 'screenshots/radar.webp'. Leave null to render the placeholder. */
   src: string | null;
   alt: string;
   caption: string;
