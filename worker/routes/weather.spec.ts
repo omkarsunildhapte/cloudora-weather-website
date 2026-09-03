@@ -124,3 +124,27 @@ describe('handleTile', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 });
+
+describe('weather proxy rate limiting', () => {
+  const denied = { limit: vi.fn().mockResolvedValue({ success: false }) };
+
+  it('rejects data requests with 429 before calling upstream', async () => {
+    const res = await handleWeather(get('/api/owm/weather?lat=1&lon=2'), { ...KEY, DATA_LIMIT: denied });
+
+    expect(res.status).toBe(429);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('rejects tile requests with 429 before calling upstream', async () => {
+    const res = await handleTile(get('/api/tiles/precipitation_new/6/44/28.png'), { ...KEY, TILE_LIMIT: denied });
+
+    expect(res.status).toBe(429);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('keeps serving when no limiter binding is configured', async () => {
+    fetchMock.mockResolvedValueOnce(jsonUpstream({ name: 'Pune' }));
+    const res = await handleWeather(get('/api/owm/weather?lat=1&lon=2'), KEY);
+    expect(res.status).toBe(200);
+  });
+});

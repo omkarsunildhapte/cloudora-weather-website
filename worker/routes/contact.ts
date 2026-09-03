@@ -1,5 +1,6 @@
 import { Env, SUPPORT_EMAIL, escapeHtml, isEmailConfigured, sendMail } from '../lib/email';
-import { json, readJson } from '../lib/http';
+import { json } from '../lib/http';
+import { rateLimited, readJsonCapped, tooLarge } from '../lib/guard';
 
 /**
  * Contact form backend. Browsers can't speak SMTP directly (it's not a
@@ -93,7 +94,17 @@ export async function handleContact(request: Request, env: Env): Promise<Respons
     return json({ ok: false, error: 'Method not allowed' }, 405);
   }
 
-  const body = await readJson<ContactPayload>(request);
+  // Each accepted submission spends Resend quota, so the limit is abuse
+  // protection and cost protection at once.
+  const limited = await rateLimited(env.MAIL_LIMIT, request);
+  if (limited) return limited;
+
+  const oversized = tooLarge(request);
+  if (oversized) return oversized;
+
+  const read = await readJsonCapped<ContactPayload>(request);
+  if ('response' in read) return read.response;
+  const body = read.body;
   const name = (body.name ?? '').toString().trim();
   const email = (body.email ?? '').toString().trim();
   const subject = (body.subject ?? '').toString().trim();

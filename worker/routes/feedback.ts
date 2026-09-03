@@ -1,5 +1,6 @@
 import { Env, SUPPORT_EMAIL, escapeHtml, isEmailConfigured, sendMail } from '../lib/email';
-import { json, readJson } from '../lib/http';
+import { json } from '../lib/http';
+import { rateLimited, readJsonCapped, tooLarge } from '../lib/guard';
 
 /**
  * In-app feedback backend for the Cloudora Weather mobile/web app (a separate
@@ -107,7 +108,17 @@ export async function handleFeedback(request: Request, env: Env): Promise<Respon
     return json({ ok: false, error: 'Method not allowed' }, 405, CORS_HEADERS);
   }
 
-  const body = await readJson<FeedbackPayload>(request);
+  // Each accepted submission spends Resend quota, so the limit is abuse
+  // protection and cost protection at once.
+  const limited = await rateLimited(env.MAIL_LIMIT, request, CORS_HEADERS);
+  if (limited) return limited;
+
+  const oversized = tooLarge(request, CORS_HEADERS);
+  if (oversized) return oversized;
+
+  const read = await readJsonCapped<FeedbackPayload>(request, CORS_HEADERS);
+  if ('response' in read) return read.response;
+  const body = read.body;
   const rating = Number(body.rating);
   const category = body.category;
   const message = (body.message ?? '').toString().trim();

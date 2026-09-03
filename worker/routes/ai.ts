@@ -1,4 +1,5 @@
-import { json, readJson } from '../lib/http';
+import { json } from '../lib/http';
+import { RateLimiter, rateLimited, readJsonCapped, tooLarge } from '../lib/guard';
 import { CORS_HEADERS, preflight } from '../lib/cors';
 
 /**
@@ -21,6 +22,8 @@ import { CORS_HEADERS, preflight } from '../lib/cors';
 export interface AiEnv {
   GEMINI_API_KEY?: string;
   OPENROUTER_API_KEY?: string;
+  /** Per-IP limiter declared in wrangler.jsonc; see worker/lib/guard.ts. */
+  AI_LIMIT?: RateLimiter;
 }
 
 const GEMINI_API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
@@ -63,7 +66,18 @@ export async function handleAi(request: Request, env: AiEnv): Promise<Response> 
     return json({ ok: false, error: 'Method not allowed' }, 405, CORS_HEADERS);
   }
 
-  const body = await readJson<AskPayload>(request);
+  // Order matters: cheap rejections before anything that costs quota or CPU.
+  // This route fronts provider keys with no authentication, so the limit is the
+  // only thing between a script and a drained free tier.
+  const limited = await rateLimited(env.AI_LIMIT, request, CORS_HEADERS);
+  if (limited) return limited;
+
+  const oversized = tooLarge(request, CORS_HEADERS);
+  if (oversized) return oversized;
+
+  const read = await readJsonCapped<AskPayload>(request, CORS_HEADERS);
+  if ('response' in read) return read.response;
+  const body = read.body;
   const prompt = (body.prompt ?? '').toString().trim();
   const systemInstruction = (body.systemInstruction ?? '').toString().trim();
   const wantJson = body.wantJson === true;

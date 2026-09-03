@@ -154,4 +154,49 @@ describe('handleAi', () => {
     await expect(res.json()).resolves.toEqual({ ok: false, error: 'AI service is not configured.' });
     expect(fetchMock).not.toHaveBeenCalled();
   });
+
+  describe('rate limiting', () => {
+    const denied = { limit: vi.fn().mockResolvedValue({ success: false }) };
+
+    it('rejects with 429 before spending any provider quota', async () => {
+      const res = await handleAi(post({ prompt: 'anything' }), { ...KEYS, AI_LIMIT: denied });
+
+      expect(res.status).toBe(429);
+      expect(res.headers.get('Retry-After')).toBe('60');
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('does not spend budget on a CORS preflight', async () => {
+      denied.limit.mockClear();
+      const res = await handleAi(
+        new Request('https://cloudora-weather.app/api/ai', { method: 'OPTIONS' }),
+        { ...KEYS, AI_LIMIT: denied },
+      );
+
+      expect(res.status).toBe(204);
+      expect(denied.limit).not.toHaveBeenCalled();
+    });
+
+    it('proceeds normally when inside the budget', async () => {
+      const allowed = { limit: vi.fn().mockResolvedValue({ success: true }) };
+      fetchMock.mockResolvedValueOnce(geminiOk('fine'));
+
+      const res = await handleAi(post({ prompt: 'anything' }), { ...KEYS, AI_LIMIT: allowed });
+
+      expect(res.status).toBe(200);
+      expect(allowed.limit).toHaveBeenCalled();
+    });
+
+    it('rejects an oversized body that declares no Content-Length', async () => {
+      const huge = JSON.stringify({ prompt: 'x'.repeat(300 * 1024) });
+      const res = await handleAi(
+        new Request('https://cloudora-weather.app/api/ai', { method: 'POST', body: huge }),
+        KEYS,
+      );
+
+      expect(res.status).toBe(413);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+  });
+
 });

@@ -13,8 +13,12 @@ import { Resend } from 'resend';
  * or the dashboard's Variables and Secrets with Encrypt. It must never move
  * into src/environments/*, which Angular compiles into the browser bundle.
  */
+import { RateLimiter } from './guard';
+
 export interface Env {
   RESEND_API_KEY?: string;
+  /** Per-IP limiter declared in wrangler.jsonc; see worker/lib/guard.ts. */
+  MAIL_LIMIT?: RateLimiter;
   /** Overrides the From address; must stay on a domain verified in Resend. */
   MAIL_FROM?: string;
   CONTACT_TO_EMAIL?: string;

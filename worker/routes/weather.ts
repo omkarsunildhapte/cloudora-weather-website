@@ -1,4 +1,5 @@
 import { json } from '../lib/http';
+import { RateLimiter, rateLimited } from '../lib/guard';
 import { CORS_HEADERS, preflight } from '../lib/cors';
 
 /**
@@ -21,6 +22,9 @@ import { CORS_HEADERS, preflight } from '../lib/cors';
 
 export interface WeatherEnv {
   OPENWEATHER_API_KEY?: string;
+  /** Per-IP limiters declared in wrangler.jsonc; see worker/lib/guard.ts. */
+  DATA_LIMIT?: RateLimiter;
+  TILE_LIMIT?: RateLimiter;
 }
 
 const DATA_BASE = 'https://api.openweathermap.org/data/2.5';
@@ -61,6 +65,9 @@ export async function handleWeather(request: Request, env: WeatherEnv): Promise<
   }
   if (!env.OPENWEATHER_API_KEY) return missingKey();
 
+  const limited = await rateLimited(env.DATA_LIMIT, request, CORS_HEADERS);
+  if (limited) return limited;
+
   const url = new URL(request.url);
   const path = url.pathname.replace(/^\/api\/owm\//, '');
   if (!ALLOWED_PATHS.has(path)) {
@@ -91,6 +98,9 @@ export async function handleTile(request: Request, env: WeatherEnv): Promise<Res
     return json({ ok: false, error: 'Method not allowed' }, 405, CORS_HEADERS);
   }
   if (!env.OPENWEATHER_API_KEY) return missingKey();
+
+  const limited = await rateLimited(env.TILE_LIMIT, request, CORS_HEADERS);
+  if (limited) return limited;
 
   const { pathname } = new URL(request.url);
   const match = pathname.match(/^\/api\/tiles\/([a-z_]+)\/(\d{1,2})\/(\d{1,7})\/(\d{1,7})\.png$/);

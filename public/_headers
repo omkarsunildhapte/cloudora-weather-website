@@ -1,0 +1,14 @@
+# Security headers for every asset response. These must live here rather than in
+# worker/index.ts: with `main` + `assets`, Cloudflare serves matching static files
+# straight from the asset layer and never invokes the Worker, so headers set in
+# code only ever reach Worker-generated responses (the /api routes).
+#
+# Note these apply to GET/HEAD asset responses — verify with `curl -D -`, not
+# `curl -I`, since the asset layer does not run _headers for HEAD.
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Content-Security-Policy: frame-ancestors 'none'
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
