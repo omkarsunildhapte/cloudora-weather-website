@@ -1,0 +1,154 @@
+<app-sunrise-layer />
+
+<div class="relative z-10">
+  <app-guide-hero
+    eyebrow="Feels Like"
+    icon="droplet"
+    titleLead="Why 'Feels Like' Differs"
+    titleAccent="From the Real Temperature"
+    summary="The thermometer measures the air. The second number tries to measure you — and on a humid afternoon or a windy morning the two can be ten degrees apart."
+    readingTime="7 min read"
+    [updated]="updated"
+  />
+
+  <article class="guide-body max-w-3xl mx-auto px-5 md:px-8 pb-16">
+    <section>
+      <h2>Your body doesn't measure air temperature</h2>
+      <p>
+        A thermometer reports one thing: the temperature of the air around it. What you experience
+        is something else entirely &mdash; the rate at which your body is losing or gaining heat.
+        You are a roughly 37 °C object continuously producing heat, and comfort is the state in
+        which you are shedding that heat at exactly the rate you make it. Anything that changes the
+        shedding rate changes how the same air feels.
+      </p>
+      <p>
+        Four channels do the shedding: conduction into things you touch, convection into moving air,
+        radiation to and from your surroundings, and evaporation of sweat. Air temperature only sets
+        the gradient for two of them. Humidity governs evaporation, wind governs convection, and
+        sunlight adds radiation the shade never sees. A "feels like" figure &mdash; formally an
+        apparent temperature &mdash; is an attempt to answer a single question: what still-air, dry,
+        shaded temperature would give you the same heat balance as the conditions you are actually
+        standing in?
+      </p>
+      <p>
+        Which is why there isn't one formula. In the heat, humidity dominates and you get a heat
+        index. In the cold, wind dominates and you get wind chill. They are separate models with
+        separate valid ranges, and the number your app shows is whichever one the conditions call
+        for.
+      </p>
+    </section>
+
+    <section>
+      <h2>Warm and humid: why sweat stops working</h2>
+      <p>
+        Once air temperature approaches skin temperature, convection and radiation stop helping much
+        &mdash; there's barely a gradient left to shed heat down. Evaporation becomes almost the
+        whole cooling system: sweat absorbs a large amount of heat as it changes from liquid to
+        vapour, and carries it away.
+      </p>
+      <p>
+        Evaporation is driven by the difference between the water vapour pressure at your wet skin
+        and the vapour pressure of the surrounding air. When the air is already close to saturated,
+        that difference is small, evaporation slows, and sweat simply runs off you doing no useful
+        work at all. You are producing the same heat with a throttled cooling system, so your core
+        temperature drifts up &mdash; and that is what "feels hotter" is actually describing.
+      </p>
+      <p>
+        Relative humidity is a poor guide to this, because it is relative: 70 per cent at 12 °C and
+        70 per cent at 32 °C describe wildly different amounts of water. <strong>Dew point</strong>
+        &mdash; the temperature to which the air must cool for saturation &mdash; is an absolute
+        measure, and it maps far more cleanly onto comfort.
+      </p>
+      <ul class="dew-bands">
+        @for (band of dewPoints; track band.range) {
+          <li>
+            <p class="dew-heading">
+              <span class="dew-range">{{ band.range }}</span>
+              {{ band.name }}
+            </p>
+            <p class="dew-note">{{ band.note }}</p>
+          </li>
+        }
+      </ul>
+      <p>
+        The formal heat index used by national weather services is a regression fit to a much more
+        complex human heat-balance model, and it is only defined over part of the range: broadly
+        from about 27 °C upwards, and at relative humidity above roughly 40 per cent. Below that it
+        has nothing to add, which is why a heat-index-based "feels like" often equals the air
+        temperature on mild days rather than being missing. It also assumes shade and a light
+        breeze. Standing in direct sun can add several degrees to the effective load, which is why
+        occupational heat standards use wet-bulb globe temperature &mdash; a measure that includes
+        radiant heat &mdash; rather than the heat index.
+      </p>
+    </section>
+
+    <section>
+      <h2>Cold and windy: why wind chill bites</h2>
+      <p>
+        In the cold, the mechanism inverts. Your body warms a thin boundary layer of air right
+        against the skin, and that stagnant warm film is genuinely insulating &mdash; a good part of
+        what clothing does is simply hold it in place. Wind strips it away and replaces it with
+        fresh cold air, over and over, so heat leaves your skin far faster than the air temperature
+        alone would suggest.
+      </p>
+      <p>
+        The wind chill formulas in use today were derived from a model of heat loss from an exposed
+        adult face walking into the wind, with the wind speed measured at face height rather than at
+        the standard ten-metre anemometer height. They apply at low temperatures &mdash; broadly at
+        or below about 10 °C &mdash; and above a light wind threshold of a few kilometres per hour;
+        outside that range the concept simply isn't defined.
+      </p>
+      <p>
+        Two things follow that are worth internalising. First, wind chill only describes
+        <em>exposed skin</em>. It is not a temperature the world reaches: a parked car, a water pipe
+        or a thermometer will not cool below the true air temperature no matter how hard the wind
+        blows, because none of them is generating heat. Wind speeds up the approach to air
+        temperature; it does not lower it. Second, wind chill is the number to take seriously for
+        frostbite risk. On the standard charts, exposed skin can begin to freeze in around thirty
+        minutes at a wind chill near −28 °C, and in roughly ten minutes near −35 °C.
+      </p>
+      <p>
+        Wind chill also assumes dry skin. Wet skin &mdash; rain, sweat, a soaking from a puddle
+        &mdash; loses heat dramatically faster, because evaporation is now working against you. That
+        combination, a few degrees above freezing with wind and rain, is the classic hypothermia
+        setup, and it is one the wind chill number alone will under-state.
+      </p>
+    </section>
+
+    <section>
+      <h2>Reading the gap between the two numbers</h2>
+      <p>
+        The useful habit is to read the gap, not just the second number. A large positive gap
+        &mdash; feels-like well above the actual reading &mdash; means humidity is high and your
+        evaporative cooling is compromised: drink earlier than you think you need to, plan hard
+        effort for the cooler ends of the day, and pay attention to how you feel rather than to the
+        clock. A large negative gap means wind, and wind is a clothing problem: a windproof outer
+        layer solves more of it than another fleece, because the fleece's job is holding still air
+        that the wind is taking away.
+      </p>
+      <p>
+        When the two numbers are equal, that is information too. It means conditions are within the
+        band where humidity and wind are not doing anything interesting, and the plain temperature
+        is an honest guide to your day.
+      </p>
+    </section>
+
+    <section>
+      <h2>How the app shows it</h2>
+      <p>
+        Cloudora Weather displays the feels-like reading directly beneath the current temperature,
+        so the gap between them is visible at a glance instead of being something you have to go
+        looking for. The value comes from OpenWeatherMap's own apparent-temperature calculation,
+        which blends air temperature, humidity and wind into a single figure &mdash; so it hands you
+        the right model for the conditions rather than making you pick. Humidity and wind speed are
+        both in the details strip if you want to see what is driving the difference. On a hot, still
+        afternoon it also pays to check the
+        <a routerLink="/guides/uv-index">UV index</a>, which is a completely separate hazard the
+        feels-like number knows nothing about.
+      </p>
+      <p><a routerLink="/features">See the full feature list &rarr;</a></p>
+    </section>
+  </article>
+
+  <app-guide-outro [related]="related" />
+</div>

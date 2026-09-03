@@ -1,0 +1,152 @@
+<app-sunrise-layer />
+
+<div class="relative z-10">
+  <app-guide-hero
+    eyebrow="Radar"
+    icon="radar"
+    titleLead="How to Read"
+    titleAccent="a Precipitation Radar Map"
+    summary="A radar map is not a forecast — it is a photograph of what is falling right now, taken with microwaves. Read it properly and you can time a walk to the minute."
+    readingTime="7 min read"
+    [updated]="updated"
+  />
+
+  <article class="guide-body max-w-3xl mx-auto px-5 md:px-8 pb-16">
+    <section>
+      <h2>What the colours are actually measuring</h2>
+      <p>
+        A weather radar sends out a narrow pulse of microwave energy and listens for the fraction
+        that bounces back off raindrops, snowflakes and hailstones. The delay tells it how far away
+        the target is; the strength of the returned signal tells it how much is up there. That
+        strength is called reflectivity, and because it spans an enormous range it is reported on a
+        logarithmic decibel scale: dBZ.
+      </p>
+      <p>
+        Reflectivity is not rainfall. It responds to the size of the drops far more strongly than to
+        their number &mdash; a handful of large drops returns much more energy than a fog of tiny
+        ones carrying the same amount of water. Converting dBZ to a rain rate therefore needs an
+        assumption about drop-size distribution, and the standard relationships used for that are
+        approximations tuned for typical rain. Which is why the mapping below is a rule of thumb
+        rather than a measurement.
+      </p>
+      <p>
+        Colour scales vary by provider, but almost all of them run cool-to-hot in the same order, so
+        the pattern transfers between maps even when the exact shades don't.
+      </p>
+      <ul class="dbz-bands">
+        @for (band of bands; track band.dbz) {
+          <li>
+            <p class="dbz-heading">
+              <span class="dbz-value">{{ band.dbz }}</span>
+              <span class="dbz-colour">{{ band.colour }}</span>
+            </p>
+            <p class="dbz-meaning">{{ band.meaning }}</p>
+          </li>
+        }
+      </ul>
+      <p>
+        In winter the same echo can mean very different things on the ground, because snow and
+        sleet return energy differently from rain and a radar cannot see the freezing level. That is
+        why precipitation-type shading is usually a model product layered on top of the radar rather
+        than something the radar itself measured.
+      </p>
+    </section>
+
+    <section>
+      <h2>Motion is the whole point — read the loop, not the frame</h2>
+      <p>
+        A single frame tells you where rain is. Two or three frames tell you where it is going, and
+        that is the question you actually have. Scrub back through the loop, pick one distinct cell,
+        and note how far it travels between frames. Extend that same displacement forward past your
+        own location and you have a usable arrival estimate.
+      </p>
+      <p>
+        A few patterns are worth recognising while you do it:
+      </p>
+      <ul class="plain-list">
+        <li>
+          <strong>Growing versus decaying.</strong> A cell whose core is brightening and expanding
+          will likely still be raining when it reaches you. One that is fading between frames may
+          dissolve before it arrives. Showers in the late afternoon often intensify; the same
+          showers after sunset often collapse as the heating that fed them disappears.
+        </li>
+        <li>
+          <strong>Lines that move along themselves.</strong> When individual cells travel roughly
+          parallel to the line they form, each one passes over the same ground in turn. Forecasters
+          call this training, and it is the classic setup for flash flooding &mdash; a modest shower
+          repeated fifteen times over one catchment.
+        </li>
+        <li>
+          <strong>Bowed segments.</strong> A line of storms that pushes outward into a bow shape is
+          being shoved by a strong downdraught behind it. Bow echoes are associated with damaging
+          straight-line winds, and are worth taking seriously even without a warning attached.
+        </li>
+        <li>
+          <strong>Gaps that aren't gaps.</strong> A hole in a band of rain moving towards you may
+          simply close before it arrives. Check whether the gap has been widening or narrowing over
+          the last few frames rather than assuming it will hold.
+        </li>
+      </ul>
+      <p>
+        Extrapolating radar forward like this is called nowcasting, and it works well for about the
+        next one to two hours. Beyond that, storms grow, die and change direction faster than a
+        straight-line projection can follow, and a proper forecast model beats it.
+      </p>
+    </section>
+
+    <section>
+      <h2>When radar lies to you</h2>
+      <p>
+        Radar has well-known blind spots, and knowing them is most of what separates a confident
+        reading from a wrong one.
+      </p>
+      <p>
+        <strong>The beam climbs.</strong> A radar beam leaves the dish at a slight upward tilt and
+        the Earth curves away beneath it, so the further from the radar you look, the higher in the
+        atmosphere it is sampling. Far from the site it may be looking straight over the top of
+        shallow rain and drizzle entirely &mdash; the map says dry, the street says otherwise. The
+        beam also spreads with distance, so distant features are smeared and small intense cores
+        are under-reported.
+      </p>
+      <p>
+        <strong>Rain does not always land.</strong> An echo aloft falling into dry air can evaporate
+        completely before reaching the ground. That is virga, and it is a common reason radar shows
+        light returns over an area that stays entirely dry &mdash; especially in hot, dry climates
+        and early in a storm's life.
+      </p>
+      <p>
+        <strong>Melting snow exaggerates.</strong> Just below the freezing level, snowflakes acquire
+        a film of liquid water while keeping their large snowflake size. Big and wet is the ideal
+        radar target, so a bright horizontal band of enhanced echo appears at that altitude. On
+        distant scans that bright band can make ordinary rain look far heavier than it is.
+      </p>
+      <p>
+        <strong>Not everything the radar sees is weather.</strong> Buildings and hills near the site
+        produce permanent clutter. Flocks of birds, insect swarms and even wind-turbine blades
+        return signals. On calm nights an unusual temperature profile can bend the beam down into
+        the ground, painting broad false echoes across the map &mdash; anomalous propagation. Modern
+        dual-polarisation radars filter most of this out, but not all of it.
+      </p>
+    </section>
+
+    <section>
+      <h2>Using it in the app</h2>
+      <p>
+        Cloudora Weather's radar screen overlays live precipitation tiles on a map with a timeline
+        scrubber, so stepping through the recent frames &mdash; the single most useful habit in this
+        guide &mdash; takes a couple of seconds. Read the loop first, then check the hourly forecast
+        for the rain probability in the slot you care about; the radar tells you what is happening
+        now, and the forecast tells you what the atmosphere intends to do next. The two disagreeing
+        is usually a sign of a shower that has yet to form.
+      </p>
+      <p>
+        If a band of rain is about to clear through, it is also worth glancing at
+        <a routerLink="/guides/air-quality-index">air quality</a> afterwards: rainfall scavenges
+        particles out of the air, and the hours after a downpour are often the cleanest of the week.
+      </p>
+      <p><a routerLink="/features">See the full feature list &rarr;</a></p>
+    </section>
+  </article>
+
+  <app-guide-outro [related]="related" />
+</div>

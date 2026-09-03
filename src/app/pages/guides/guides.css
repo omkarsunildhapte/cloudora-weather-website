@@ -1,0 +1,107 @@
+/* ---------- Header ---------- */
+.guides-glow {
+  background: radial-gradient(
+    ellipse 780px 460px at 50% -10%,
+    rgba(0, 217, 255, 0.24),
+    transparent 62%
+  );
+}
+
+.guides-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 10%, black 35%, transparent 88%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 10%, black 35%, transparent 88%);
+}
+
+.guides-gradient-text {
+  background: linear-gradient(
+    90deg,
+    #f4faff,
+    var(--color-brand-secondary) 65%,
+    var(--color-brand-accent)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.gi-in {
+  opacity: 0;
+  animation: fade-in-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.gi-in-1 {
+  animation-delay: 0ms;
+}
+.gi-in-2 {
+  animation-delay: 90ms;
+}
+.gi-in-3 {
+  animation-delay: 180ms;
+}
+.gi-in-4 {
+  animation-delay: 270ms;
+}
+.gi-in-5 {
+  animation-delay: 360ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gi-in {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* ---------- Guide cards ---------- */
+.guide-card {
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.guide-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(0, 217, 255, 0.32);
+  box-shadow: 0 20px 40px -20px rgba(0, 217, 255, 0.4);
+}
+
+.guide-card-icon {
+  display: block;
+  width: 3rem;
+  height: 3rem;
+  padding: 0.75rem;
+  border-radius: 0.9rem;
+  color: var(--color-brand-secondary);
+  background: linear-gradient(155deg, rgba(0, 217, 255, 0.26), rgba(22, 140, 255, 0.1));
+  border: 1px solid rgba(0, 217, 255, 0.28);
+  box-shadow: 0 0 20px -6px rgba(0, 217, 255, 0.5);
+}
+
+.guide-card-cta {
+  color: rgba(255, 255, 255, 0.45);
+  transition: color 0.2s ease;
+}
+.guide-card:hover .guide-card-cta {
+  color: var(--color-brand-primary);
+}
+
+/* The list needs a heading for document outline/screen readers, but the hero
+   already says "Weather Guides" on screen — so it's hidden visually only. */
+.sr-only-heading {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .guide-card {
+    transition: none;
+  }
+}

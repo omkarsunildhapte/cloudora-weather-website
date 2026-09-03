@@ -1,0 +1,164 @@
+/* ---------- Header ---------- */
+.wn-glow {
+  background: radial-gradient(
+    ellipse 780px 460px at 50% -10%,
+    rgba(0, 217, 255, 0.24),
+    transparent 62%
+  );
+}
+
+.wn-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 10%, black 35%, transparent 88%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 10%, black 35%, transparent 88%);
+}
+
+.wn-gradient-text {
+  background: linear-gradient(
+    90deg,
+    #f4faff,
+    var(--color-brand-secondary) 65%,
+    var(--color-brand-accent)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.wn-in {
+  opacity: 0;
+  animation: fade-in-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.wn-in-1 {
+  animation-delay: 0ms;
+}
+.wn-in-2 {
+  animation-delay: 90ms;
+}
+.wn-in-3 {
+  animation-delay: 180ms;
+}
+.wn-in-4 {
+  animation-delay: 270ms;
+}
+.wn-in-5 {
+  animation-delay: 360ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wn-in {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* ---------- Timeline ----------
+   A rail down the left with a dot per release, so a second and third entry
+   read as a history rather than as three unrelated cards. */
+.release-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.release {
+  position: relative;
+  padding-left: 1.75rem;
+  padding-bottom: 2.5rem;
+}
+.release::before {
+  content: '';
+  position: absolute;
+  left: 0.3rem;
+  top: 0.65rem;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 217, 255, 0.35),
+    rgba(255, 255, 255, 0.06) 70%,
+    transparent
+  );
+}
+.release:last-child {
+  padding-bottom: 0;
+}
+.release:last-child::before {
+  bottom: 1.5rem;
+}
+
+.release-marker {
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 999px;
+  background: var(--color-brand-primary);
+  box-shadow: 0 0 0 4px rgba(0, 217, 255, 0.12);
+}
+
+.release-head {
+  position: relative;
+}
+
+.release-badge {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  color: var(--color-brand-accent);
+  background: rgba(57, 230, 106, 0.12);
+  border: 1px solid rgba(57, 230, 106, 0.3);
+}
+
+/* ---------- Change entries ---------- */
+.change-list {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+}
+
+.change {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 0.95rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+.change:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.change-kind {
+  flex-shrink: 0;
+  min-width: 4.75rem;
+  text-align: center;
+  margin-top: 0.1rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.45rem;
+}
+.kind-new {
+  color: var(--color-brand-primary);
+  background: rgba(0, 217, 255, 0.1);
+  border: 1px solid rgba(0, 217, 255, 0.28);
+}
+.kind-improved {
+  color: var(--color-brand-secondary);
+  background: rgba(22, 140, 255, 0.12);
+  border: 1px solid rgba(22, 140, 255, 0.3);
+}
+.kind-fixed {
+  color: var(--color-brand-sun);
+  background: rgba(255, 210, 31, 0.1);
+  border: 1px solid rgba(255, 210, 31, 0.28);
+}

@@ -8,14 +8,14 @@ Google Play installs — SEO here isn't optional polish, it's the site's whole j
 
 `@angular/ssr` is configured with `outputMode: 'static'` (`angular.json` build target: `server:
 src/main.server.ts`, `src/app/app.routes.server.ts` sets `RenderMode.Prerender` for every route).
-`npm run build` fully prerenders all 5 routes to real static HTML at build time — no live Node
+`npm run build` fully prerenders all 11 routes to real static HTML at build time — no live Node
 server is needed to serve this site, it still deploys as plain static files. Per-route
 `Title`/`Meta` updates via `SeoService` (`og:title`/`og:description` included) are baked into each
 route's prerendered HTML, so non-JS-executing social-preview bots (Facebook/Twitter/LinkedIn link
 unfurlers) now see accurate, per-page tags too — not just `src/index.html`'s homepage defaults.
 
 - `src/index.html`'s static `<title>`/`<meta description>`/OG tags still matter as the fallback
-  for `index.csr.html` (served for any URL that isn't one of the 5 known routes), so keep them
+  for `index.csr.html` (served for any URL that isn't one of the 11 known routes), so keep them
   representative of the homepage.
 - Any new page component must inject `SeoService` per Rule 1 — without it, that route's
   prerendered HTML falls back to whatever the previous route left in `index.html`'s template
@@ -127,10 +127,13 @@ Before treating a deploy as launch-ready:
       — every real page, plus all CSS/JS/image assets, stays crawlable. Don't add more Disallow
       entries as a substitute for `noindex` (Rule 6) — robots.txt keeps crawlers from _visiting_ a
       URL, it doesn't stop that URL from being indexed if something else links to it.
-- [x] All 5 routes (`/`, `/features`, `/contact`, `/privacy-policy`, `/terms-of-service`) pass
-      Rule 1 — no missing/duplicate titles or descriptions. Keep `public/sitemap.xml` in sync
-      with the route list — it's a separate hand-maintained file, not generated from
-      `app.routes.ts`.
+- [x] All 11 routes (`/`, `/features`, `/guides`, the four `/guides/<slug>` pages, `/whats-new`,
+      `/contact`, `/privacy-policy`, `/terms-of-service`) pass Rule 1 — no missing/duplicate
+      titles or descriptions. Keep `public/sitemap.xml` and `public/llms.txt` in sync with the
+      route list — both are separate hand-maintained files, not generated from `app.routes.ts`.
+      Guide slugs additionally live in `src/constants/guides.ts` (the index and the per-guide
+      cross-links both read from it), so a new guide is four places: route, catalogue, sitemap,
+      llms.txt.
 - [x] No "App Store"/iOS copy anywhere (`grep -ri "app store\|ios" src/app` returns nothing
       unintended) — this site is Google Play only.
 - [x] Every Play Store button resolves to the current, correct `PLAY_STORE_URL`

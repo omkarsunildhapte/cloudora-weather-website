@@ -1,0 +1,46 @@
+<section class="max-w-3xl mx-auto px-5 md:px-8 pb-16">
+  <h2 class="text-xs font-semibold tracking-[0.15em] uppercase text-brand-primary mb-5">
+    Keep reading
+  </h2>
+  <nav aria-label="More weather guides">
+    <ul class="border-t border-white/8">
+      @for (guide of related(); track guide.path) {
+        <li>
+          <a [routerLink]="guide.path" class="related-guide border-b border-white/8">
+            <span class="related-icon shrink-0" aria-hidden="true"
+              ><app-feature-icon [key]="guide.icon"
+            /></span>
+            <span class="min-w-0">
+              <span class="block text-sm font-semibold text-white">{{ guide.title }}</span>
+              <span class="block text-xs text-gray-500 mt-1 leading-relaxed">{{
+                guide.summary
+              }}</span>
+            </span>
+            <span class="related-arrow shrink-0" aria-hidden="true">&rarr;</span>
+          </a>
+        </li>
+      }
+    </ul>
+  </nav>
+</section>
+
+<section class="max-w-3xl mx-auto px-5 md:px-8 pb-24 md:pb-32">
+  <div class="guide-cta relative overflow-hidden text-center px-6 py-12 md:py-16">
+    <div class="absolute inset-0 -z-10 guide-cta-glow" aria-hidden="true"></div>
+    <h2 class="text-2xl md:text-4xl font-bold text-white tracking-tight">
+      See all of this for your own sky
+    </h2>
+    <p class="text-sm md:text-base text-gray-400 mt-4 max-w-md mx-auto leading-relaxed">
+      Cloudora Weather puts air quality, UV, the feels-like reading and live radar on one screen
+      &mdash; free, ad-free, and with no account to create.
+    </p>
+    <div class="mt-8 flex justify-center">
+      <app-play-store-button variant="primary" />
+    </div>
+    <a
+      routerLink="/features"
+      class="inline-block mt-6 text-sm text-brand-primary hover:text-white transition-colors"
+      >Browse every feature &rarr;</a
+    >
+  </div>
+</section>

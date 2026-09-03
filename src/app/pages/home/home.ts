@@ -5,11 +5,19 @@ import { FeatureCard } from '@shared/feature-card/feature-card';
 import { ScreenshotGallery } from '@shared/screenshot-gallery/screenshot-gallery';
 import { ScreenshotSlot } from '@appTypes/index';
 import { SunriseLayer } from '@shared/sunrise-layer/sunrise-layer';
+import { LiveWeather } from '@shared/live-weather/live-weather';
 import { SeoService } from '@services/seo/seo.service';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, PlayStoreButton, FeatureCard, ScreenshotGallery, SunriseLayer],
+  imports: [
+    RouterLink,
+    PlayStoreButton,
+    FeatureCard,
+    ScreenshotGallery,
+    SunriseLayer,
+    LiveWeather,
+  ],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

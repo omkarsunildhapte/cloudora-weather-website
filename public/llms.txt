@@ -12,6 +12,12 @@ it.
 
 - [Home](https://cloudora-weather.app/): Product overview, feature summary, and download link.
 - [Features](https://cloudora-weather.app/features): Full capability list — Real-Time Conditions, AI Weather Insight, Hourly Forecast, 5-Day Forecast, Air Quality Index, UV/Wind/Pressure/Visibility details, Rain Heads-Up, and Privacy-First design.
+- [Weather Guides](https://cloudora-weather.app/guides): Index of plain-English explainers covering the numbers a weather app shows.
+- [What the Air Quality Index Actually Means](https://cloudora-weather.app/guides/air-quality-index): How an AQI is built from PM2.5, PM10, ozone and NO2 concentrations, OpenWeatherMap's 1–5 index bands in µg/m³, WHO 2021 guideline values, and what to do at each level.
+- [How to Read the UV Index](https://cloudora-weather.app/guides/uv-index): What the erythemally weighted UV index measures, the WHO/WMO bands from Low to Extreme, why UV is independent of temperature, and how SPF and application rate actually work.
+- [Why "Feels Like" Differs From the Real Temperature](https://cloudora-weather.app/guides/feels-like-temperature): Apparent temperature explained — how humidity suppresses evaporative cooling (heat index, dew point bands) and how wind strips the skin's boundary layer (wind chill), plus the valid range of each model.
+- [How to Read a Precipitation Radar Map](https://cloudora-weather.app/guides/precipitation-radar): What dBZ reflectivity measures, approximate colour-to-rain-rate bands, reading storm motion across radar frames, and radar's known failure modes (beam overshoot, virga, bright band, anomalous propagation).
+- [What's New](https://cloudora-weather.app/whats-new): Release notes for the Android app, newest first. Current version 0.0.1.
 - [Contact](https://cloudora-weather.app/contact): Contact form and support address.
 - [Privacy Policy](https://cloudora-weather.app/privacy-policy): What the app stores (locally) and what it transmits (location coordinates to OpenWeatherMap; forecast context to OpenRouter for the optional AI insight). The app ships no analytics, trackers, or ad networks; this website uses Google Analytics only after the visitor accepts.
 - [Terms of Service](https://cloudora-weather.app/terms-of-service): Terms covering use of the app and this site, including the weather-accuracy disclaimer.
@@ -19,6 +25,7 @@ it.
 ## Product facts
 
 - Platform: Android, via [Google Play](https://play.google.com/store/apps/details?id=com.cloudora.app).
+- Current version: 0.0.1 (initial release).
 - Price: free, with no ads.
 - Data sources: weather, forecast, air-pollution and UV data from OpenWeatherMap; AI insight generated via OpenRouter.
 - Data handling: preferences, cached forecasts, and consent choices are stored in device-local storage and are not transmitted. Location coordinates are sent only to the weather provider; a forecast summary (no personal data) is sent to OpenRouter when the AI insight is enabled.

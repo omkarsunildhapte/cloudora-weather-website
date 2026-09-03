@@ -1,0 +1,183 @@
+/* Card sits on the same frosted-glass base as every other panel; the extra
+   cyan edge + top glow is what marks it out as the "live" one. */
+.live-card {
+  border-color: rgba(0, 217, 255, 0.22);
+}
+
+.live-glow {
+  background: radial-gradient(
+    ellipse 620px 320px at 20% -20%,
+    rgba(0, 217, 255, 0.22),
+    transparent 68%
+  );
+}
+
+/* ---------- City picker ---------- */
+.live-chip {
+  font-size: 0.8125rem;
+  line-height: 1;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  color: #cbd5e1;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+.live-chip:hover {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.24);
+}
+.live-chip.is-active {
+  color: var(--color-brand-primary);
+  border-color: rgba(0, 217, 255, 0.45);
+  background: rgba(0, 217, 255, 0.1);
+}
+
+/* ---------- Live indicator ---------- */
+.live-dot {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: var(--color-brand-accent);
+  box-shadow: 0 0 0 0 rgba(57, 230, 106, 0.6);
+  animation: live-pulse 2.4s ease-out infinite;
+}
+
+@keyframes live-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(57, 230, 106, 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 0.5rem rgba(57, 230, 106, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(57, 230, 106, 0);
+  }
+}
+
+/* ---------- Reading ---------- */
+.condition-orb {
+  display: block;
+  width: 3.5rem;
+  height: 3.5rem;
+  padding: 0.8rem;
+  border-radius: 1rem;
+  color: var(--color-brand-sun);
+  background: linear-gradient(155deg, rgba(255, 210, 31, 0.2), rgba(0, 217, 255, 0.08));
+  border: 1px solid rgba(255, 210, 31, 0.28);
+}
+.condition-orb.is-night {
+  color: var(--color-brand-primary);
+  background: linear-gradient(155deg, rgba(0, 217, 255, 0.24), rgba(22, 140, 255, 0.08));
+  border-color: rgba(0, 217, 255, 0.32);
+}
+
+.live-temp {
+  font-size: 3.25rem;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  background: linear-gradient(120deg, #f4faff, var(--color-brand-primary) 92%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.live-degree {
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+/* ---------- Detail strip ---------- */
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  gap: 0.6rem;
+  align-content: start;
+}
+
+.detail-tile {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.detail-icon {
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  padding: 0.45rem;
+  flex-shrink: 0;
+  border-radius: 0.6rem;
+  color: var(--color-brand-secondary);
+  background: rgba(22, 140, 255, 0.12);
+}
+
+/* ---------- Failure state ---------- */
+.live-retry {
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 217, 255, 0.35);
+  background: rgba(0, 217, 255, 0.1);
+  color: var(--color-brand-primary);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+.live-retry:hover {
+  background: rgba(0, 217, 255, 0.2);
+  color: #ffffff;
+}
+
+/* ---------- Loading skeleton ---------- */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(255, 255, 255, 0.11) 37%,
+    rgba(255, 255, 255, 0.05) 63%
+  );
+  background-size: 400% 100%;
+  animation: skeleton-sweep 1.6s ease-in-out infinite;
+}
+
+@keyframes skeleton-sweep {
+  from {
+    background-position: 100% 50%;
+  }
+  to {
+    background-position: 0 50%;
+  }
+}
+
+/* Announced to screen readers, invisible on screen — the skeleton itself is
+   aria-hidden, so this is the only thing that says "still loading". */
+.sr-only-live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-dot,
+  .skeleton {
+    animation: none;
+  }
+}

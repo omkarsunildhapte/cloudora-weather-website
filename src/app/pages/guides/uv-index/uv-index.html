@@ -1,0 +1,150 @@
+<app-sunrise-layer />
+
+<div class="relative z-10">
+  <app-guide-hero
+    eyebrow="UV Index"
+    icon="uv"
+    titleLead="How to Read the UV Index"
+    titleAccent="and When You Need Sunscreen"
+    summary="It is not a temperature, it is not a brightness reading, and a cool cloudy day can still burn you. Here is what the number is actually counting."
+    readingTime="6 min read"
+    [updated]="updated"
+  />
+
+  <article class="guide-body max-w-3xl mx-auto px-5 md:px-8 pb-16">
+    <section>
+      <h2>What the number is measuring</h2>
+      <p>
+        The UV index is a measure of the strength of ultraviolet radiation reaching the ground,
+        weighted by how much damage each wavelength does to human skin. That weighting is the part
+        people miss. A UV meter doesn't just add up ultraviolet energy; it multiplies each
+        wavelength by an internationally agreed "erythemal action spectrum" &mdash; a curve
+        describing how efficiently that wavelength causes sunburn &mdash; before summing. One unit
+        of UV index corresponds to 25 milliwatts per square metre of that damage-weighted
+        irradiance.
+      </p>
+      <p>
+        This is why the index behaves so unlike the other numbers on a weather screen. It is not
+        derived from temperature, it is not the same as how bright the sky looks, and it is not
+        capped at 10 &mdash; readings above 11 are routine in the tropics and at altitude. The scale
+        is open-ended by design.
+      </p>
+      <p>
+        Two bands of ultraviolet reach the surface and both matter.
+        <strong>UVB</strong> (roughly 280–315 nanometres) is the sunburn band: it is absorbed in the
+        outer skin, it causes the reddening the index is calibrated against, and it drives most
+        direct DNA damage. <strong>UVA</strong> (315–400 nm) is weaker per photon but far more
+        abundant, penetrates deeper into the dermis, drives photo-ageing, and contributes to skin
+        cancer risk as well. UVA also passes through ordinary window glass, which UVB largely does
+        not. A sunscreen labelled "broad spectrum" is one that covers both; an SPF number on its own
+        only tells you about the UVB half.
+      </p>
+    </section>
+
+    <section>
+      <h2>The bands, and what each one asks of you</h2>
+      <p>
+        The scale below is the WHO/WMO Global Solar UV Index, the international standard that
+        national weather services and Cloudora Weather both use. The single most useful line to
+        remember is the boundary at 3: below it, most people need nothing; at 3 and above,
+        protection genuinely starts to matter.
+      </p>
+      <ul class="uv-bands">
+        @for (band of bands; track band.range) {
+          <li>
+            <p class="uv-heading">
+              <span class="uv-range">{{ band.range }}</span>
+              {{ band.name }}
+            </p>
+            <p class="uv-advice">{{ band.advice }}</p>
+          </li>
+        }
+      </ul>
+      <p>
+        These are guidelines for average skin, and skin type shifts them substantially. Someone who
+        burns in fifteen minutes and never tans should treat each band as one step higher than it
+        reads; someone with deeply pigmented skin has real built-in protection but is not immune,
+        and still benefits from shade and cover at the top of the scale.
+      </p>
+    </section>
+
+    <section>
+      <h2>Why UV and warmth come apart</h2>
+      <p>
+        Ultraviolet intensity is set almost entirely by how high the sun sits in the sky. The lower
+        the sun, the longer the slanted path each ray takes through the atmosphere, and the more UV
+        is absorbed before it arrives. That geometry is why UV peaks within an hour or two of solar
+        noon &mdash; broadly the late-morning-to-mid-afternoon window &mdash; and why it collapses
+        by early evening even on days that stay hot.
+      </p>
+      <p>
+        Four other things move the number, and none of them is temperature:
+      </p>
+      <ul class="plain-list">
+        <li>
+          <strong>Altitude.</strong> There is less atmosphere overhead, so UV rises by roughly ten
+          per cent for every thousand metres of elevation. Mountains combine this with cold air,
+          which is exactly why alpine skiing produces so many surprise burns.
+        </li>
+        <li>
+          <strong>Reflection.</strong> Fresh snow can bounce back most of the UV that hits it,
+          effectively doubling your exposure and delivering it from below, where hats do not help.
+          Dry sand and open water reflect far less but still add meaningfully to a long day out.
+        </li>
+        <li>
+          <strong>Ozone.</strong> The stratospheric ozone column absorbs UVB before it reaches you,
+          and it varies with season and latitude &mdash; part of why identical sun angles give
+          different index values in different parts of the world.
+        </li>
+        <li>
+          <strong>Cloud.</strong> Thin or broken cloud blocks much less UV than it blocks visible
+          light and warmth, so an overcast-looking day can still deliver a high index. Scattered
+          cumulus can even push readings briefly above the clear-sky value, as light reflects off
+          the bright edges of clouds and adds to the direct beam.
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>What sunscreen actually does</h2>
+      <p>
+        SPF describes how much longer skin protected by a correctly applied film takes to redden
+        compared with unprotected skin, and it maps to a filtering fraction that flattens out fast:
+        SPF 15 absorbs roughly 93 per cent of UVB, SPF 30 about 97 per cent, and SPF 50 about 98 per
+        cent. The jump from 15 to 30 is worth making; the jump from 30 to 50 buys you a little
+        margin for imperfect application rather than a step change in protection.
+      </p>
+      <p>
+        The catch is "correctly applied". SPF is measured in the laboratory at 2 milligrams of
+        product per square centimetre of skin &mdash; about a teaspoon for the face and neck, and
+        the better part of a shot glass for a whole adult body in swimwear. Most people apply
+        somewhere between a quarter and a half of that, and protection falls off faster than the
+        shortfall suggests. Applying the labelled SPF thinly is closer to wearing a much lower SPF
+        than to wearing the one on the bottle.
+      </p>
+      <p>
+        Reapply every two hours while you are out, and immediately after swimming, heavy sweating or
+        towelling off, regardless of what the bottle claims about water resistance. And treat
+        sunscreen as the last line rather than the first: shade in the middle of the day, a
+        close-woven shirt, a brimmed hat and wrap-around sunglasses all outperform it, because none
+        of them wears off.
+      </p>
+    </section>
+
+    <section>
+      <h2>Reading it in the app</h2>
+      <p>
+        Cloudora Weather shows the current UV index in the details strip alongside humidity, wind,
+        pressure and visibility, labelled from Low through to Extreme using the bands above &mdash;
+        so you get the category, not just a bare number, at the moment you are deciding whether to
+        walk or wait. If you are planning around a whole afternoon outdoors, it is worth reading
+        together with the
+        <a routerLink="/guides/feels-like-temperature">feels-like temperature</a>, which tells you
+        what that same afternoon will do to your heat load.
+      </p>
+      <p><a routerLink="/features">See the full feature list &rarr;</a></p>
+    </section>
+  </article>
+
+  <app-guide-outro [related]="related" />
+</div>

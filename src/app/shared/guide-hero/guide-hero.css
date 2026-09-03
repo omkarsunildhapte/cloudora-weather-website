@@ -1,0 +1,59 @@
+/* Same atmosphere recipe as the home/features heroes, dialled down: a guide
+   is a reading page, so the glow stays behind the text rather than competing
+   with it. */
+.guide-glow {
+  background: radial-gradient(
+    ellipse 760px 420px at 30% -15%,
+    rgba(0, 217, 255, 0.2),
+    transparent 64%
+  );
+}
+
+.guide-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 70% 60% at 40% 10%, black 30%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 40% 10%, black 30%, transparent 85%);
+}
+
+.guide-gradient-text {
+  background: linear-gradient(
+    90deg,
+    #f4faff,
+    var(--color-brand-secondary) 65%,
+    var(--color-brand-accent)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Staggered entrance — above the fold, so on-load like .hero-in/.feat-in
+   rather than a @defer trigger. */
+.gd-in {
+  opacity: 0;
+  animation: fade-in-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.gd-in-1 {
+  animation-delay: 0ms;
+}
+.gd-in-2 {
+  animation-delay: 90ms;
+}
+.gd-in-3 {
+  animation-delay: 180ms;
+}
+.gd-in-4 {
+  animation-delay: 270ms;
+}
+.gd-in-5 {
+  animation-delay: 360ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gd-in {
+    animation: none;
+    opacity: 1;
+  }
+}

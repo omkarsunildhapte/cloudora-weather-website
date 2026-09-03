@@ -1,0 +1,169 @@
+<app-sunrise-layer />
+
+<div class="relative z-10">
+  <app-guide-hero
+    eyebrow="Air Quality"
+    icon="leaf"
+    titleLead="What the Air Quality Index"
+    titleAccent="Actually Means"
+    summary="Your weather app says the air is 'Moderate'. Moderate compared to what, made of what, and does it change what you should do today?"
+    readingTime="6 min read"
+    [updated]="updated"
+  />
+
+  <article class="guide-body max-w-3xl mx-auto px-5 md:px-8 pb-16">
+    <section>
+      <h2>An index is a translation, not a measurement</h2>
+      <p>
+        Air quality instruments don't measure "air quality". They measure concentrations: how many
+        micrograms of one specific pollutant sit in a cubic metre of air, written µg/m³. Those
+        numbers are exact and almost useless at a glance &mdash; is 38 µg/m³ of fine particulate a
+        problem? An air quality index does the translation for you. It compares each measured
+        pollutant against a set of health-based thresholds, converts each into a band, and reports
+        the band of whichever pollutant is doing worst.
+      </p>
+      <p>
+        The consequence is that there is no single AQI. The United States EPA runs a 0–500 scale.
+        The European Environment Agency publishes a six-band index. India, China and many other
+        countries maintain their own. The same air genuinely can be "Moderate" on one scale and
+        "Unhealthy for Sensitive Groups" on another, because the scales encode different regulatory
+        thresholds &mdash; not different air. So a rating is only meaningful once you know which
+        scale produced it.
+      </p>
+      <p>
+        Cloudora Weather shows OpenWeatherMap's index, which runs 1 to 5: Good, Fair, Moderate,
+        Poor, Very Poor. These are the concentration bands behind it.
+      </p>
+
+      <div class="table-scroll">
+        <table class="band-table">
+          <caption>
+            OpenWeatherMap air pollution index bands, in µg/m³.
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Index</th>
+              <th scope="col">Rating</th>
+              <th scope="col">PM2.5</th>
+              <th scope="col">PM10</th>
+              <th scope="col">Ozone</th>
+              <th scope="col">NO<sub>2</sub></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (band of bands; track band.index) {
+              <tr>
+                <td>{{ band.index }}</td>
+                <th scope="row">{{ band.name }}</th>
+                <td>{{ band.pm25 }}</td>
+                <td>{{ band.pm10 }}</td>
+                <td>{{ band.ozone }}</td>
+                <td>{{ band.no2 }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>The four pollutants that usually decide the number</h2>
+      <p>
+        <strong>PM2.5</strong> is fine particulate matter: airborne particles 2.5 micrometres across
+        or smaller, roughly a thirtieth the width of a human hair. That size matters. Particles this
+        small slip past the nose and throat's defences, reach the alveoli deep in the lungs, and in
+        the finest fractions cross into the bloodstream. It comes overwhelmingly from combustion
+        &mdash; vehicle exhaust, coal and biomass burning, wildfire smoke &mdash; plus secondary
+        particles that form in the air out of other pollutant gases. It carries the strongest
+        evidence of long-term harm of any common pollutant, which is why it is usually the one
+        setting the index.
+      </p>
+      <p>
+        <strong>PM10</strong> is the coarser fraction, up to 10 micrometres: road dust, construction
+        and demolition, agricultural soil, sea salt, pollen. It deposits higher up in the airway, so
+        it irritates more than it penetrates. Because PM10 includes PM2.5 by definition, a PM10
+        spike with no matching PM2.5 rise almost always means dust rather than smoke.
+      </p>
+      <p>
+        <strong>Ozone</strong> at ground level isn't emitted by anything. It is manufactured in the
+        air when sunlight drives reactions between nitrogen oxides and volatile organic compounds.
+        That makes it a hot, bright, still-afternoon pollutant, typically peaking in the mid to late
+        afternoon &mdash; and it can be worse in the suburbs downwind of a city than in the city
+        centre, because the chemistry needs time and sunlight to run. It is a powerful airway
+        irritant even in people with no respiratory condition.
+      </p>
+      <p>
+        <strong>Nitrogen dioxide</strong> comes mainly from combustion engines, diesel above all. It
+        is the most local of the four: concentrations fall off sharply within roughly a hundred
+        metres of a busy road, which is a large part of why the reading for your city can feel wrong
+        for your street.
+      </p>
+      <p>
+        For context on how demanding "good" really is: the World Health Organization's 2021 air
+        quality guidelines set an annual mean of 5 µg/m³ for PM2.5 and a 24-hour mean of 15 µg/m³,
+        with 15 and 45 µg/m³ respectively for PM10. Those are health targets rather than
+        expectations &mdash; most of the world's cities sit above them, and an index reading of
+        "Good" does not automatically mean the air meets them.
+      </p>
+    </section>
+
+    <section>
+      <h2>What each level should change about your day</h2>
+      <p>
+        "Sensitive groups" is doing a lot of work in air quality advice. It means people with
+        asthma, COPD or other chronic lung disease, people with heart disease, young children, older
+        adults, and people who are pregnant. If that's you, act one band earlier than everyone else.
+      </p>
+      <ul class="advice-list">
+        @for (level of advice; track level.index) {
+          <li>
+            <p class="advice-heading">
+              <span class="advice-index">{{ level.index }}</span>
+              {{ level.name }}
+            </p>
+            <p class="advice-line"><span class="advice-label">Everyone</span> {{ level.everyone }}</p>
+            <p class="advice-line">
+              <span class="advice-label">Sensitive groups</span> {{ level.sensitive }}
+            </p>
+          </li>
+        }
+      </ul>
+    </section>
+
+    <section>
+      <h2>Why the reading moves so much</h2>
+      <p>
+        Most of the day-to-day variation is weather, not emissions. Wind disperses pollution and
+        calm air lets it accumulate. A temperature inversion &mdash; a layer of warm air sitting on
+        top of cold air near the ground &mdash; puts a lid on the lowest few hundred metres of the
+        atmosphere and traps everything underneath it, which is why the worst readings in many
+        cities come on still, cold winter mornings rather than on busy summer days. Rain scrubs
+        particles out of the air, and the hours after a downpour are often the cleanest of the week.
+      </p>
+      <p>
+        Time of day matters too, and differently per pollutant: nitrogen dioxide tracks rush hour,
+        ozone peaks with the afternoon sun, and particulate tends to rise in the evening where
+        wood or coal is burned for heat. And every reading comes from a monitoring station that may
+        be several kilometres away, so treat it as a good estimate for your neighbourhood rather
+        than a measurement at your front door.
+      </p>
+    </section>
+
+    <section>
+      <h2>Where this shows up in the app</h2>
+      <p>
+        Cloudora Weather puts the air quality rating on the home screen next to the current
+        temperature, so it is something you glance at rather than something you go looking for. The
+        underlying data is OpenWeatherMap's air pollution feed &mdash; the same source the bands
+        above are defined against. If air quality is the reading you care about most, it pairs
+        naturally with the <a routerLink="/guides/uv-index">UV index</a>, since both are numbers
+        that change what a sunny afternoon actually costs you.
+      </p>
+      <p>
+        <a routerLink="/features">See the full feature list &rarr;</a>
+      </p>
+    </section>
+  </article>
+
+  <app-guide-outro [related]="related" />
+</div>

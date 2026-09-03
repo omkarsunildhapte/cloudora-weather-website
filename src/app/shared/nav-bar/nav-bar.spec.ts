@@ -42,6 +42,23 @@ describe('NavBar', () => {
     expect(nav.mobileMenuOpen()).toBe(false);
   });
 
+  it('exposes the Guides link in both the desktop nav and the mobile menu', () => {
+    const fixture = TestBed.createComponent(NavBar);
+    fixture.detectChanges();
+
+    const hrefs = () =>
+      Array.from(
+        fixture.nativeElement.querySelectorAll('a') as NodeListOf<HTMLAnchorElement>,
+      ).map((a) => a.getAttribute('href'));
+
+    // Desktop nav is always rendered; the mobile menu only when open.
+    expect(hrefs().filter((h) => h === '/guides').length).toBe(1);
+
+    fixture.componentInstance.toggleMenu();
+    fixture.detectChanges();
+    expect(hrefs().filter((h) => h === '/guides').length).toBe(2);
+  });
+
   it('onWindowScroll() marks the nav scrolled past the 12px threshold', () => {
     const fixture = TestBed.createComponent(NavBar);
     const nav = fixture.componentInstance;

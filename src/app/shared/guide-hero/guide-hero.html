@@ -1,0 +1,33 @@
+<section class="guide-hero relative overflow-hidden">
+  <div class="absolute inset-0 -z-20 guide-glow" aria-hidden="true"></div>
+  <div class="absolute inset-0 -z-10 guide-grid" aria-hidden="true"></div>
+
+  <div class="relative max-w-3xl mx-auto px-5 md:px-8 pt-14 md:pt-20 pb-12 md:pb-16">
+    <nav class="gd-in gd-in-1 text-xs text-gray-500 mb-6" aria-label="Breadcrumb">
+      <a routerLink="/" class="hover:text-white transition-colors">Home</a>
+      <span class="mx-2 text-gray-700">/</span>
+      <a routerLink="/guides" class="hover:text-white transition-colors">Guides</a>
+    </nav>
+
+    <div
+      class="gd-in gd-in-2 inline-flex items-center gap-2 text-xs text-brand-primary bg-brand-primary/10 border border-brand-primary/25 rounded-full px-3.5 py-1.5 mb-6"
+    >
+      <span class="w-3.5 h-3.5"><app-feature-icon [key]="icon()" /></span>
+      {{ eyebrow() }}
+    </div>
+
+    <h1 class="gd-in gd-in-3 text-3xl md:text-[2.75rem] font-bold text-white tracking-tight leading-[1.12]">
+      {{ titleLead() }} <span class="guide-gradient-text">{{ titleAccent() }}</span>
+    </h1>
+
+    <p class="gd-in gd-in-4 text-base text-gray-400 mt-5 leading-relaxed">{{ summary() }}</p>
+
+    <p class="gd-in gd-in-5 mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-gray-500">
+      <span>{{ readingTime() }}</span>
+      <span class="w-1 h-1 rounded-full bg-gray-700" aria-hidden="true"></span>
+      <span>Updated {{ updated() }}</span>
+      <span class="w-1 h-1 rounded-full bg-gray-700" aria-hidden="true"></span>
+      <span>Cloudora Weather Guides</span>
+    </p>
+  </div>
+</section>

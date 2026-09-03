@@ -1,0 +1,153 @@
+/* ---------- Guide prose ----------
+   Deliberately duplicated across the four guide pages rather than lifted into
+   styles.css: frontend-rules Rule 4 keeps component styling in the component
+   that uses it, and these rules only work through element selectors on markup
+   that lives in this template (a shared wrapper component couldn't style
+   projected content — see shared/legal-section's note on the same problem). */
+.guide-body > section {
+  padding-top: 2.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.guide-body > section:first-of-type {
+  padding-top: 0;
+  border-top: none;
+}
+
+.guide-body h2 {
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  margin: 0 0 1rem;
+}
+
+.guide-body p {
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: #9aa8bd;
+  margin: 0 0 1.1rem;
+}
+
+@media (min-width: 768px) {
+  .guide-body h2 {
+    font-size: 1.625rem;
+  }
+  .guide-body p {
+    font-size: 1rem;
+  }
+}
+
+.guide-body strong {
+  color: #e6edf7;
+  font-weight: 600;
+}
+
+.guide-body a {
+  color: var(--color-brand-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(0, 217, 255, 0.35);
+  transition: color 0.2s ease;
+}
+.guide-body a:hover {
+  color: #ffffff;
+}
+
+/* ---------- Band table ---------- */
+.table-scroll {
+  overflow-x: auto;
+  margin: 0 0 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.band-table {
+  width: 100%;
+  min-width: 34rem;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+}
+.band-table caption {
+  caption-side: bottom;
+  padding: 0.75rem 1rem 0.9rem;
+  font-size: 0.75rem;
+  color: #64748b;
+  text-align: left;
+}
+.band-table th,
+.band-table td {
+  padding: 0.65rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.band-table thead th {
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-brand-primary);
+  font-weight: 600;
+}
+.band-table tbody th {
+  color: #e6edf7;
+  font-weight: 600;
+}
+.band-table tbody td {
+  color: #9aa8bd;
+  font-variant-numeric: tabular-nums;
+}
+.band-table tbody tr:last-child th,
+.band-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ---------- Per-level advice ---------- */
+.advice-list {
+  list-style: none;
+  margin: 0 0 1.25rem;
+  padding: 0;
+}
+.advice-list > li {
+  padding: 1.1rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+.advice-list > li:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.advice-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.9375rem !important;
+  font-weight: 600;
+  color: #ffffff !important;
+  margin: 0 0 0.6rem !important;
+}
+
+.advice-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  color: var(--color-brand-primary);
+  background: rgba(0, 217, 255, 0.12);
+  border: 1px solid rgba(0, 217, 255, 0.3);
+}
+
+.advice-line {
+  margin: 0 0 0.4rem !important;
+  font-size: 0.875rem !important;
+  line-height: 1.65 !important;
+}
+
+.advice-label {
+  display: inline-block;
+  min-width: 8.5rem;
+  color: #cbd5e1;
+  font-weight: 600;
+}

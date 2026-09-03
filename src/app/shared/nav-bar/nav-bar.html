@@ -12,7 +12,7 @@
       >
     </a>
 
-    <div class="hidden md:flex items-center gap-8">
+    <div class="hidden md:flex items-center gap-6 lg:gap-8">
       <a
         routerLink="/"
         routerLinkActive="nav-link-active text-white"
@@ -25,6 +25,12 @@
         routerLinkActive="nav-link-active text-white"
         class="nav-link text-sm text-gray-300 hover:text-white transition-colors"
         >Features</a
+      >
+      <a
+        routerLink="/guides"
+        routerLinkActive="nav-link-active text-white"
+        class="nav-link text-sm text-gray-300 hover:text-white transition-colors"
+        >Guides</a
       >
       <a
         routerLink="/contact"
@@ -68,6 +74,7 @@
     <div class="md:hidden glass-nav border-t border-white/5 px-5 py-4 flex flex-col gap-4">
       <a routerLink="/" (click)="closeMenu()" class="text-sm text-gray-200">Home</a>
       <a routerLink="/features" (click)="closeMenu()" class="text-sm text-gray-200">Features</a>
+      <a routerLink="/guides" (click)="closeMenu()" class="text-sm text-gray-200">Guides</a>
       <a routerLink="/contact" (click)="closeMenu()" class="text-sm text-gray-200">Contact</a>
       <app-play-store-button variant="secondary" />
     </div>

@@ -16,6 +16,27 @@ describe('Footer', () => {
     expect(fixture.componentInstance).toBeTruthy();
   });
 
+  it('links every site route from the Site and Legal columns', () => {
+    const fixture = TestBed.createComponent(Footer);
+    fixture.detectChanges();
+
+    const hrefs = Array.from(
+      fixture.nativeElement.querySelectorAll('a') as NodeListOf<HTMLAnchorElement>,
+    ).map((a) => a.getAttribute('href'));
+
+    for (const path of [
+      '/',
+      '/features',
+      '/guides',
+      '/whats-new',
+      '/contact',
+      '/privacy-policy',
+      '/terms-of-service',
+    ]) {
+      expect(hrefs).toContain(path);
+    }
+  });
+
   it('renders the current company name and year in the copyright line', () => {
     const fixture = TestBed.createComponent(Footer);
     fixture.detectChanges();

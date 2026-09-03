@@ -1,0 +1,119 @@
+<div class="live-card glass-panel relative overflow-hidden p-6 md:p-9">
+  <div class="absolute inset-0 -z-10 live-glow" aria-hidden="true"></div>
+
+  <!-- City picker. Buttons, not links: this swaps data in place, it doesn't
+       navigate, so there is no URL for a crawler to follow here. -->
+  <div class="flex flex-wrap items-center gap-2 mb-7">
+    @for (city of cities; track city.id) {
+      <button
+        type="button"
+        class="live-chip"
+        [class.is-active]="city.id === selectedCity().id"
+        [attr.aria-pressed]="city.id === selectedCity().id"
+        (click)="select(city.id)"
+      >
+        {{ city.name }}
+      </button>
+    }
+  </div>
+
+  <!-- Error is checked first on purpose: reading `value()` while the resource
+       is in its error state re-throws the loader's error. -->
+  @if (snapshot.error()) {
+    <!-- Degraded, not broken: the section still says what the app does and
+         still converts, it just can't show a number right now. -->
+    <div class="live-body flex flex-col items-start gap-4 py-2">
+      <span class="condition-orb shrink-0"><app-feature-icon key="cloud" /></span>
+      <div>
+        <p class="text-lg font-semibold text-white">Live conditions are taking a break</p>
+        <p class="text-sm text-gray-400 mt-2 max-w-md leading-relaxed">
+          This preview couldn't reach the weather service just now. It's only the demo on this page
+          that's affected &mdash; the app caches your last forecast and keeps working offline.
+        </p>
+      </div>
+      <div class="flex flex-wrap items-center gap-4 mt-1">
+        <button type="button" class="live-retry" (click)="retry()">Try again</button>
+        <a
+          routerLink="/features"
+          class="text-sm text-brand-primary hover:text-white transition-colors"
+          >See what the app shows &rarr;</a
+        >
+      </div>
+    </div>
+  } @else if (snapshot.value(); as reading) {
+    <div class="live-body grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:gap-10">
+      <div>
+        <p class="flex items-center gap-2 text-xs text-gray-400">
+          <span class="live-dot" aria-hidden="true"></span>
+          <span class="text-brand-primary font-semibold tracking-wide uppercase">Live</span>
+          <span class="text-gray-600">&middot;</span>
+          {{ reading.place }} &middot; {{ reading.observedAt }} local
+        </p>
+
+        <div class="flex items-start gap-5 mt-5">
+          <span class="condition-orb shrink-0" [class.is-night]="reading.isNight">
+            <app-feature-icon [key]="reading.icon" />
+          </span>
+          <div>
+            <p class="live-temp">{{ reading.temperature }}<span class="live-degree">°C</span></p>
+            <p class="text-sm md:text-base text-gray-300 mt-1">{{ reading.condition }}</p>
+            <p class="text-xs text-gray-500 mt-2">
+              Feels like {{ reading.feelsLike }}° &middot; L {{ reading.low }}° / H
+              {{ reading.high }}°
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <dl class="detail-grid">
+        @for (detail of reading.details; track detail.label) {
+          <div class="detail-tile">
+            <span class="detail-icon" aria-hidden="true"
+              ><app-feature-icon [key]="detail.icon"
+            /></span>
+            <div class="min-w-0">
+              <dt class="text-[11px] uppercase tracking-wide text-gray-500">{{ detail.label }}</dt>
+              <dd class="text-sm text-white mt-0.5 truncate">{{ detail.value }}</dd>
+            </div>
+          </div>
+        }
+      </dl>
+    </div>
+  } @else {
+    <!-- Loading skeleton, sized to the resolved card so the swap doesn't shift
+         the page. Also what the prerendered HTML ships. -->
+    <div class="live-body grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:gap-10">
+      <div aria-hidden="true">
+        <span class="skeleton block h-3.5 w-52 rounded-full"></span>
+        <div class="flex items-start gap-5 mt-5">
+          <span class="skeleton block w-14 h-14 rounded-2xl shrink-0"></span>
+          <div class="flex-1">
+            <span class="skeleton block h-12 w-32 rounded-xl"></span>
+            <span class="skeleton block h-3.5 w-36 rounded-full mt-3"></span>
+            <span class="skeleton block h-3 w-44 rounded-full mt-2.5"></span>
+          </div>
+        </div>
+      </div>
+      <div class="detail-grid" aria-hidden="true">
+        @for (tile of skeletonTiles; track tile) {
+          <div class="detail-tile">
+            <span class="skeleton block w-8 h-8 rounded-lg shrink-0"></span>
+            <div class="flex-1">
+              <span class="skeleton block h-2.5 w-14 rounded-full"></span>
+              <span class="skeleton block h-3 w-20 rounded-full mt-2"></span>
+            </div>
+          </div>
+        }
+      </div>
+      <p class="sr-only-live">Loading live weather conditions.</p>
+    </div>
+  }
+
+  <p class="mt-7 pt-5 border-t border-white/8 text-xs text-gray-500 leading-relaxed">
+    Real observations from OpenWeatherMap &mdash; the same source Cloudora Weather uses, requested
+    through this site's own server so no API key ever ships to your browser.
+    <a routerLink="/features" class="text-brand-primary hover:text-white transition-colors"
+      >See every reading the app gives you &rarr;</a
+    >
+  </p>
+</div>
