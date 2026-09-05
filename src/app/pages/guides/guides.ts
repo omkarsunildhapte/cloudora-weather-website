@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FeatureIcon } from '@shared/feature-icon/feature-icon';
 import { PlayStoreButton } from '@shared/play-store-button/play-store-button';
@@ -14,7 +15,7 @@ import { GUIDES, GUIDES_PATH, SITE_URL } from '@constants/index';
  */
 @Component({
   selector: 'app-guides',
-  imports: [RouterLink, FeatureIcon, PlayStoreButton, SunriseLayer],
+  imports: [NgOptimizedImage, RouterLink, FeatureIcon, PlayStoreButton, SunriseLayer],
   templateUrl: './guides.html',
   styleUrl: './guides.css',
 })

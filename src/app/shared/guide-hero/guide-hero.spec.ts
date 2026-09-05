@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { GuideHero } from '@shared/guide-hero/guide-hero';
+import { GuideHeroContent } from '@appTypes/index';
 
 describe('GuideHero', () => {
   beforeEach(async () => {
@@ -12,13 +13,15 @@ describe('GuideHero', () => {
 
   function render() {
     const fixture = TestBed.createComponent(GuideHero);
-    fixture.componentRef.setInput('eyebrow', 'Air Quality');
-    fixture.componentRef.setInput('icon', 'leaf');
-    fixture.componentRef.setInput('titleLead', 'What the Air Quality Index');
-    fixture.componentRef.setInput('titleAccent', 'Actually Means');
-    fixture.componentRef.setInput('summary', 'A short standfirst.');
-    fixture.componentRef.setInput('readingTime', '6 min read');
-    fixture.componentRef.setInput('updated', 'September 4, 2026');
+    fixture.componentRef.setInput('content', {
+      eyebrow: 'Air Quality',
+      icon: 'leaf',
+      titleLead: 'What the Air Quality Index',
+      titleAccent: 'Actually Means',
+      summary: 'A short standfirst.',
+      readingTime: '6 min read',
+      updated: 'September 4, 2026',
+    } satisfies GuideHeroContent);
     fixture.detectChanges();
     return fixture;
   }

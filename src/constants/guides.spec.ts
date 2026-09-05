@@ -1,4 +1,13 @@
-import { GUIDES, GUIDES_PATH, otherGuides } from '@constants/index';
+import {
+  AIR_QUALITY_GUIDE_PATH,
+  FEELS_LIKE_GUIDE_PATH,
+  GUIDES,
+  GUIDES_PATH,
+  GUIDES_UPDATED,
+  RADAR_GUIDE_PATH,
+  UV_GUIDE_PATH,
+  otherGuides,
+} from '@constants/index';
 
 describe('guides catalogue', () => {
   it('lists four guides, each under the /guides path with a unique slug', () => {
@@ -32,5 +41,31 @@ describe('guides catalogue', () => {
 
   it('otherGuides() returns the whole catalogue for a path that is not a guide', () => {
     expect(otherGuides('/features').length).toBe(GUIDES.length);
+  });
+
+  it('exposes a named path constant for every catalogue entry', () => {
+    // The guide pages import these instead of retyping the literal. If one drifted
+    // from the catalogue, otherGuides() would stop matching and the page would
+    // cross-link to itself — silently, as the test above shows.
+    const named = [
+      AIR_QUALITY_GUIDE_PATH,
+      UV_GUIDE_PATH,
+      FEELS_LIKE_GUIDE_PATH,
+      RADAR_GUIDE_PATH,
+    ];
+
+    expect(new Set(named).size).toBe(named.length);
+    expect([...named].sort()).toEqual([...GUIDES.map((g) => g.path)].sort());
+  });
+
+  it('states the last-updated date identically in both formats', () => {
+    const rendered = new Date(`${GUIDES_UPDATED.iso}T00:00:00Z`).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      timeZone: 'UTC',
+    });
+
+    expect(GUIDES_UPDATED.display).toBe(rendered);
   });
 });

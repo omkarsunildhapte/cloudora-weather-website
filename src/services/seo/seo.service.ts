@@ -3,9 +3,7 @@ import { Service, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { SeoData } from '@appTypes/index';
 import { SITE_URL } from '@constants/index';
-
-const STRUCTURED_DATA_ID = 'page-structured-data';
-const CANONICAL_LINK_ID = 'page-canonical-link';
+import { CANONICAL_LINK_ID, STRUCTURED_DATA_ID } from '@constants/index';
 
 /**
  * Updates document title + description/OG meta tags, the canonical link,

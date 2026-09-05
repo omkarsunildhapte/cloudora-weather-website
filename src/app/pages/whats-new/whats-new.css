@@ -1,11 +1,5 @@
 /* ---------- Header ---------- */
-.wn-glow {
-  background: radial-gradient(
-    ellipse 780px 460px at 50% -10%,
-    rgba(0, 217, 255, 0.24),
-    transparent 62%
-  );
-}
+.wn-glow { background: radial-gradient(     ellipse 780px 460px at 50% -10%,     rgba(0, 217, 255, 0.24),     transparent 62%   ); }
 
 .wn-grid {
   background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
@@ -27,10 +21,7 @@
   -webkit-text-fill-color: transparent;
 }
 
-.wn-in {
-  opacity: 0;
-  animation: fade-in-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
+.wn-in { opacity: 0; animation: fade-in-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
 .wn-in-1 {
   animation-delay: 0ms;
 }
@@ -48,26 +39,15 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .wn-in {
-    animation: none;
-    opacity: 1;
-  }
+  .wn-in { animation: none; opacity: 1; }
 }
 
 /* ---------- Timeline ----------
    A rail down the left with a dot per release, so a second and third entry
    read as a history rather than as three unrelated cards. */
-.release-timeline {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
+.release-timeline { list-style: none; margin: 0; padding: 0; }
 
-.release {
-  position: relative;
-  padding-left: 1.75rem;
-  padding-bottom: 2.5rem;
-}
+.release { position: relative; padding-left: 1.75rem; padding-bottom: 2.5rem; }
 .release::before {
   content: '';
   position: absolute;
@@ -117,23 +97,10 @@
 }
 
 /* ---------- Change entries ---------- */
-.change-list {
-  list-style: none;
-  margin: 1.5rem 0 0;
-  padding: 0;
-}
+.change-list { list-style: none; margin: 1.5rem 0 0; padding: 0; }
 
-.change {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.85rem;
-  padding: 0.95rem 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
-}
-.change:first-child {
-  border-top: none;
-  padding-top: 0;
-}
+.change { display: flex; align-items: flex-start; gap: 0.85rem; padding: 0.95rem 0; border-top: 1px solid rgba(255, 255, 255, 0.07); }
+.change:first-child { border-top: none; padding-top: 0; }
 
 .change-kind {
   flex-shrink: 0;
@@ -147,18 +114,6 @@
   padding: 0.25rem 0.5rem;
   border-radius: 0.45rem;
 }
-.kind-new {
-  color: var(--color-brand-primary);
-  background: rgba(0, 217, 255, 0.1);
-  border: 1px solid rgba(0, 217, 255, 0.28);
-}
-.kind-improved {
-  color: var(--color-brand-secondary);
-  background: rgba(22, 140, 255, 0.12);
-  border: 1px solid rgba(22, 140, 255, 0.3);
-}
-.kind-fixed {
-  color: var(--color-brand-sun);
-  background: rgba(255, 210, 31, 0.1);
-  border: 1px solid rgba(255, 210, 31, 0.28);
-}
+.kind-new { color: var(--color-brand-primary); background: rgba(0, 217, 255, 0.1); border: 1px solid rgba(0, 217, 255, 0.28); }
+.kind-improved { color: var(--color-brand-secondary); background: rgba(22, 140, 255, 0.12); border: 1px solid rgba(22, 140, 255, 0.3); }
+.kind-fixed { color: var(--color-brand-sun); background: rgba(255, 210, 31, 0.1); border: 1px solid rgba(255, 210, 31, 0.28); }

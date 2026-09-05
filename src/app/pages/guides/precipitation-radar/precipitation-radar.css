@@ -1,104 +1,9 @@
-/* ---------- Guide prose ----------
-   Deliberately duplicated across the four guide pages rather than lifted into
-   styles.css: frontend-rules Rule 4 keeps component styling in the component
-   that uses it, and these rules only work through element selectors on markup
-   that lives in this template. */
-.guide-body > section {
-  padding-top: 2.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-.guide-body > section:first-of-type {
-  padding-top: 0;
-  border-top: none;
-}
-
-.guide-body h2 {
-  font-size: 1.375rem;
-  font-weight: 600;
-  color: #ffffff;
-  letter-spacing: -0.01em;
-  margin: 0 0 1rem;
-}
-
-.guide-body p {
-  font-size: 0.9375rem;
-  line-height: 1.75;
-  color: #9aa8bd;
-  margin: 0 0 1.1rem;
-}
-
-@media (min-width: 768px) {
-  .guide-body h2 {
-    font-size: 1.625rem;
-  }
-  .guide-body p {
-    font-size: 1rem;
-  }
-}
-
-.guide-body strong {
-  color: #e6edf7;
-  font-weight: 600;
-}
-
-.guide-body a {
-  color: var(--color-brand-primary);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-color: rgba(0, 217, 255, 0.35);
-  transition: color 0.2s ease;
-}
-.guide-body a:hover {
-  color: #ffffff;
-}
-
-/* Bulleted list inside the prose flow */
-.plain-list {
-  list-style: none;
-  margin: 0 0 1.25rem;
-  padding: 0;
-}
-.plain-list > li {
-  position: relative;
-  padding-left: 1.15rem;
-  margin-bottom: 0.85rem;
-  font-size: 0.9375rem;
-  line-height: 1.7;
-  color: #9aa8bd;
-}
-.plain-list > li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.7em;
-  width: 0.35rem;
-  height: 0.35rem;
-  border-radius: 999px;
-  background: var(--color-brand-secondary);
-}
-
 /* ---------- Reflectivity bands ---------- */
-.dbz-bands {
-  list-style: none;
-  margin: 0 0 1.25rem;
-  padding: 0;
-}
-.dbz-bands > li {
-  padding: 0.95rem 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
-}
-.dbz-bands > li:first-child {
-  border-top: none;
-  padding-top: 0;
-}
+.dbz-bands { list-style: none; margin: 0 0 1.25rem; padding: 0; }
+.dbz-bands > li { padding: 0.95rem 0; border-top: 1px solid rgba(255, 255, 255, 0.07); }
+.dbz-bands > li:first-child { border-top: none; padding-top: 0; }
 
-.dbz-heading {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.65rem;
-  margin: 0 0 0.4rem !important;
-}
+.dbz-heading { display: flex; flex-wrap: wrap; align-items: center; gap: 0.65rem; margin: 0 0 0.4rem !important; }
 
 .dbz-value {
   display: inline-flex;
@@ -114,14 +19,6 @@
   border: 1px solid rgba(0, 217, 255, 0.28);
 }
 
-.dbz-colour {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #ffffff;
-}
+.dbz-colour { font-size: 0.875rem; font-weight: 600; color: #ffffff; }
 
-.dbz-meaning {
-  margin: 0 !important;
-  font-size: 0.875rem !important;
-  line-height: 1.7 !important;
-}
+.dbz-meaning { margin: 0 !important; font-size: 0.875rem !important; line-height: 1.7 !important; }

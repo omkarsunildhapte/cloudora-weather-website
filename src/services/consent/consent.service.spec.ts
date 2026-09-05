@@ -1,6 +1,6 @@
 import { Mock } from 'vitest';
 import { TestBed } from '@angular/core/testing';
-import { ConsentService } from './consent.service';
+import { ConsentService } from '@services/consent/consent.service';
 
 /** Node 25 exposes a Web Storage global that shadows jsdom's and throws
  *  unless --localstorage-file is passed, so the suite installs its own

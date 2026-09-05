@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LegalSection } from '@shared/legal-section/legal-section';
 import { PlayStoreButton } from '@shared/play-store-button/play-store-button';
@@ -13,9 +14,9 @@ import { CONTACT_EMAIL, COMPANY_NAME, COMPANY_URL, SITE_URL } from '@constants/i
  */
 @Component({
   selector: 'app-terms-of-service',
-  imports: [RouterLink, LegalSection, PlayStoreButton, FeatureIcon],
+  imports: [NgOptimizedImage, RouterLink, LegalSection, PlayStoreButton, FeatureIcon],
   templateUrl: './terms-of-service.html',
-  styleUrl: './terms-of-service.css',
+  styleUrls: ['../legal-chrome.css', '../legal-prose.css', './terms-of-service.css'],
 })
 export class TermsOfService implements OnInit {
   private readonly seo = inject(SeoService);

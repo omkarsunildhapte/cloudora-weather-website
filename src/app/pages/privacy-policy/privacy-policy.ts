@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LegalSection } from '@shared/legal-section/legal-section';
 import { PlayStoreButton } from '@shared/play-store-button/play-store-button';
@@ -17,9 +18,9 @@ import { CONTACT_EMAIL, COMPANY_NAME, COMPANY_URL, SITE_URL } from '@constants/i
  */
 @Component({
   selector: 'app-privacy-policy',
-  imports: [RouterLink, LegalSection, PlayStoreButton, FeatureIcon],
+  imports: [NgOptimizedImage, RouterLink, LegalSection, PlayStoreButton, FeatureIcon],
   templateUrl: './privacy-policy.html',
-  styleUrl: './privacy-policy.css',
+  styleUrls: ['../legal-chrome.css', '../legal-prose.css', './privacy-policy.css'],
 })
 export class PrivacyPolicy implements OnInit {
   private readonly seo = inject(SeoService);

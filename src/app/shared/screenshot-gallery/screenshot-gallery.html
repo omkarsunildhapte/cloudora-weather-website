@@ -28,14 +28,15 @@
           <span class="phone-notch" aria-hidden="true"></span>
           <div class="phone-screen w-full h-full overflow-hidden relative bg-brand-surface">
             @if (item.src) {
+              <!-- loading/decoding are not set here: NgOptimizedImage applies
+                   loading="lazy" and decoding="async" to every non-priority
+                   image itself, and setting `loading` alongside it is an error. -->
               <img
-                [src]="item.src"
+                [ngSrc]="item.src"
                 [alt]="item.alt"
                 width="540"
                 height="1170"
                 class="w-full h-full object-cover"
-                loading="lazy"
-                decoding="async"
               />
             } @else {
               <div

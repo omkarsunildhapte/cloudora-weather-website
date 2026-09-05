@@ -1,0 +1,21 @@
+/* Header treatment shared by the legal-style pages (Privacy Policy, Terms, Contact).
+   Scoped into each component via `styleUrls` rather than styles.css, which Rule 4 reserves
+   for brand tokens and truly global utilities. */
+
+.legal-glow { background: radial-gradient(     ellipse 700px 420px at 50% -10%,     rgba(0, 217, 255, 0.22),     transparent 62%   ); }
+
+.legal-gradient-text {
+  background: linear-gradient(
+    90deg,
+    #F4FAFF,
+    var(--color-brand-secondary) 65%,
+    var(--color-brand-accent)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Summary strip: one bordered row with dividers, not cards. */
+.summary-icon { width: 2rem; height: 2rem; padding: 0.4rem; color: var(--color-brand-secondary); }

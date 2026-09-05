@@ -1,15 +1,7 @@
 <app-sunrise-layer />
 
 <div class="relative z-10">
-  <app-guide-hero
-    eyebrow="Feels Like"
-    icon="droplet"
-    titleLead="Why 'Feels Like' Differs"
-    titleAccent="From the Real Temperature"
-    summary="The thermometer measures the air. The second number tries to measure you — and on a humid afternoon or a windy morning the two can be ten degrees apart."
-    readingTime="7 min read"
-    [updated]="updated"
-  />
+  <app-guide-hero [content]="hero" />
 
   <article class="guide-body max-w-3xl mx-auto px-5 md:px-8 pb-16">
     <section>

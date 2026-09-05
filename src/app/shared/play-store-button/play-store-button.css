@@ -1,20 +1,7 @@
-.ps-link {
-  display: inline-flex;
-  border-radius: 0.6rem;
-  transition:
-    transform 0.15s ease,
-    filter 0.15s ease;
-}
-.ps-link:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.08);
-}
+.ps-link { display: inline-flex; border-radius: 0.6rem; transition:     transform 0.15s ease,     filter 0.15s ease; }
+.ps-link:hover { transform: translateY(-2px); filter: brightness(1.08); }
 
-.ps-badge {
-  display: block;
-  width: auto;
-  border-radius: 0.6rem;
-}
+.ps-badge { display: block; width: auto; border-radius: 0.6rem; }
 
 .ps-primary .ps-badge {
   height: 64px;

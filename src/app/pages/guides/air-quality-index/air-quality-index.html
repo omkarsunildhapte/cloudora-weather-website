@@ -1,15 +1,7 @@
 <app-sunrise-layer />
 
 <div class="relative z-10">
-  <app-guide-hero
-    eyebrow="Air Quality"
-    icon="leaf"
-    titleLead="What the Air Quality Index"
-    titleAccent="Actually Means"
-    summary="Your weather app says the air is 'Moderate'. Moderate compared to what, made of what, and does it change what you should do today?"
-    readingTime="6 min read"
-    [updated]="updated"
-  />
+  <app-guide-hero [content]="hero" />
 
   <article class="guide-body max-w-3xl mx-auto px-5 md:px-8 pb-16">
     <section>

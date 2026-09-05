@@ -26,3 +26,14 @@ export const COMPANY_URL = 'https://vernoka-sand.vercel.app/';
  *  which can't import from here — change both together. Placeholder until
  *  the site's own GA4 property exists. */
 export const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX';
+
+/**
+ * The release-notes route.
+ *
+ * Also written out in `app.routes.ts` (without the leading slash, as Angular's
+ * route config wants it) and in the footer's routerLink. This constant is what
+ * the page itself uses for its canonical URL and JSON-LD, where a mismatch with
+ * the real route would be invisible on screen and wrong in search results.
+ */
+export const WHATS_NEW_PATH = '/whats-new';
+

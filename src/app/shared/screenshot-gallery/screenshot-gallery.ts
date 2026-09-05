@@ -1,4 +1,5 @@
 import { Component, input } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
 import { FeatureIcon } from '@shared/feature-icon/feature-icon';
 import { ScreenshotSlot } from '@appTypes/index';
 
@@ -19,7 +20,7 @@ import { ScreenshotSlot } from '@appTypes/index';
  */
 @Component({
   selector: 'app-screenshot-gallery',
-  imports: [FeatureIcon],
+  imports: [NgOptimizedImage, FeatureIcon],
   templateUrl: './screenshot-gallery.html',
   styleUrl: './screenshot-gallery.css',
 })

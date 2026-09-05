@@ -1,19 +1,7 @@
 /* ---------- Hero background layers ---------- */
-.hero-glow-primary {
-  background: radial-gradient(
-    ellipse 900px 520px at 30% -10%,
-    rgba(0, 217, 255, 0.26),
-    transparent 62%
-  );
-}
+.hero-glow-primary { background: radial-gradient(     ellipse 900px 520px at 30% -10%,     rgba(0, 217, 255, 0.26),     transparent 62%   ); }
 
-.hero-glow-accent {
-  background: radial-gradient(
-    ellipse 620px 420px at 88% 25%,
-    rgba(22, 140, 255, 0.18),
-    transparent 65%
-  );
-}
+.hero-glow-accent { background: radial-gradient(     ellipse 620px 420px at 88% 25%,     rgba(22, 140, 255, 0.18),     transparent 65%   ); }
 
 .hero-grid {
   background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
@@ -23,63 +11,20 @@
 }
 
 /* ---------- Floating math symbols, echoing the app icon's own motif ---------- */
-.hero-symbols {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: -5;
-  display: none;
-}
+.hero-symbols { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: -5; display: none; }
 @media (min-width: 768px) {
   .hero-symbols {
     display: block;
   }
 }
 
-.sym {
-  position: absolute;
-  font-weight: 600;
-  color: var(--color-brand-secondary);
-  opacity: 0.12;
-  animation: sym-float 7s ease-in-out infinite;
-}
-.sym-1 {
-  top: 14%;
-  left: 8%;
-  font-size: 2.75rem;
-  animation-delay: 0s;
-}
-.sym-2 {
-  top: 62%;
-  left: 5%;
-  font-size: 2rem;
-  animation-delay: 1.2s;
-}
-.sym-3 {
-  top: 20%;
-  right: 9%;
-  font-size: 2.25rem;
-  animation-delay: 0.6s;
-}
-.sym-4 {
-  top: 68%;
-  right: 12%;
-  font-size: 3rem;
-  animation-delay: 2s;
-}
-.sym-5 {
-  top: 42%;
-  left: 3%;
-  font-size: 1.75rem;
-  animation-delay: 3s;
-}
-.sym-6 {
-  top: 8%;
-  right: 22%;
-  font-size: 1.5rem;
-  animation-delay: 1.6s;
-}
+.sym { position: absolute; font-weight: 600; color: var(--color-brand-secondary); opacity: 0.12; animation: sym-float 7s ease-in-out infinite; }
+.sym-1 { top: 14%; left: 8%; font-size: 2.75rem; animation-delay: 0s; }
+.sym-2 { top: 62%; left: 5%; font-size: 2rem; animation-delay: 1.2s; }
+.sym-3 { top: 20%; right: 9%; font-size: 2.25rem; animation-delay: 0.6s; }
+.sym-4 { top: 68%; right: 12%; font-size: 3rem; animation-delay: 2s; }
+.sym-5 { top: 42%; left: 3%; font-size: 1.75rem; animation-delay: 3s; }
+.sym-6 { top: 8%; right: 22%; font-size: 1.5rem; animation-delay: 1.6s; }
 
 @keyframes sym-float {
   0%,
@@ -106,10 +51,7 @@
 }
 
 /* ---------- Staggered entrance ---------- */
-.hero-in {
-  opacity: 0;
-  animation: fade-in-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
+.hero-in { opacity: 0; animation: fade-in-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
 .hero-in-1 {
   animation-delay: 0ms;
 }
@@ -130,26 +72,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-in {
-    animation: none;
-    opacity: 1;
-  }
+  .hero-in { animation: none; opacity: 1; }
   .sym {
     animation: none;
   }
-}
-
-/* ---------- Final CTA panel ---------- */
-.cta-panel {
-  border-radius: 2rem;
-  border: 1px solid rgba(0, 217, 255, 0.25);
-  background: linear-gradient(160deg, rgba(0, 217, 255, 0.1), rgba(6, 21, 47, 0.35));
-}
-
-.cta-glow {
-  background: radial-gradient(
-    ellipse 700px 420px at 50% -10%,
-    rgba(0, 217, 255, 0.35),
-    transparent 65%
-  );
 }

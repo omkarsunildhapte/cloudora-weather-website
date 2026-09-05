@@ -1,29 +1,4 @@
-/* ---------- Header (same recipe as the other legal-style pages) ---------- */
-.legal-glow {
-  background: radial-gradient(
-    ellipse 700px 420px at 50% -10%,
-    rgba(0, 217, 255, 0.22),
-    transparent 62%
-  );
-}
-
-.legal-gradient-text {
-  background: linear-gradient(
-    90deg,
-    #F4FAFF,
-    var(--color-brand-secondary) 65%,
-    var(--color-brand-accent)
-  );
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-}
-
-.con-in {
-  opacity: 0;
-  animation: fade-in-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
+.con-in { opacity: 0; animation: fade-in-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
 .con-in-1 {
   animation-delay: 0ms;
 }
@@ -44,28 +19,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .con-in {
-    animation: none;
-    opacity: 1;
-  }
-}
-
-/* ---------- Summary strip: same recipe as the legal pages ---------- */
-.summary-icon {
-  width: 2rem;
-  height: 2rem;
-  padding: 0.4rem;
-  color: var(--color-brand-secondary);
+  .con-in { animation: none; opacity: 1; }
 }
 
 /* ---------- Honeypot: off-screen, not display:none (some bots skip that) ---------- */
-.hp-field {
-  position: absolute;
-  left: -9999px;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
+.hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
 /* ---------- Form fields: underline style, deliberately not boxed cards ---------- */
 .field-row {
@@ -80,13 +38,7 @@
   margin-top: 0;
 }
 
-.field-label {
-  display: block;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: #d1d5db;
-  margin-bottom: 0.5rem;
-}
+.field-label { display: block; font-size: 0.8rem; font-weight: 500; color: #d1d5db; margin-bottom: 0.5rem; }
 
 .field-input {
   width: 100%;
@@ -102,39 +54,17 @@
 .field-input::placeholder {
   color: #6b7280;
 }
-.field-input:focus {
-  outline: none;
-  border-bottom-color: var(--color-brand-secondary);
-}
+.field-input:focus { outline: none; border-bottom-color: var(--color-brand-secondary); }
 .field-input:disabled {
   opacity: 0.6;
 }
 
-.field-textarea {
-  resize: vertical;
-  min-height: 6rem;
-}
+.field-textarea { resize: vertical; min-height: 6rem; }
 
 /* ---------- Feedback: bordered + tinted callout, not plain colored text ---------- */
-.feedback-note {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  border-radius: 0.75rem;
-  font-size: 0.85rem;
-  line-height: 1.5;
-}
-.feedback-error {
-  background: rgba(248, 113, 113, 0.08);
-  border: 1px solid rgba(248, 113, 113, 0.25);
-  color: #fca5a5;
-}
-.feedback-success {
-  background: rgba(52, 211, 153, 0.08);
-  border: 1px solid rgba(52, 211, 153, 0.25);
-  color: #6ee7b7;
-}
+.feedback-note { display: flex; align-items: flex-start; gap: 0.5rem; padding: 0.75rem 1rem; border-radius: 0.75rem; font-size: 0.85rem; line-height: 1.5; }
+.feedback-error { background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.25); color: #fca5a5; }
+.feedback-success { background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.25); color: #6ee7b7; }
 
 /* ---------- Submit ---------- */
 .submit-btn {
@@ -151,11 +81,8 @@
     opacity 0.15s ease;
   box-shadow: 0 8px 24px -8px rgba(0, 217, 255, 0.6);
 }
-.submit-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px -8px rgba(0, 217, 255, 0.75);
-}
-.submit-btn:disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
-}
+.submit-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 12px 28px -8px rgba(0, 217, 255, 0.75); }
+.submit-btn:disabled { opacity: 0.65; cursor: not-allowed; }
+
+/* Per-field validation message from the signal form, under the control it belongs to. */
+.field-error { margin: 0.4rem 0 0; font-size: 0.8125rem; color: #fca5a5; }

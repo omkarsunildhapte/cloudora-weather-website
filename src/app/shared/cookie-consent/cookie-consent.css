@@ -23,10 +23,7 @@
 /* The Accept button is brand cyan with *dark* text: white on #00D9FF is only
    ~1.6:1, far below WCAG AA, whereas #020817 on it is ~13:1. Hover shifts a
    step lighter, still well clear of AA. */
-.consent-accept {
-  background: var(--color-brand-primary, #00d9ff);
-  color: var(--color-brand-dark, #020817);
-}
+.consent-accept { background: var(--color-brand-primary, #00d9ff); color: var(--color-brand-dark, #020817); }
 
 .consent-accept:hover {
   background: #4de5ff;

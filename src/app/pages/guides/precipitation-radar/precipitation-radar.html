@@ -1,15 +1,7 @@
 <app-sunrise-layer />
 
 <div class="relative z-10">
-  <app-guide-hero
-    eyebrow="Radar"
-    icon="radar"
-    titleLead="How to Read"
-    titleAccent="a Precipitation Radar Map"
-    summary="A radar map is not a forecast — it is a photograph of what is falling right now, taken with microwaves. Read it properly and you can time a walk to the minute."
-    readingTime="7 min read"
-    [updated]="updated"
-  />
+  <app-guide-hero [content]="hero" />
 
   <article class="guide-body max-w-3xl mx-auto px-5 md:px-8 pb-16">
     <section>

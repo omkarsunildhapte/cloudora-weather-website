@@ -2,14 +2,8 @@
    noisy "card soup" for a document meant to be read top to bottom. Each
    section instead separates from the next with a plain top divider — a
    continuous flowing document, closer to how a real legal page reads. */
-.legal-block {
-  padding: 1.75rem 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-.legal-block:first-of-type {
-  padding-top: 0;
-  border-top: none;
-}
+.legal-block { padding: 1.75rem 0; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+.legal-block:first-of-type { padding-top: 0; border-top: none; }
 
 /* Note: content passed via <ng-content> keeps the *page's* style scope
    (Angular emulated encapsulation), so list/link styling for projected

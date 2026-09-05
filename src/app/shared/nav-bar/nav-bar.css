@@ -21,10 +21,7 @@
 }
 
 /* Active-route indicator: small underline bar instead of color alone */
-.nav-link {
-  position: relative;
-  padding-bottom: 0.35rem;
-}
+.nav-link { position: relative; padding-bottom: 0.35rem; }
 .nav-link::after {
   content: '';
   position: absolute;
@@ -43,7 +40,4 @@
 
 /* Wordmark mirrors the app header (cloudora-weather-app home.scss
    .hero__brand-name): bold "Cloudora", regular-weight "Weather" at 85%. */
-.brand-name {
-  font-weight: 700;
-  letter-spacing: 0.02em;
-}
+.brand-name { font-weight: 700; letter-spacing: 0.02em; }

@@ -1,76 +1,7 @@
-/* ---------- Guide prose ----------
-   Deliberately duplicated across the four guide pages rather than lifted into
-   styles.css: frontend-rules Rule 4 keeps component styling in the component
-   that uses it, and these rules only work through element selectors on markup
-   that lives in this template. */
-.guide-body > section {
-  padding-top: 2.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-.guide-body > section:first-of-type {
-  padding-top: 0;
-  border-top: none;
-}
-
-.guide-body h2 {
-  font-size: 1.375rem;
-  font-weight: 600;
-  color: #ffffff;
-  letter-spacing: -0.01em;
-  margin: 0 0 1rem;
-}
-
-.guide-body p {
-  font-size: 0.9375rem;
-  line-height: 1.75;
-  color: #9aa8bd;
-  margin: 0 0 1.1rem;
-}
-
-@media (min-width: 768px) {
-  .guide-body h2 {
-    font-size: 1.625rem;
-  }
-  .guide-body p {
-    font-size: 1rem;
-  }
-}
-
-.guide-body strong {
-  color: #e6edf7;
-  font-weight: 600;
-}
-
-.guide-body em {
-  color: #cbd5e1;
-  font-style: italic;
-}
-
-.guide-body a {
-  color: var(--color-brand-primary);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-color: rgba(0, 217, 255, 0.35);
-  transition: color 0.2s ease;
-}
-.guide-body a:hover {
-  color: #ffffff;
-}
-
 /* ---------- Dew-point bands ---------- */
-.dew-bands {
-  list-style: none;
-  margin: 0 0 1.25rem;
-  padding: 0;
-}
-.dew-bands > li {
-  padding: 0.95rem 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
-}
-.dew-bands > li:first-child {
-  border-top: none;
-  padding-top: 0;
-}
+.dew-bands { list-style: none; margin: 0 0 1.25rem; padding: 0; }
+.dew-bands > li { padding: 0.95rem 0; border-top: 1px solid rgba(255, 255, 255, 0.07); }
+.dew-bands > li:first-child { border-top: none; padding-top: 0; }
 
 .dew-heading {
   display: flex;
@@ -98,8 +29,4 @@
   white-space: nowrap;
 }
 
-.dew-note {
-  margin: 0 !important;
-  font-size: 0.875rem !important;
-  line-height: 1.7 !important;
-}
+.dew-note { margin: 0 !important; font-size: 0.875rem !important; line-height: 1.7 !important; }

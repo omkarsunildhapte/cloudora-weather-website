@@ -130,7 +130,17 @@ templates/styles in the `.ts` file. This matches every component built so far
 (`shared/nav-bar`, `shared/footer`, `pages/home`, etc.).
 
 ## 14. No Hardcoded Values in TypeScript
-Site-wide values go through `shared/constants.ts` (Rule 9). Per-page copy arrays (feature lists,
-screenshot slot briefs) are typed arrays in the owning page's `.ts` file, not scattered
-`<div>`-by-`<div>` in the template — see `Home.previewFeatures` and `Features.features` as the
-pattern to follow for any new repeated list content.
+Site-wide values go through `src/constants/` (Rule 9), re-exported by `src/constants/index.ts`
+and imported as `@constants/index`. Repeated list content is a typed array, never scattered
+`<div>`-by-`<div>` in the template; the array itself lives in `src/constants/<subject>.ts` and
+the page holds only a one-line alias — see `FEATURE_DETAILS` and `Features.features` as the
+pattern to follow.
+
+Earlier revisions of this rule kept per-page copy arrays in the owning page's `.ts`. That was
+reversed deliberately: the arrays are content, they are asserted against by specs, and several
+already needed reading from more than one place (`GUIDES` had to be carved out as an exception
+under the old rule). Interfaces describing those arrays belong in `src/types/` per Rule 9.
+
+Every page array now follows it: `FEATURE_DETAILS`, `AQI_BANDS`/`AQI_ADVICE`, `DEW_POINT_BANDS`,
+`REFLECTIVITY_BANDS`, `UV_BANDS`, `RELEASES` and `SCREENSHOT_SLOTS`. A page holds the alias only
+(`readonly bands = UV_BANDS;`) so the template binding stays unchanged.

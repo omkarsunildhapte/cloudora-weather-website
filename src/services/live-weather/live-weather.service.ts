@@ -1,6 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID, Service, computed, inject, resource, signal } from '@angular/core';
 import { DemoCity, OwmCurrentWeather, WeatherDetail, WeatherSnapshot } from '@appTypes/index';
+import { COMPASS_POINTS, CONDITION_ICONS, DEFAULT_CITY_ID, DEGREES_PER_POINT, FALLBACK_CONDITION_ICON, MAX_VISIBILITY_M, METRES_PER_KM, MS_PER_SECOND, MS_TO_KMH, NIGHT_CLEAR_ICON, UNITS, WEATHER_ENDPOINT } from '@constants/index';
 
 /**
  * Live current-conditions feed for the homepage demo card.
@@ -25,44 +26,6 @@ import { DemoCity, OwmCurrentWeather, WeatherDetail, WeatherSnapshot } from '@ap
  * and therefore `fetch` — never runs during the static build. The prerendered
  * HTML ships the card's skeleton; the browser fills it in after hydration.
  */
-
-/** Same-origin Worker route; see `worker/index.ts`. */
-const WEATHER_ENDPOINT = '/api/owm/weather';
-const UNITS = 'metric';
-const DEFAULT_CITY_ID = 'pune';
-
-/** Metres per kilometre, for the visibility reading. */
-const METRES_PER_KM = 1000;
-/** OpenWeatherMap caps reported visibility at 10 km. */
-const MAX_VISIBILITY_M = 10000;
-/** `wind.speed` arrives in m/s under `units=metric`. */
-const MS_TO_KMH = 3.6;
-const MS_PER_SECOND = 1000;
-
-const COMPASS_POINTS = [
-  'N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE',
-  'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW',
-];
-const DEGREES_PER_POINT = 360 / COMPASS_POINTS.length;
-
-/**
- * OpenWeatherMap icon-code prefix → `@shared/feature-icon` key. The trailing
- * `d`/`n` of the provider's code is stripped first; clear skies are the only
- * condition where day and night get different glyphs.
- */
-const CONDITION_ICONS: Record<string, string> = {
-  '01': 'sun',
-  '02': 'cloud',
-  '03': 'cloud',
-  '04': 'cloud',
-  '09': 'rain',
-  '10': 'rain',
-  '11': 'storm',
-  '13': 'snow',
-  '50': 'mist',
-};
-const FALLBACK_CONDITION_ICON = 'cloud';
-const NIGHT_CLEAR_ICON = 'moon';
 
 @Service()
 export class LiveWeatherService {

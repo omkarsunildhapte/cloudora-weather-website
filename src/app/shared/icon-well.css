@@ -1,0 +1,10 @@
+/* The glowing icon tile, shared by the Features page rows and the feature-card component.
+   The hover lift is keyed off each host's own wrapper class, so those stay local. */
+
+.icon-well {
+  background: linear-gradient(155deg, rgba(0, 217, 255, 0.28), rgba(22, 140, 255, 0.1));
+  border: 1px solid rgba(0, 217, 255, 0.3);
+  color: var(--color-brand-secondary);
+  box-shadow: 0 0 20px -6px rgba(0, 217, 255, 0.55);
+  transition: box-shadow 0.25s ease;
+}

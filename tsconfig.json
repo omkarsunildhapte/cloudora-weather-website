@@ -3,6 +3,10 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    // frontend-rules.md § 20. The codebase was already written to survive
+    // these; the flags were simply never turned on, so nothing was holding it
+    // there. Build, 153 unit tests and 48 worker tests all pass unchanged.
+    "strict": true,
     "noImplicitOverride": true,
     "ignoreDeprecations": "6.0",
     "baseUrl": "./",
@@ -30,7 +34,18 @@
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true,
+    "typeCheckHostBindings": true,
+    // invalidBananaInBox is an extended diagnostic, not a top-level flag, and
+    // ships as a warning by default — § 20 asks for it enforced.
+    "extendedDiagnostics": {
+      "checks": {
+        "invalidBananaInBox": "error",
+        "nullishCoalescingNotNullable": "error",
+        "optionalChainNotNullable": "error"
+      }
+    }
   },
   "files": [],
   "references": [

@@ -1,15 +1,7 @@
 <app-sunrise-layer />
 
 <div class="relative z-10">
-  <app-guide-hero
-    eyebrow="UV Index"
-    icon="uv"
-    titleLead="How to Read the UV Index"
-    titleAccent="and When You Need Sunscreen"
-    summary="It is not a temperature, it is not a brightness reading, and a cool cloudy day can still burn you. Here is what the number is actually counting."
-    readingTime="6 min read"
-    [updated]="updated"
-  />
+  <app-guide-hero [content]="hero" />
 
   <article class="guide-body max-w-3xl mx-auto px-5 md:px-8 pb-16">
     <section>

@@ -9,10 +9,7 @@
     padding-left 0.2s ease,
     background-color 0.2s ease;
 }
-.related-guide:hover {
-  padding-left: 0.65rem;
-  background: rgba(255, 255, 255, 0.02);
-}
+.related-guide:hover { padding-left: 0.65rem; background: rgba(255, 255, 255, 0.02); }
 
 .related-icon {
   display: block;
@@ -25,18 +22,8 @@
   border: 1px solid rgba(22, 140, 255, 0.2);
 }
 
-.related-arrow {
-  margin-left: auto;
-  align-self: center;
-  color: rgba(255, 255, 255, 0.25);
-  transition:
-    color 0.2s ease,
-    transform 0.2s ease;
-}
-.related-guide:hover .related-arrow {
-  color: var(--color-brand-primary);
-  transform: translateX(3px);
-}
+.related-arrow { margin-left: auto; align-self: center; color: rgba(255, 255, 255, 0.25); transition:     color 0.2s ease,     transform 0.2s ease; }
+.related-guide:hover .related-arrow { color: var(--color-brand-primary); transform: translateX(3px); }
 
 /* Same CTA recipe as Home/Features, so the guides don't read as a bolt-on. */
 .guide-cta {
@@ -44,13 +31,7 @@
   border: 1px solid rgba(0, 217, 255, 0.25);
   background: linear-gradient(160deg, rgba(0, 217, 255, 0.1), rgba(6, 21, 47, 0.35));
 }
-.guide-cta-glow {
-  background: radial-gradient(
-    ellipse 620px 380px at 50% -10%,
-    rgba(0, 217, 255, 0.32),
-    transparent 65%
-  );
-}
+.guide-cta-glow { background: radial-gradient(     ellipse 620px 380px at 50% -10%,     rgba(0, 217, 255, 0.32),     transparent 65%   ); }
 
 @media (prefers-reduced-motion: reduce) {
   .related-guide,

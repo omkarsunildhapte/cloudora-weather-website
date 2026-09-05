@@ -1,0 +1,25 @@
+/* Body treatment shared by Privacy Policy and Terms of Service. */
+
+.leg-in { opacity: 0; animation: fade-in-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.leg-in-1 { animation-delay: 0ms; }
+.leg-in-2 { animation-delay: 90ms; }
+.leg-in-3 { animation-delay: 180ms; }
+.leg-in-4 { animation-delay: 260ms; }
+.leg-in-5 { animation-delay: 340ms; }
+.leg-in-6 { animation-delay: 420ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .leg-in { animation: none; opacity: 1; }
+}
+
+/* Callout: a left accent + tint, not a rounded/bordered box. */
+.legal-callout { border-left: 2px solid rgba(0, 217, 255, 0.4); background: rgba(0, 217, 255, 0.04); padding: 0.85rem 1rem; }
+
+/* Related link (plain, divider-topped — no card). */
+.related-link { transition:     padding-left 0.2s ease,     color 0.2s ease; }
+.related-link:hover {
+  padding-left: 0.4rem;
+}
+.related-link:hover .text-white {
+  color: var(--color-brand-secondary);
+}

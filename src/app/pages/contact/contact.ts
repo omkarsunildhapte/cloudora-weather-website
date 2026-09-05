@@ -1,30 +1,61 @@
-import { Component, OnInit, WritableSignal, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { FormField, disabled, email, form, minLength, required, submit } from '@angular/forms/signals';
+import { NgOptimizedImage } from '@angular/common';
 import { FeatureIcon } from '@shared/feature-icon/feature-icon';
 import { SunriseLayer } from '@shared/sunrise-layer/sunrise-layer';
 import { SeoService } from '@services/seo/seo.service';
-import { COMPANY_NAME, COMPANY_URL, CONTACT_EMAIL, SITE_URL } from '@constants/index';
-
-type SubmitStatus = 'idle' | 'submitting' | 'success' | 'error';
+import {
+  COMPANY_NAME,
+  COMPANY_URL,
+  CONTACT_EMAIL,
+  CONTACT_ENDPOINT,
+  CONTACT_GENERIC_ERROR,
+  CONTACT_NETWORK_ERROR,
+  MIN_MESSAGE_LENGTH,
+  SITE_URL,
+} from '@constants/index';
+import { ContactMessage } from '@appTypes/index';
 
 @Component({
   selector: 'app-contact',
-  imports: [FeatureIcon, SunriseLayer],
+  imports: [NgOptimizedImage, FeatureIcon, SunriseLayer, FormField],
   templateUrl: './contact.html',
-  styleUrl: './contact.css',
+  styleUrls: ['../legal-chrome.css', './contact.css'],
 })
 export class Contact implements OnInit {
   private readonly seo = inject(SeoService);
 
   readonly email = CONTACT_EMAIL;
 
-  readonly name = signal('');
-  readonly emailField = signal('');
-  readonly subject = signal('');
-  readonly message = signal('');
-  /** Honeypot — real visitors never see or fill this field. */
-  readonly company = signal('');
+  private readonly model = signal<ContactMessage>({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+    company: '',
+  });
 
-  readonly status = signal<SubmitStatus>('idle');
+  /**
+   * Signal form: the rules live beside the model rather than in a hand-rolled
+   * `submit()` that returned on the first failure. Every field is now validated
+   * at once, each error is attached to the control it belongs to, and
+   * `submit()` below refuses to call the Worker while any of them stand.
+   */
+  readonly contactForm = form(this.model, (path) => {
+    // The whole form goes read-only while the request is in flight; the controls
+    // no longer carry their own [disabled] binding, which signal forms forbids.
+    disabled(path, { when: ({ state }) => state.submitting() });
+
+    required(path.name, { message: 'Please enter your name.' });
+    required(path.email, { message: 'Please enter your email address.' });
+    email(path.email, { message: 'Please enter a valid email address.' });
+    minLength(path.message, MIN_MESSAGE_LENGTH, {
+      message: `Message must be at least ${MIN_MESSAGE_LENGTH} characters.`,
+    });
+  });
+
+  /** Outcome of the request itself — field validity is the form's job, not this. */
+  readonly sent = signal(false);
   readonly errorMessage = signal('');
 
   ngOnInit(): void {
@@ -51,66 +82,32 @@ export class Contact implements OnInit {
     });
   }
 
-  /** Typed cast lives here, not as `$any()` inline in the template. */
-  setFromEvent(target: WritableSignal<string>, event: Event): void {
-    target.set((event.target as HTMLInputElement | HTMLTextAreaElement).value);
-  }
-
-  async submit(event: Event): Promise<void> {
+  async send(event: Event): Promise<void> {
     event.preventDefault();
-    if (this.status() === 'submitting') return;
-
-    const name = this.name().trim();
-    const email = this.emailField().trim();
-    const message = this.message().trim();
-
-    if (!name) {
-      this.status.set('error');
-      this.errorMessage.set('Please enter your name.');
-      return;
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      this.status.set('error');
-      this.errorMessage.set('Please enter a valid email address.');
-      return;
-    }
-    if (message.length < 10) {
-      this.status.set('error');
-      this.errorMessage.set('Message must be at least 10 characters.');
-      return;
-    }
-
-    this.status.set('submitting');
     this.errorMessage.set('');
 
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          email,
-          subject: this.subject().trim(),
-          message,
-          company: this.company(),
-        }),
-      });
-      const data: { ok: boolean; error?: string } = await res.json();
+    await submit(this.contactForm, {
+      action: async (contact) => {
+        try {
+          const res = await fetch(CONTACT_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(contact().value()),
+          });
+          const data: { ok: boolean; error?: string } = await res.json();
 
-      if (!res.ok || !data.ok) {
-        this.status.set('error');
-        this.errorMessage.set(data.error || 'Something went wrong — please try again.');
-        return;
-      }
+          if (!res.ok || !data.ok) {
+            this.errorMessage.set(data.error || CONTACT_GENERIC_ERROR);
+            return undefined;
+          }
 
-      this.status.set('success');
-      this.name.set('');
-      this.emailField.set('');
-      this.subject.set('');
-      this.message.set('');
-    } catch {
-      this.status.set('error');
-      this.errorMessage.set('Network error — please check your connection and try again.');
-    }
+          this.sent.set(true);
+          this.model.set({ name: '', email: '', subject: '', message: '', company: '' });
+        } catch {
+          this.errorMessage.set(CONTACT_NETWORK_ERROR);
+        }
+        return undefined;
+      },
+    });
   }
 }

@@ -1,6 +1,7 @@
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FeatureIcon } from '@shared/feature-icon/feature-icon';
+import { GuideHeroContent } from '@appTypes/index';
 
 /**
  * The masthead every `/guides/<slug>` page opens with: eyebrow chip, the
@@ -20,14 +21,12 @@ import { FeatureIcon } from '@shared/feature-icon/feature-icon';
   styleUrl: './guide-hero.css',
 })
 export class GuideHero {
-  readonly eyebrow = input.required<string>();
-  /** `@shared/feature-icon` key shown in the eyebrow chip. */
-  readonly icon = input.required<string>();
-  /** Headline split in two so the second half can take the brand gradient. */
-  readonly titleLead = input.required<string>();
-  readonly titleAccent = input.required<string>();
-  readonly summary = input.required<string>();
-  readonly readingTime = input.required<string>();
-  /** Human-readable publication/update date, e.g. "September 4, 2026". */
-  readonly updated = input.required<string>();
+  /**
+   * The whole masthead in one object.
+   *
+   * Was seven parallel `input.required` declarations, six of them bound to
+   * literals in each guide's template — which is how `icon` and `readingTime`
+   * came to be typed out again despite already living in the guides catalogue.
+   */
+  readonly content = input.required<GuideHeroContent>();
 }
