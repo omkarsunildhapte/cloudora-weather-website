@@ -27,7 +27,22 @@ export default {
     request: Request,
     env: Env & AiEnv & WeatherEnv & VersionEnv & { ASSETS: Fetcher },
   ): Promise<Response> {
-    const { pathname } = new URL(request.url);
+    const url = new URL(request.url);
+    const { pathname } = url;
+
+    // /?section=air-sun-storms -> /features?section=air-sun-storms.
+    //
+    // The category anchors live on /features, so the root-level form points at
+    // nothing. This is the reason those links carry a query param rather than a
+    // fragment: a fragment never reaches the server, so it could only be fixed
+    // after the wrong page had already loaded. The value is passed through
+    // unvalidated — the features page ignores one it does not recognise, and
+    // keeping the category list out of the Worker stops the two from drifting.
+    if (pathname === '/' && url.searchParams.has('section')) {
+      const target = new URL(url);
+      target.pathname = '/features';
+      return Response.redirect(target.toString(), 302);
+    }
 
     if (pathname === '/api/contact') return handleContact(request, env);
     if (pathname === '/api/feedback') return handleFeedback(request, env);

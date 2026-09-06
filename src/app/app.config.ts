@@ -18,9 +18,9 @@ export const appConfig: ApplicationConfig = {
     // silently receive nothing rather than fail.
     provideRouter(
       routes,
-      // anchorScrolling is what makes a #fragment scroll after a router
-      // navigation — without it the Home redirect below would land on
-      // /features and sit at the top, which looks like the link failed.
+      // anchorScrolling makes a #fragment scroll after a router navigation.
+      // The category chips use ?section= instead, but the sections still carry
+      // ids, so hand-written #links keep working.
       withInMemoryScrolling({ scrollPositionRestoration: 'top', anchorScrolling: 'enabled' }),
       withComponentInputBinding(),
     ),

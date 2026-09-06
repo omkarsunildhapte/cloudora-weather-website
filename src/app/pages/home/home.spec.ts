@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, Router, provideRouter } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { Home } from '@pages/home/home';
 import { FEATURE_DETAILS, PREVIEW_FEATURES } from '@constants/index';
 
@@ -48,47 +48,5 @@ describe('Home', () => {
         (slot) => typeof slot.src === 'string' && slot.src.startsWith('screenshots/'),
       ),
     ).toBe(true);
-  });
-
-  it('forwards a category fragment to the features page, where those anchors exist', async () => {
-    TestBed.resetTestingModule();
-    await TestBed.configureTestingModule({
-      imports: [Home],
-      providers: [
-        provideRouter([]),
-        {
-          provide: ActivatedRoute,
-          useValue: { snapshot: { fragment: 'air-sun-storms' } },
-        },
-      ],
-    }).compileComponents();
-
-    const router = TestBed.inject(Router);
-    const navigate = vi.spyOn(router, 'navigate').mockResolvedValue(true);
-
-    TestBed.createComponent(Home).detectChanges();
-
-    expect(navigate).toHaveBeenCalledWith(['/features'], {
-      fragment: 'air-sun-storms',
-      replaceUrl: true,
-    });
-  });
-
-  it('leaves a fragment that is not a category alone', async () => {
-    TestBed.resetTestingModule();
-    await TestBed.configureTestingModule({
-      imports: [Home],
-      providers: [
-        provideRouter([]),
-        { provide: ActivatedRoute, useValue: { snapshot: { fragment: 'something-else' } } },
-      ],
-    }).compileComponents();
-
-    const router = TestBed.inject(Router);
-    const navigate = vi.spyOn(router, 'navigate').mockResolvedValue(true);
-
-    TestBed.createComponent(Home).detectChanges();
-
-    expect(navigate).not.toHaveBeenCalled();
   });
 });

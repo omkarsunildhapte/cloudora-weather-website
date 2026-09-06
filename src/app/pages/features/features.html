@@ -91,7 +91,13 @@
   <!-- Jump nav: 17 rows is a long scroll, so give people a way past it. -->
   <nav class="max-w-4xl mx-auto px-5 md:px-8 pb-8 flex flex-wrap gap-2" aria-label="Feature sections">
     @for (category of categories; track category) {
-      <a [href]="'#' + slug(category)" class="cat-chip">{{ category }}</a>
+      <a
+        [routerLink]="[]"
+        [queryParams]="{ section: slug(category) }"
+        queryParamsHandling="merge"
+        class="cat-chip"
+        >{{ category }}</a
+      >
     }
   </nav>
 
