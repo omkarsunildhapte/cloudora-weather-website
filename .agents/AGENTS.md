@@ -152,7 +152,19 @@ Whenever a service is created or updated, you must write or update the correspon
 **Important**: this site is prerendered at build time and hydrated in the browser (see the rendering section at the top). Request-time SSR patterns (`RESPONSE` token, `withEventReplay()`, SSR TTFB timeouts, Express trailing-slash middleware) still do not apply — there is no server at render time — but the prerendered HTML *is* what crawlers receive, so treat it as the real first paint.
 
 - Every routable page component MUST inject `SeoService` and call `setPage()` or `update()` with the appropriate page metadata so title, description, canonical, and robots meta are set correctly.
-- Always use Angular's `NgOptimizedImage` (`ngSrc` instead of `src`, along with `width`, `height`, and `priority` attributes) to prevent layout shifts and maximize Core Web Vitals performance.
+- Prevent layout shift and protect LCP on every `<img>`: explicit `width`/`height` always,
+  `loading="lazy"` below the fold, and `fetchpriority="high"` reserved for the true LCP
+  candidate. `seo-rules.md` § 2 is the detailed version and the source of truth.
+- **`NgOptimizedImage` is deliberately not used here.** It was trialled across all 11 images and
+  measured: it pulls a ~59 kB directive chunk into the *initial* bundle, taking every page from
+  97.4 kB to 115.2 kB transferred (+18%). Exempting the shell components does not help — the lazy
+  route chunks hoist it into a shared initial chunk anyway (115.18 kB). Against that cost it
+  bought nothing here: all 11 images are two static brand assets plus four screenshots, and they
+  already carried correct `width`/`height`, `fetchpriority` on the LCP badge, a hand-written
+  preload, and `loading="lazy"` on the gallery. With `seo-rules.md` § 8's checklist still
+  recording LCP at 4.0–5.3s against a < 2.5s target, adding JS to that bundle works against the
+  rule's own stated purpose. Revisit only if images ever become numerous or dynamic (a CMS, a
+  gallery of many photos), where the directive's per-image work starts to pay for its fixed cost.
 - Avoid using HashLocationStrategy; HTML5 pushState routing is required.
 - **Semantic HTML & Links**: Do not use `(click)` handlers on `div` or `button` for navigation. ALWAYS use standard native `<a [routerLink]="...">` tags. Use proper `<main>`, `<article>`, and `<nav>` semantic tags and ensure only one `<h1>` per route.
 - **Staging Isolation**: Non-production environments MUST dynamically inject a `<meta name="robots" content="noindex, nofollow" />` tag to prevent staging sites from polluting search indexes.
@@ -174,8 +186,17 @@ Use `@angular/forms/signals` (`formGroup`, `formControl`) or bridge legacy React
 - Use `@defer (hydrate on ...)` for granular client-side hydration (e.g., `viewport`, `hover`, `idle`) to minimize JS payload execution times.
 
 ### 18. Security & Trusted Types
-- SSR engines must dynamically generate and inject CSP Nonces for inline scripts.
-- The web server must enforce Trusted Types (`require-trusted-types-for 'script'`) to eliminate DOM-based XSS attacks natively.
+- Nonces do not apply here. They require a per-request server, and this site is prerendered to
+  static files behind Cloudflare's asset layer — there is no request-time render to generate one
+  in. `index.html`'s consent stub is therefore an allowed inline script.
+- Trusted Types **is** enforced, via `public/_headers`:
+  `require-trusted-types-for 'script'` plus a `trusted-types` allowlist naming every policy the
+  site creates. Two sinks need one — `SeoService` writing JSON-LD to `script.textContent`, and the
+  consent stub setting `script.src` for gtag.js — and both go through a named policy rather than
+  the header being loosened. Adding a new script sink means adding a policy and its name to that
+  allowlist; do not add a wildcard. Verify a change by serving `dist/` with the real header and
+  loading every route with a console listener — the failure mode is a thrown TypeError that costs
+  a route its structured data, which no build or unit test catches.
 
 ### 19. Animations & Assets
 Prefer Web Animations API and CSS keyframes bound to component host classes over `@angular/animations` to save ~60KB on bundle sizes.

@@ -8,7 +8,16 @@
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
-  Content-Security-Policy: frame-ancestors 'none'
+  # require-trusted-types-for turns every string assignment to a script sink
+  # into a TypeError, which is the DOM-XSS class shut off at the browser
+  # (frontend-rules § 18). The allowlist is the complete set of policies this
+  # site creates: `angular`/`angular#bundler` are the framework's own and it
+  # cannot boot without them; `cloudora-jsonld` is SeoService writing per-route
+  # JSON-LD to script.textContent; `cloudora-gtag` is index.html's consent stub
+  # setting script.src for gtag.js; `goog#html` is gtag.js's own, once loaded.
+  # Anything reaching for a script sink outside these still throws — which is
+  # the point, so do not add 'allow-duplicates' or a wildcard here.
+  Content-Security-Policy: frame-ancestors 'none'; require-trusted-types-for 'script'; trusted-types angular angular#bundler cloudora-jsonld cloudora-gtag goog#html
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains

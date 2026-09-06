@@ -28,15 +28,18 @@
           <span class="phone-notch" aria-hidden="true"></span>
           <div class="phone-screen w-full h-full overflow-hidden relative bg-brand-surface">
             @if (item.src) {
-              <!-- loading/decoding are not set here: NgOptimizedImage applies
-                   loading="lazy" and decoding="async" to every non-priority
-                   image itself, and setting `loading` alongside it is an error. -->
+              <!-- Below the fold and inside a @defer block, so lazy/async: the
+                   gallery is never the LCP element. width/height are set to the
+                   real intrinsic size so the frame reserves its box (seo-rules
+                   § 2, CLS). -->
               <img
-                [ngSrc]="item.src"
+                [src]="item.src"
                 [alt]="item.alt"
                 width="540"
                 height="1170"
                 class="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
             } @else {
               <div

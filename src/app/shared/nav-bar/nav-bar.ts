@@ -1,11 +1,10 @@
 import { Component, HostListener, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { NgOptimizedImage } from '@angular/common';
 import { PlayStoreButton } from '@shared/play-store-button/play-store-button';
 
 @Component({
   selector: 'app-nav-bar',
-  imports: [NgOptimizedImage, RouterLink, RouterLinkActive, PlayStoreButton],
+  imports: [RouterLink, RouterLinkActive, PlayStoreButton],
   templateUrl: './nav-bar.html',
   styleUrl: './nav-bar.css',
 })

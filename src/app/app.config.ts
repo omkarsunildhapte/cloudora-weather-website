@@ -1,6 +1,6 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
-import { provideRouter, withInMemoryScrolling } from '@angular/router';
+import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 
 import { routes } from '@app/app.routes';
 
@@ -12,7 +12,15 @@ export const appConfig: ApplicationConfig = {
     // switch the app back to zone-based change detection.
     provideZonelessChangeDetection(),
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes, withInMemoryScrolling({ scrollPositionRestoration: 'top' })),
+    // withComponentInputBinding is inert today — all 11 routes are static, so
+    // there is nothing to bind. It is on because frontend-rules.md § 15 asks
+    // for it and because the first parameterised route added without it would
+    // silently receive nothing rather than fail.
+    provideRouter(
+      routes,
+      withInMemoryScrolling({ scrollPositionRestoration: 'top' }),
+      withComponentInputBinding(),
+    ),
     provideClientHydration(),
   ],
 };

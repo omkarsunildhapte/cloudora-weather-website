@@ -1,9 +1,9 @@
 import { DOCUMENT } from '@angular/common';
 import { Service, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { SeoData } from '@appTypes/index';
+import { SeoData, TrustedTypePolicy, WindowWithTrustedTypes } from '@appTypes/index';
 import { SITE_URL } from '@constants/index';
-import { CANONICAL_LINK_ID, STRUCTURED_DATA_ID } from '@constants/index';
+import { CANONICAL_LINK_ID, STRUCTURED_DATA_ID, TRUSTED_TYPES_JSONLD_POLICY } from '@constants/index';
 
 /**
  * Updates document title + description/OG meta tags, the canonical link,
@@ -61,7 +61,31 @@ export class SeoService {
     const script = this.document.createElement('script');
     script.type = 'application/ld+json';
     script.id = STRUCTURED_DATA_ID;
-    script.textContent = JSON.stringify(schema);
+    script.textContent = this.trustedJson(JSON.stringify(schema));
     this.document.head.appendChild(script);
   }
+
+  /**
+   * Wraps the serialised schema for `script.textContent`.
+   *
+   * Under the CSP's `require-trusted-types-for 'script'` that assignment throws
+   * unless the value came from a policy — even though a JSON-LD block is data
+   * the browser never executes, because the sink is typed by the element, not
+   * by its `type` attribute. Without this, six routes threw on load and lost
+   * their structured data entirely (seo-rules.md § 5).
+   *
+   * The pass-through body is safe here and nowhere else: the input is always
+   * `JSON.stringify` of an object this app built, never anything a visitor
+   * supplied. Returns the raw string when Trusted Types is unavailable — older
+   * browsers, and the prerender, where there is no `window`.
+   */
+  private trustedJson(serialised: string): string {
+    const api = (this.document.defaultView as WindowWithTrustedTypes | null)?.trustedTypes;
+    if (!api) return serialised;
+    this.jsonPolicy ??= api.createPolicy(TRUSTED_TYPES_JSONLD_POLICY, { createScript: (value: string) => value });
+    return this.jsonPolicy.createScript(serialised) as unknown as string;
+  }
+
+  /** Created once — createPolicy throws on a duplicate name when the CSP names it. */
+  private jsonPolicy: TrustedTypePolicy | null = null;
 }

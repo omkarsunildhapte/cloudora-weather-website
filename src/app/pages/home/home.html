@@ -26,15 +26,13 @@
     </div>
 
     <div class="relative max-w-6xl mx-auto px-5 md:px-8 pt-16 md:pt-24 pb-20 md:pb-28 text-center">
-      <!-- priority, not fetchpriority: NgOptimizedImage sets fetchpriority
-           itself and preloads the image, and setting both is an error. -->
       <img
-        ngSrc="logo-192.webp"
+        src="logo-192.webp"
         alt="Cloudora Weather logo"
         width="96"
         height="96"
         class="hero-in hero-in-1 w-20 h-20 md:w-24 md:h-24 mx-auto mb-6 rounded-3xl shadow-[0_0_60px_-12px_rgba(0,217,255,0.7)]"
-        priority
+        fetchpriority="high"
       />
 
       <div
@@ -257,7 +255,7 @@
       >
         <div class="absolute inset-0 -z-10 cta-glow" aria-hidden="true"></div>
 
-        <img ngSrc="logo-192.webp" alt="" aria-hidden="true" width="56" height="56" class="w-14 h-14 mx-auto mb-6 rounded-2xl" />
+        <img src="logo-192.webp" alt="" aria-hidden="true" width="56" height="56" class="w-14 h-14 mx-auto mb-6 rounded-2xl" />
 
         <h2 class="text-3xl md:text-5xl font-bold text-white tracking-tight">
           Get Cloudora Weather today

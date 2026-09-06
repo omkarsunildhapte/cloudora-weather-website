@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { PlayStoreButton } from '@shared/play-store-button/play-store-button';
 import { FeatureIcon } from '@shared/feature-icon/feature-icon';
@@ -9,7 +8,7 @@ import { FEATURE_DETAILS, SITE_URL } from '@constants/index';
 
 @Component({
   selector: 'app-features',
-  imports: [NgOptimizedImage, RouterLink, PlayStoreButton, FeatureIcon, SunriseLayer],
+  imports: [RouterLink, PlayStoreButton, FeatureIcon, SunriseLayer],
   templateUrl: './features.html',
   styleUrls: ['../cta-panel.css', '../../shared/icon-well.css', './features.css'],
 })

@@ -1,5 +1,4 @@
 import { Component, input } from '@angular/core';
-import { NgOptimizedImage } from '@angular/common';
 import { PLAY_STORE_URL } from '@constants/index';
 import { PlayStoreButtonVariant } from '@appTypes/index';
 
@@ -15,7 +14,6 @@ import { PlayStoreButtonVariant } from '@appTypes/index';
  */
 @Component({
   selector: 'app-play-store-button',
-  imports: [NgOptimizedImage],
   templateUrl: './play-store-button.html',
   styleUrl: './play-store-button.css',
 })

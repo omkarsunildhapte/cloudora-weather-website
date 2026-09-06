@@ -7,21 +7,20 @@
   [class.ps-secondary]="variant() === 'secondary'"
   [class.ps-compact]="variant() === 'compact'"
 >
-  <!-- priority: Lighthouse measures this badge as the LCP element on
+  <!-- fetchpriority: Lighthouse measures this badge as the LCP element on
        mobile — the sticky download bar puts it in the initial viewport, where
        it outranks the hero logo on area. It was already discoverable in the
        prerendered HTML and never lazy-loaded (both checks passed); the only
        failing item was the priority hint, without which the browser fetches
-       it at default priority behind the CSS and JS. NgOptimizedImage's
-       `priority` sets that hint and emits the <link rel=preload>; every
-       instance of this component points at the same URL, so the preload is
-       deduped to one link however many buttons a page renders. -->
+       it at default priority behind the CSS and JS. The matching
+       <link rel="preload"> lives in src/index.html so the fetch starts during
+       head parsing rather than when this <img> is reached. -->
   <img
-    ngSrc="badges/google-play-badge.webp"
+    src="badges/google-play-badge.webp"
     alt="Get it on Google Play"
     class="ps-badge"
     width="646"
     height="250"
-    priority
+    fetchpriority="high"
   />
 </a>

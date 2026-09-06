@@ -1,6 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { NgOptimizedImage } from '@angular/common';
 import { PlayStoreButton } from '@shared/play-store-button/play-store-button';
 import { FeatureCard } from '@shared/feature-card/feature-card';
 import { ScreenshotGallery } from '@shared/screenshot-gallery/screenshot-gallery';
@@ -12,7 +11,6 @@ import { PREVIEW_FEATURES, SCREENSHOT_SLOTS } from '@constants/index';
 @Component({
   selector: 'app-home',
   imports: [
-    NgOptimizedImage,
     RouterLink,
     PlayStoreButton,
     FeatureCard,

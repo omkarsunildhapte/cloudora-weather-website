@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FeatureIcon } from '@shared/feature-icon/feature-icon';
 import { PlayStoreButton } from '@shared/play-store-button/play-store-button';
@@ -21,7 +20,7 @@ import { Release } from '@appTypes/index';
  */
 @Component({
   selector: 'app-whats-new',
-  imports: [NgOptimizedImage, RouterLink, FeatureIcon, PlayStoreButton, SunriseLayer],
+  imports: [RouterLink, FeatureIcon, PlayStoreButton, SunriseLayer],
   templateUrl: './whats-new.html',
   styleUrl: './whats-new.css',
 })

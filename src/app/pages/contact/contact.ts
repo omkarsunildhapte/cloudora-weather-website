@@ -1,6 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormField, disabled, email, form, minLength, required, submit } from '@angular/forms/signals';
-import { NgOptimizedImage } from '@angular/common';
 import { FeatureIcon } from '@shared/feature-icon/feature-icon';
 import { SunriseLayer } from '@shared/sunrise-layer/sunrise-layer';
 import { SeoService } from '@services/seo/seo.service';
@@ -18,7 +17,7 @@ import { ContactMessage } from '@appTypes/index';
 
 @Component({
   selector: 'app-contact',
-  imports: [NgOptimizedImage, FeatureIcon, SunriseLayer, FormField],
+  imports: [FeatureIcon, SunriseLayer, FormField],
   templateUrl: './contact.html',
   styleUrls: ['../legal-chrome.css', './contact.css'],
 })

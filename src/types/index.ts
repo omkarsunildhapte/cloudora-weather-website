@@ -14,3 +14,4 @@ export * from '@appTypes/release';
 export * from '@appTypes/submit-status';
 export * from '@appTypes/contact-message';
 export * from '@appTypes/guide-hero-content';
+export * from '@appTypes/trusted-types';

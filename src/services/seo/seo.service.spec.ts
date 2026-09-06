@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Meta, Title } from '@angular/platform-browser';
 import { SeoService } from '@services/seo/seo.service';
+import { TRUSTED_TYPES_JSONLD_POLICY } from '@constants/index';
 
 describe('SeoService', () => {
   let service: SeoService;
@@ -125,4 +126,69 @@ describe('SeoService', () => {
     expect(scripts.length).toBe(1);
     expect(JSON.parse(scripts[0].textContent ?? '{}').name).toBe('B');
   });
+
+  /**
+   * Under the deployed CSP (public/_headers) `script.textContent` is a Trusted
+   * Types sink, and a plain string assignment throws — which silently cost six
+   * routes their JSON-LD when the header was first trialled. jsdom has no
+   * Trusted Types, so the API is stubbed onto the window to prove the service
+   * routes through a policy when one is available, and still works when it is
+   * not (older browsers, and the prerender, where there is no window at all).
+   */
+  describe('Trusted Types', () => {
+    const SCHEMA = { '@context': 'https://schema.org', '@type': 'WebPage', name: 'Guides' };
+
+    afterEach(() => {
+      delete (window as unknown as Record<string, unknown>)['trustedTypes'];
+    });
+
+    it('creates its policy under the name the CSP allowlists', () => {
+      const createPolicy = jasmineLikeSpy();
+      (window as unknown as Record<string, unknown>)['trustedTypes'] = { createPolicy };
+
+      service.update({ title: 'G', description: 'G', path: '/guides', structuredData: SCHEMA });
+
+      expect(createPolicy.calls[0][0]).toBe(TRUSTED_TYPES_JSONLD_POLICY);
+      expect(TRUSTED_TYPES_JSONLD_POLICY).toBe('cloudora-jsonld');
+    });
+
+    it('passes the serialised schema through the policy rather than assigning it raw', () => {
+      const createPolicy = jasmineLikeSpy();
+      (window as unknown as Record<string, unknown>)['trustedTypes'] = { createPolicy };
+
+      service.update({ title: 'G', description: 'G', path: '/guides', structuredData: SCHEMA });
+
+      const script = document.getElementById('page-structured-data');
+      expect(script?.textContent).toContain('POLICY:');
+      expect(JSON.parse((script?.textContent ?? '').replace('POLICY:', '')).name).toBe('Guides');
+    });
+
+    it('creates the policy once, since a duplicate name throws when the CSP names it', () => {
+      const createPolicy = jasmineLikeSpy();
+      (window as unknown as Record<string, unknown>)['trustedTypes'] = { createPolicy };
+
+      service.update({ title: 'A', description: 'A', path: '/a', structuredData: SCHEMA });
+      service.update({ title: 'B', description: 'B', path: '/b', structuredData: SCHEMA });
+
+      expect(createPolicy.calls.length).toBe(1);
+    });
+
+    it('still writes the JSON-LD where Trusted Types is unavailable', () => {
+      service.update({ title: 'G', description: 'G', path: '/guides', structuredData: SCHEMA });
+
+      const script = document.getElementById('page-structured-data');
+      expect(JSON.parse(script?.textContent ?? '{}').name).toBe('Guides');
+    });
+  });
 });
+
+/** Minimal call-recording stub whose policy tags its output, so a test can tell
+ *  a policy-produced value apart from a raw string assignment. */
+function jasmineLikeSpy() {
+  const calls: unknown[][] = [];
+  const fn = (...args: unknown[]) => {
+    calls.push(args);
+    return { createScript: (value: string) => `POLICY:${value}` };
+  };
+  return Object.assign(fn, { calls });
+}

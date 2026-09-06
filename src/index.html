@@ -47,9 +47,26 @@
         if (window.__gaLoaded) return;
         window.__gaLoaded = true;
 
+        var url = 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX';
+
+        // The CSP sets require-trusted-types-for 'script', under which
+        // assigning a plain string to script.src throws. The policy name is
+        // allowlisted in public/_headers; it only ever returns the one
+        // googletagmanager URL above, so a compromised caller cannot use it to
+        // load an arbitrary script. Falls through on browsers without the API.
+        if (window.trustedTypes && window.trustedTypes.createPolicy) {
+          window.__gaPolicy =
+            window.__gaPolicy ||
+            window.trustedTypes.createPolicy('cloudora-gtag', {
+              createScriptURL: function (value) {
+                return value === url ? value : '';
+              },
+            });
+        }
+
         var s = document.createElement('script');
         s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX';
+        s.src = window.__gaPolicy ? window.__gaPolicy.createScriptURL(url) : url;
         document.head.appendChild(s);
 
         gtag('js', new Date());
