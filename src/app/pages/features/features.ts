@@ -4,7 +4,7 @@ import { PlayStoreButton } from '@shared/play-store-button/play-store-button';
 import { FeatureIcon } from '@shared/feature-icon/feature-icon';
 import { SunriseLayer } from '@shared/sunrise-layer/sunrise-layer';
 import { SeoService } from '@services/seo/seo.service';
-import { FEATURE_CATEGORIES, FEATURE_DETAILS, SITE_URL, featuresIn } from '@constants/index';
+import { FEATURE_CATEGORIES, FEATURE_DETAILS, SITE_URL, categorySlug, featuresIn } from '@constants/index';
 import { FeatureCategory, FeatureDetail } from '@appTypes/index';
 
 @Component({
@@ -25,7 +25,7 @@ export class Features implements OnInit {
 
   /** Category name -> anchor id, so the jump links and section ids always agree. */
   slug(category: string): string {
-    return category.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    return categorySlug(category);
   }
 
   ngOnInit(): void {

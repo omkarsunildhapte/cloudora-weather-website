@@ -18,7 +18,10 @@ export const appConfig: ApplicationConfig = {
     // silently receive nothing rather than fail.
     provideRouter(
       routes,
-      withInMemoryScrolling({ scrollPositionRestoration: 'top' }),
+      // anchorScrolling is what makes a #fragment scroll after a router
+      // navigation — without it the Home redirect below would land on
+      // /features and sit at the top, which looks like the link failed.
+      withInMemoryScrolling({ scrollPositionRestoration: 'top', anchorScrolling: 'enabled' }),
       withComponentInputBinding(),
     ),
     provideClientHydration(),

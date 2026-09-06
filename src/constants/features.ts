@@ -233,3 +233,24 @@ export const FEATURE_CATEGORIES: FeatureCategory[] = [
 export function featuresIn(category: FeatureCategory): FeatureDetail[] {
   return FEATURE_DETAILS.filter((feature) => feature.category === category);
 }
+
+/**
+ * Category name -> anchor id on /features.
+ *
+ * Shared rather than a method on the page: the home page needs the same mapping
+ * to recognise a category fragment, and two copies of this would drift into
+ * links that point at ids nothing renders.
+ */
+export function categorySlug(category: string): string {
+  return category
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+}
+
+/** The category a root-level fragment refers to, or null if it means nothing. */
+export function categoryForSlug(fragment: string | null): FeatureCategory | null {
+  if (!fragment) return null;
+  return FEATURE_CATEGORIES.find((c) => categorySlug(c) === fragment) ?? null;
+}
+
