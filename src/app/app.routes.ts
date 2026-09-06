@@ -55,5 +55,16 @@ export const routes: Routes = [
     path: 'contact',
     loadComponent: () => import('./pages/contact/contact').then((m) => m.Contact),
   },
-  { path: '**', redirectTo: '' },
+  {
+    path: '404',
+    loadComponent: () => import('./pages/not-found/not-found').then((m) => m.NotFound),
+  },
+  // Renders the same component rather than redirecting home: a wrong URL that
+  // silently lands on the home page tells the visitor nothing, and told Google
+  // the page existed. Cloudflare serves the prerendered 404.html with a real
+  // 404 status; this branch only covers client-side navigation.
+  {
+    path: '**',
+    loadComponent: () => import('./pages/not-found/not-found').then((m) => m.NotFound),
+  },
 ];

@@ -11,9 +11,13 @@
     // Exposed to the Worker as env.ASSETS so worker/index.ts can hand
     // non-API requests back to the static asset server.
     "binding": "ASSETS",
-    // Unknown deep links render index.html and let the Angular router decide,
-    // instead of Cloudflare's default 404 page.
-    "not_found_handling": "single-page-application",
+    // Serves the prerendered 404.html with a real 404 status. Every real route
+    // is prerendered to its own file, so no SPA fallback is needed for
+    // navigation — and the fallback was actively harmful: it answered every
+    // unknown path with index.html and a 200, so a mistyped /sitemap.xml came
+    // back as an HTML page with an OK status, which is exactly what Search
+    // Console complained about.
+    "not_found_handling": "404-page",
   },
   // Per-IP fair-use limits. /api/ai, /api/owm and /api/tiles front provider keys
   // with no authentication, so without these anyone could loop against them and

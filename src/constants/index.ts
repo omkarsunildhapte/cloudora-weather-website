@@ -11,3 +11,4 @@ export * from '@constants/uv-guide';
 export * from '@constants/home';
 export * from '@constants/releases';
 export * from '@constants/trusted-types';
+export * from './not-found';

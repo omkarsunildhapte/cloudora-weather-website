@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 5300",
-    "build": "ng build",
+    "build": "ng build && node scripts/copy-404.mjs",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lighthouse": "node scripts/lighthouse.mjs",

@@ -37,3 +37,6 @@ export const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX';
  */
 export const WHATS_NEW_PATH = '/whats-new';
 
+/** The feature-list route. Also written out in app.routes.ts and the nav bar. */
+export const FEATURES_PATH = '/features';
+

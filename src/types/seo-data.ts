@@ -13,4 +13,11 @@ export interface SeoData {
    * Omit on routes that don't need anything beyond the global app schema.
    */
   structuredData?: Record<string, unknown>;
+  /**
+   * Ask crawlers not to index this route. Only the 404 page sets it today: the
+   * 404 status already keeps it out of the index when served by Cloudflare, but
+   * the page is also reachable by client-side navigation, where there is no
+   * status code at all.
+   */
+  noindex?: boolean;
 }

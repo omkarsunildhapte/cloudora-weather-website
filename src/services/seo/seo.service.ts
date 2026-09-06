@@ -34,6 +34,20 @@ export class SeoService {
     this.meta.updateTag({ property: 'og:description', content: data.description });
     this.updateCanonicalLink(data.path);
     this.updateStructuredData(data.structuredData ?? null);
+    this.updateRobots(data.noindex === true);
+  }
+
+  /**
+   * Routes are single-page navigations, so the tag has to be removed again when
+   * leaving a noindex route — otherwise the 404 page would poison every page
+   * the visitor clicked through to afterwards.
+   */
+  private updateRobots(noindex: boolean): void {
+    if (noindex) {
+      this.meta.updateTag({ name: 'robots', content: 'noindex, follow' });
+      return;
+    }
+    this.meta.removeTag("name='robots'");
   }
 
   /** Every route gets exactly one canonical `<link>`, always pointing at

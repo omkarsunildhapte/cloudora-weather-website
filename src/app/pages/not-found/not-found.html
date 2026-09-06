@@ -1,0 +1,46 @@
+<app-sunrise-layer />
+
+<div class="relative z-10">
+  <section class="nf-hero relative overflow-hidden">
+    <div class="absolute inset-0 -z-20 nf-glow" aria-hidden="true"></div>
+
+    <div class="relative max-w-2xl mx-auto px-5 md:px-8 pt-20 md:pt-28 pb-14 md:pb-20 text-center">
+      <p class="nf-in nf-in-1 nf-code" aria-hidden="true">404</p>
+
+      <h1 class="nf-in nf-in-2 text-3xl md:text-[2.5rem] font-bold text-white tracking-tight leading-[1.15] mt-2">
+        This forecast <span class="nf-gradient-text">didn't land</span>
+      </h1>
+
+      <p class="nf-in nf-in-3 text-base text-gray-400 mt-5 leading-relaxed">
+        The page you asked for isn't here — it may have moved, or the address might have a typo in
+        it. Everything below still works.
+      </p>
+
+      <div class="nf-in nf-in-4 mt-8 flex flex-wrap items-center justify-center gap-3">
+        <a routerLink="/" class="nf-btn nf-btn-primary">Back to home</a>
+        <a [routerLink]="guidesPath" class="nf-btn nf-btn-ghost">Read the guides</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-2xl mx-auto px-5 md:px-8 pb-24">
+    <h2 class="nf-in nf-in-5 text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+      Try one of these
+    </h2>
+
+    <ul class="nf-list">
+      @for (item of suggestions; track item.path; let i = $index) {
+        <li class="nf-in nf-in-5" [style.animation-delay.ms]="360 + i * 80">
+          <a [routerLink]="item.path" class="nf-card">
+            <span class="nf-card__icon"><app-feature-icon [key]="item.icon" /></span>
+            <span class="nf-card__text">
+              <strong>{{ item.title }}</strong>
+              <span>{{ item.summary }}</span>
+            </span>
+            <span class="nf-card__chevron" aria-hidden="true">→</span>
+          </a>
+        </li>
+      }
+    </ul>
+  </section>
+</div>
