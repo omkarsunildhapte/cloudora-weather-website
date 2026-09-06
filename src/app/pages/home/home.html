@@ -143,7 +143,7 @@
           routerLink="/features"
           class="hidden sm:inline-flex items-center gap-1.5 text-sm text-brand-primary hover:text-white transition-colors whitespace-nowrap"
         >
-          View all 8
+          View all {{ featureCount }}
           <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4">
             <path
               d="M9 6l6 6-6 6"
@@ -172,7 +172,7 @@
       }
     </div>
     <a routerLink="/features" class="sm:hidden mt-6 inline-block text-sm text-brand-primary"
-      >View all 8 features →</a
+      >View all {{ featureCount }} features →</a
     >
   </section>
 

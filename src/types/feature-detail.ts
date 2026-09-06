@@ -1,3 +1,10 @@
+/** The section headings the features page groups its list under. */
+export type FeatureCategory =
+  | 'Forecasting'
+  | 'Air, sun & storms'
+  | 'Tools'
+  | 'On your phone';
+
 /** One expanded feature row on the `/features` page. */
 export interface FeatureDetail {
   /** Two-digit ordinal shown beside the row, e.g. "01". */
@@ -5,6 +12,8 @@ export interface FeatureDetail {
   /** `@shared/feature-icon` key. */
   icon: string;
   title: string;
+  /** Which group the feature is listed under on /features. */
+  category: FeatureCategory;
   /** Optional badge ("New", "Beta"); null renders no badge. */
   tag: string | null;
   description: string;

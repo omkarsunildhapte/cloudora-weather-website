@@ -6,7 +6,7 @@ import { ScreenshotGallery } from '@shared/screenshot-gallery/screenshot-gallery
 import { SunriseLayer } from '@shared/sunrise-layer/sunrise-layer';
 import { LiveWeather } from '@shared/live-weather/live-weather';
 import { SeoService } from '@services/seo/seo.service';
-import { PREVIEW_FEATURES, SCREENSHOT_SLOTS } from '@constants/index';
+import { FEATURE_DETAILS, PREVIEW_FEATURES, SCREENSHOT_SLOTS } from '@constants/index';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +25,9 @@ export class Home implements OnInit {
   private readonly seo = inject(SeoService);
 
   readonly previewFeatures = PREVIEW_FEATURES;
+
+  /** Derived, so the "View all N" link can never disagree with the features page. */
+  readonly featureCount = FEATURE_DETAILS.length;
 
   readonly screenshotSlots = SCREENSHOT_SLOTS;
 
