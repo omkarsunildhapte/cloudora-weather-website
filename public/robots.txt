@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://cloudora-weather.app/sitemap.xml
+Sitemap: https://cloudora-weather.vernokasoftwaretechnology.com/sitemap.xml

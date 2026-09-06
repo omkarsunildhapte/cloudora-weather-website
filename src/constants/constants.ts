@@ -13,7 +13,7 @@ export const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com
 /** Canonical production origin — used for sitemap/robots (see public/) and
  *  per-page structured-data `url` fields. Keep in sync with those files if
  *  the deployment domain ever changes. No trailing slash. */
-export const SITE_URL = 'https://cloudora-weather.app';
+export const SITE_URL = 'https://cloudora-weather.vernokasoftwaretechnology.com';
 
 export const CONTACT_EMAIL = 'support@vernokasoftwaretechnology.com';
 

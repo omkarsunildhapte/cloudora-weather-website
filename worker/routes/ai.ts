@@ -37,7 +37,7 @@ const OPENROUTER_FREE_MODELS = [
 
 const TEMPERATURE = 0.8;
 const MAX_TOKENS = 500;
-const SITE_URL = 'https://cloudora-weather.app';
+const SITE_URL = 'https://cloudora-weather.vernokasoftwaretechnology.com';
 const SITE_NAME = 'Cloudora Weather';
 
 // The app's longest prompt is a few hundred characters. These caps stop the

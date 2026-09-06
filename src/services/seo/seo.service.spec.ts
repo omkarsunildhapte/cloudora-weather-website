@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Meta, Title } from '@angular/platform-browser';
 import { SeoService } from '@services/seo/seo.service';
 import { TRUSTED_TYPES_JSONLD_POLICY } from '@constants/index';
+import { SITE_URL } from '@constants/index';
 
 describe('SeoService', () => {
   let service: SeoService;
@@ -62,7 +63,7 @@ describe('SeoService', () => {
 
     const link = document.getElementById('page-canonical-link') as HTMLLinkElement | null;
     expect(link?.rel).toBe('canonical');
-    expect(link?.href).toBe('https://cloudora-weather.app/features');
+    expect(link?.href).toBe(`${SITE_URL}/features`);
   });
 
   it('updates the existing canonical link in place rather than duplicating it', () => {
@@ -71,7 +72,7 @@ describe('SeoService', () => {
 
     const links = document.querySelectorAll('#page-canonical-link');
     expect(links.length).toBe(1);
-    expect((links[0] as HTMLLinkElement).href).toBe('https://cloudora-weather.app/second');
+    expect((links[0] as HTMLLinkElement).href).toBe(`${SITE_URL}/second`);
   });
 
   it('injects a JSON-LD structured-data script when provided', () => {

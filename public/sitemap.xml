@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://cloudora-weather.app/</loc>
+    <loc>https://cloudora-weather.vernokasoftwaretechnology.com/</loc>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://cloudora-weather.app/features</loc>
+    <loc>https://cloudora-weather.vernokasoftwaretechnology.com/features</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://cloudora-weather.app/guides</loc>
+    <loc>https://cloudora-weather.vernokasoftwaretechnology.com/guides</loc>
     <lastmod>2026-09-04</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cloudora-weather.app/guides/air-quality-index</loc>
+    <loc>https://cloudora-weather.vernokasoftwaretechnology.com/guides/air-quality-index</loc>
     <lastmod>2026-09-04</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://cloudora-weather.app/guides/uv-index</loc>
+    <loc>https://cloudora-weather.vernokasoftwaretechnology.com/guides/uv-index</loc>
     <lastmod>2026-09-04</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://cloudora-weather.app/guides/feels-like-temperature</loc>
+    <loc>https://cloudora-weather.vernokasoftwaretechnology.com/guides/feels-like-temperature</loc>
     <lastmod>2026-09-04</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://cloudora-weather.app/guides/precipitation-radar</loc>
+    <loc>https://cloudora-weather.vernokasoftwaretechnology.com/guides/precipitation-radar</loc>
     <lastmod>2026-09-04</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://cloudora-weather.app/whats-new</loc>
+    <loc>https://cloudora-weather.vernokasoftwaretechnology.com/whats-new</loc>
     <lastmod>2026-09-04</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://cloudora-weather.app/contact</loc>
+    <loc>https://cloudora-weather.vernokasoftwaretechnology.com/contact</loc>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://cloudora-weather.app/privacy-policy</loc>
+    <loc>https://cloudora-weather.vernokasoftwaretechnology.com/privacy-policy</loc>
     <lastmod>2026-08-27</lastmod>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://cloudora-weather.app/terms-of-service</loc>
+    <loc>https://cloudora-weather.vernokasoftwaretechnology.com/terms-of-service</loc>
     <lastmod>2026-08-27</lastmod>
     <priority>0.3</priority>
   </url>
