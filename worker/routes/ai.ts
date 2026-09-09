@@ -11,8 +11,9 @@ import { CORS_HEADERS, preflight } from '../lib/cors';
  * here instead:
  *
  *  1. Google Gemini's free tier (~15 req/min).
- *  2. OpenRouter's $0 models on failure — three are listed so OpenRouter falls
- *     through to the next when a shared free pool is rate-limited.
+ *  2. OpenRouter's $0 models on failure — five are listed, on five different
+ *     providers, so OpenRouter falls through to the next when a shared free
+ *     pool is rate-limited or a model is delisted.
  *
  * Nothing here bills per token, so the exposure this closes is quota theft
  * rather than a direct bill. That still matters: a drained free quota takes the
@@ -29,10 +30,37 @@ export interface AiEnv {
 const GEMINI_API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
 const GEMINI_MODEL = 'gemini-3.5-flash-lite';
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions';
+/**
+ * OpenRouter candidates, tried in this order until one answers.
+ *
+ * Five, on five different providers. A $0 model is not a stable dependency —
+ * `z-ai/glm-5.2:free` sat in this list after it had already left the free tier
+ * (the model still exists, but only as a paid one), so a third of the fallback
+ * chain was dead and nothing said so. Spreading the list across providers means
+ * one vendor delisting or rate-limiting its free pool cannot take the rest with
+ * it, which a list of same-vendor variants would not survive.
+ *
+ * Domain-tuned free models are deliberately excluded even though they are
+ * available: `inclusionai/ling-3.0-flash-sante` is health-focused and
+ * `poolside/laguna-s-2.1` and `cohere/north-mini-code` are coding agents. This
+ * route writes short weather prose, so a general instruction-tuned model is the
+ * right shape.
+ *
+ * `openrouter/free` is last on purpose: it is OpenRouter's own router, which
+ * picks from whatever is free at that moment. It is the least predictable
+ * choice and the only one that keeps working when every pinned id above has
+ * been delisted — a backstop, not a default.
+ *
+ * Re-check against https://openrouter.ai/api/v1/models when AI starts failing;
+ * listing is necessary but not sufficient, since a listed model's provider can
+ * still error.
+ */
 const OPENROUTER_FREE_MODELS = [
   'nvidia/nemotron-3.5-lightning:free',
-  'z-ai/glm-5.2:free',
+  'google/gemma-4-31b-it:free',
+  'thinkingmachines/inkling-small:free',
   'liquid/lfm-2.5-2.6b:free',
+  'openrouter/free',
 ];
 
 const TEMPERATURE = 0.8;

@@ -64,10 +64,46 @@ describe('handleAi', () => {
     const body = JSON.parse(init.body);
     expect(body.models).toEqual([
       'nvidia/nemotron-3.5-lightning:free',
-      'z-ai/glm-5.2:free',
+      'google/gemma-4-31b-it:free',
+      'thinkingmachines/inkling-small:free',
       'liquid/lfm-2.5-2.6b:free',
+      'openrouter/free',
     ]);
     expect(body.reasoning).toEqual({ exclude: true });
+  });
+
+  describe('the OpenRouter candidate list', () => {
+    /** The ids actually sent upstream, read from a real fallback request. */
+    async function models(): Promise<string[]> {
+      fetchMock
+        .mockResolvedValueOnce(new Response('rate limited', { status: 429 }))
+        .mockResolvedValueOnce(openRouterOk('ok'));
+      await handleAi(post({ prompt: 'x' }), KEYS);
+      return JSON.parse(fetchMock.mock.calls[1][1].body).models;
+    }
+
+    it('offers five candidates, so one delisting is not a third of the chain', async () => {
+      expect(await models()).toHaveLength(5);
+    });
+
+    it('spreads them across five providers, which is the point of a fallback list', async () => {
+      const providers = (await models()).map(id => id.split('/')[0]);
+      expect(new Set(providers).size).toBe(providers.length);
+    });
+
+    it('keeps openrouter/free last — it is the backstop, not the default', async () => {
+      const ids = await models();
+      expect(ids[ids.length - 1]).toBe('openrouter/free');
+      expect(ids.slice(0, -1).every(id => id.endsWith(':free'))).toBe(true);
+    });
+
+    it('lists no domain-tuned model, since this route writes weather prose', async () => {
+      // The free tier carries health- and coding-specialised models
+      // (ling-3.0-flash-sante, laguna-s, north-mini-code) that are easy to pick
+      // by accident and bad at the short prose this route asks for.
+      const ids = await models();
+      expect(ids.some(id => /sante|-fin|code|laguna/i.test(id))).toBe(false);
+    });
   });
 
   it('falls through when Gemini answers 200 with no usable text', async () => {
