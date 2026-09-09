@@ -15,6 +15,21 @@ export const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com
  *  the deployment domain ever changes. No trailing slash. */
 export const SITE_URL = 'https://cloudora-weather.vernokasoftwaretechnology.com';
 
+/**
+ * Absolute URL of the social-share card.
+ *
+ * Absolute, not a path: the Open Graph spec requires og:image to be a full
+ * URL, and every unfurler — Facebook, X, LinkedIn, WhatsApp, Slack — silently
+ * shows no image for a relative one. index.html shipped `icon-256.png` for
+ * months, so every share of this site rendered without a picture.
+ *
+ * Still the 256px app icon, which is below the 1200x630 a card wants and will
+ * render as a small square rather than a banner. Replace with a real card at
+ * public/og-card.png when one exists; this constant is the only place to
+ * change.
+ */
+export const OG_IMAGE_URL = `${SITE_URL}/icon-256.png`;
+
 export const CONTACT_EMAIL = 'support@vernokasoftwaretechnology.com';
 
 export const COMPANY_NAME = 'Vernoka Technology';

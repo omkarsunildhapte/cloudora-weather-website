@@ -70,9 +70,12 @@ pattern. No two routes may share an identical title/description pair.
   the prerendered HTML, same as title/OG) — keep passing a correct, sitemap-matching `path` on
   every `.update()` call; it's what keeps trailing-slash/query-param variants from being treated as
   separate indexable URLs.
-- This is a static build with no server-side redirect layer; if the site is ever deployed behind
-  a host that can enforce trailing-slash normalization (most static hosts can), turn it on rather
-  than allowing both `/features` and `/features/` to be independently indexable.
+- Trailing slashes are normalised by Cloudflare, and the direction matters. `wrangler.jsonc` sets
+  `html_handling: "drop-trailing-slash"`, so `/features` serves 200 and `/features/` redirects to
+  it. That is the form `SeoService`'s canonical emits and the form `sitemap.xml` lists — all three
+  must stay the same string. Cloudflare's default (`auto-trailing-slash`) does the opposite and
+  put every sitemap URL behind a 307 whose target then declared a canonical pointing back at the
+  redirecting URL.
 
 ## 4. Semantic HTML & Crawlable Links
 

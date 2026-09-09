@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Service, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { SeoData, TrustedTypePolicy, WindowWithTrustedTypes } from '@appTypes/index';
-import { SITE_URL } from '@constants/index';
+import { OG_IMAGE_URL, SITE_URL } from '@constants/index';
 import { CANONICAL_LINK_ID, STRUCTURED_DATA_ID, TRUSTED_TYPES_JSONLD_POLICY } from '@constants/index';
 
 /**
@@ -32,6 +32,15 @@ export class SeoService {
     this.meta.updateTag({ name: 'description', content: data.description });
     this.meta.updateTag({ property: 'og:title', content: data.title });
     this.meta.updateTag({ property: 'og:description', content: data.description });
+    // Absolute, and per route: og:url is what an unfurler treats as the
+    // canonical address of the thing being shared, and without it a share of
+    // /guides/uv-index is attributed to whatever URL the scraper happened to
+    // land on. Matches the canonical link below exactly.
+    this.meta.updateTag({ property: 'og:url', content: `${SITE_URL}${data.path}` });
+    this.meta.updateTag({ property: 'og:image', content: OG_IMAGE_URL });
+    this.meta.updateTag({ name: 'twitter:title', content: data.title });
+    this.meta.updateTag({ name: 'twitter:description', content: data.description });
+    this.meta.updateTag({ name: 'twitter:image', content: OG_IMAGE_URL });
     this.updateCanonicalLink(data.path);
     this.updateStructuredData(data.structuredData ?? null);
     this.updateRobots(data.noindex === true);

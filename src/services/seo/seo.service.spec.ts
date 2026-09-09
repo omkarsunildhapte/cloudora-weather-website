@@ -1,8 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Meta, Title } from '@angular/platform-browser';
 import { SeoService } from '@services/seo/seo.service';
-import { TRUSTED_TYPES_JSONLD_POLICY } from '@constants/index';
-import { SITE_URL } from '@constants/index';
+import { OG_IMAGE_URL, SITE_URL, TRUSTED_TYPES_JSONLD_POLICY } from '@constants/index';
 
 describe('SeoService', () => {
   let service: SeoService;
@@ -179,6 +178,49 @@ describe('SeoService', () => {
 
       const script = document.getElementById('page-structured-data');
       expect(JSON.parse(script?.textContent ?? '{}').name).toBe('Guides');
+    });
+  });
+
+  /**
+   * Social cards shipped broken for months: og:image was the relative string
+   * "icon-256.png", which the Open Graph spec does not allow and which every
+   * unfurler resolves to nothing. Nothing caught it, because the tag was
+   * present and non-empty — only its shape was wrong. These assert the shape.
+   */
+  describe('social card tags', () => {
+    const content = (selector: string): string | null =>
+      document.querySelector(selector)?.getAttribute('content') ?? null;
+
+    beforeEach(() => {
+      service.update({ title: 'UV Index Guide', description: 'How to read it.', path: '/guides/uv-index' });
+    });
+
+    it('gives og:image an absolute URL, since a relative one silently unfurls as nothing', () => {
+      const image = content('meta[property="og:image"]');
+      expect(image).toBe(OG_IMAGE_URL);
+      expect(image?.startsWith('https://')).toBe(true);
+    });
+
+    it('points og:url at this route, not whatever page the scraper landed on', () => {
+      expect(content('meta[property="og:url"]')).toBe(`${SITE_URL}/guides/uv-index`);
+    });
+
+    it('keeps og:url and the canonical link identical', () => {
+      const canonical = document.getElementById('page-canonical-link')?.getAttribute('href');
+      expect(content('meta[property="og:url"]')).toBe(canonical);
+    });
+
+    it('mirrors title and description onto the twitter tags', () => {
+      expect(content('meta[name="twitter:title"]')).toBe('UV Index Guide');
+      expect(content('meta[name="twitter:description"]')).toBe('How to read it.');
+      expect(content('meta[name="twitter:image"]')).toBe(OG_IMAGE_URL);
+    });
+
+    it('rewrites them on the next route rather than leaving the previous ones', () => {
+      service.update({ title: 'Contact', description: 'Get in touch.', path: '/contact' });
+      expect(content('meta[property="og:url"]')).toBe(`${SITE_URL}/contact`);
+      expect(content('meta[name="twitter:title"]')).toBe('Contact');
+      expect(document.querySelectorAll('meta[property="og:url"]').length).toBe(1);
     });
   });
 });

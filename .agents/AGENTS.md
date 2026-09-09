@@ -185,7 +185,12 @@ Whenever a service is created or updated, you must write or update the correspon
 - **Staging Isolation**: Non-production environments MUST dynamically inject a `<meta name="robots" content="noindex, nofollow" />` tag to prevent staging sites from polluting search indexes.
 - **@defer Traps**: Do NOT use client-triggered `@defer (on interaction/hover)` for primary SEO content. Only use it for below-the-fold or non-critical UI elements.
 - **Crawlable Pagination**: If infinite scrolling is used, a visually hidden or footer-based `<nav>` with hard `<a [routerLink]>` pagination links MUST be exposed for crawlers.
-- **Dynamic Open Graph Images**: Dynamic routes must map `og:image` to a valid high-quality static asset rather than a generic fallback.
+- **Open Graph**: `og:image` and `og:url` must be ABSOLUTE URLs. The spec requires it, and every
+  unfurler — Facebook, X, LinkedIn, WhatsApp, Slack — silently renders no image for a relative
+  one. `index.html` shipped `content="icon-256.png"` for months and every share of this site went
+  out without a picture; nothing caught it because the tag was present and non-empty. Build them
+  from `SITE_URL` / `OG_IMAGE_URL` (`constants/constants.ts`), never a bare path. `SeoService`
+  sets the per-route pair; `index.html` carries the fallback for non-prerendered URLs.
 
 ### 14. Zero-Dependency State Encapsulation
 Services must manage state using private writable signals (`signal()`) exposed to components via public read-only views (`computed()`), avoiding heavy external libraries like NgRx unless absolutely necessary.

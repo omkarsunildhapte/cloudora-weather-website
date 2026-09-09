@@ -11,6 +11,14 @@
     // Exposed to the Worker as env.ASSETS so worker/index.ts can hand
     // non-API requests back to the static asset server.
     "binding": "ASSETS",
+    // Serve /features, not /features/. Cloudflare's default
+    // ("auto-trailing-slash") 307s the bare path to the slashed one, which put
+    // the served URL at odds with everything that points at it: sitemap.xml
+    // lists /features and SeoService's canonical says /features, so Google was
+    // fetching a redirect for every entry and reading a canonical that pointed
+    // at a redirecting URL. Dropping the slash makes the served address, the
+    // canonical and the sitemap the same string.
+    "html_handling": "drop-trailing-slash",
     // Serves the prerendered 404.html with a real 404 status. Every real route
     // is prerendered to its own file, so no SPA fallback is needed for
     // navigation — and the fallback was actively harmful: it answered every

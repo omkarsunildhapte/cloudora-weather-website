@@ -1,55 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Hand-maintained; keep in sync with app.routes.ts, public/llms.txt and
+  src/constants/guides.ts (seo-rules.md Rule 8).
+
+  No <priority> and no <changefreq>: Google ignores both outright, so they
+  were noise that still had to be kept consistent. <lastmod> is the one
+  hint it does use, and only while it stays honest — these are the commit
+  dates of each page's own source, not the date the file was regenerated.
+
+  Paths carry no trailing slash, matching SeoService's canonical and the
+  form the asset layer serves (wrangler.jsonc html_handling).
+-->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://cloudora-weather.vernokasoftwaretechnology.com/</loc>
-    <priority>1.0</priority>
+    <lastmod>2026-09-06</lastmod>
   </url>
   <url>
     <loc>https://cloudora-weather.vernokasoftwaretechnology.com/features</loc>
-    <priority>0.8</priority>
+    <lastmod>2026-09-06</lastmod>
   </url>
   <url>
     <loc>https://cloudora-weather.vernokasoftwaretechnology.com/guides</loc>
-    <lastmod>2026-09-04</lastmod>
-    <priority>0.7</priority>
+    <lastmod>2026-09-06</lastmod>
   </url>
   <url>
     <loc>https://cloudora-weather.vernokasoftwaretechnology.com/guides/air-quality-index</loc>
-    <lastmod>2026-09-04</lastmod>
-    <priority>0.6</priority>
+    <lastmod>2026-09-06</lastmod>
   </url>
   <url>
     <loc>https://cloudora-weather.vernokasoftwaretechnology.com/guides/uv-index</loc>
-    <lastmod>2026-09-04</lastmod>
-    <priority>0.6</priority>
+    <lastmod>2026-09-06</lastmod>
   </url>
   <url>
     <loc>https://cloudora-weather.vernokasoftwaretechnology.com/guides/feels-like-temperature</loc>
-    <lastmod>2026-09-04</lastmod>
-    <priority>0.6</priority>
+    <lastmod>2026-09-06</lastmod>
   </url>
   <url>
     <loc>https://cloudora-weather.vernokasoftwaretechnology.com/guides/precipitation-radar</loc>
-    <lastmod>2026-09-04</lastmod>
-    <priority>0.6</priority>
+    <lastmod>2026-09-06</lastmod>
   </url>
   <url>
     <loc>https://cloudora-weather.vernokasoftwaretechnology.com/whats-new</loc>
-    <lastmod>2026-09-04</lastmod>
-    <priority>0.5</priority>
+    <lastmod>2026-09-06</lastmod>
   </url>
   <url>
     <loc>https://cloudora-weather.vernokasoftwaretechnology.com/contact</loc>
-    <priority>0.5</priority>
+    <lastmod>2026-09-06</lastmod>
   </url>
   <url>
     <loc>https://cloudora-weather.vernokasoftwaretechnology.com/privacy-policy</loc>
-    <lastmod>2026-08-27</lastmod>
-    <priority>0.3</priority>
+    <lastmod>2026-09-06</lastmod>
   </url>
   <url>
     <loc>https://cloudora-weather.vernokasoftwaretechnology.com/terms-of-service</loc>
-    <lastmod>2026-08-27</lastmod>
-    <priority>0.3</priority>
+    <lastmod>2026-09-06</lastmod>
   </url>
 </urlset>

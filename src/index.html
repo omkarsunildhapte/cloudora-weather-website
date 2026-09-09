@@ -111,10 +111,23 @@
       content="Fast, beautiful, and privacy-first. Real-time conditions, hourly and 5-day forecasts, air quality, and an AI insight for your day — free on Android via Google Play."
     />
     <meta property="og:type" content="website" />
-    <!-- og:image also stays on the kept PNG — some social-share crawlers
-         (notably Facebook/Meta) have unreliable WebP support for link
-         previews. -->
-    <meta property="og:image" content="icon-256.png" />
+    <!-- Absolute URL, not a path: og:image is required by the spec to be a
+         full URL, and every unfurler shows nothing for a relative one. Kept on
+         the PNG rather than the WebP because some crawlers (notably
+         Facebook/Meta) have unreliable WebP support for link previews.
+
+         Keep in sync with OG_IMAGE_URL in src/constants/constants.ts — this
+         copy is the fallback baked into index.csr.html for any URL that is not
+         one of the prerendered routes; SeoService sets the per-route ones. -->
+    <meta property="og:image" content="https://cloudora-weather.vernokasoftwaretechnology.com/icon-256.png" />
+    <meta property="og:url" content="https://cloudora-weather.vernokasoftwaretechnology.com/" />
+    <meta property="og:site_name" content="Cloudora Weather" />
+
+    <!-- summary, not summary_large_image: the card art is a 256px square app
+         icon, and the large-image layout crops it badly. Switch to
+         summary_large_image when a real 1200x630 card exists. -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:image" content="https://cloudora-weather.vernokasoftwaretechnology.com/icon-256.png" />
 
     <script type="application/ld+json">
       {
