@@ -5,11 +5,26 @@ public, promotional/marketing website (Angular 22 + Tailwind CSS v4) whose sole 
 is driving Google Play installs of the real `cloudora-weather-app`. This site is Google Play only —
 never add Apple App Store references, links, or copy.
 
-This site is **prerendered, then hydrated**: `angular.json` sets `outputMode: "static"`, so every
-route in `app.routes.ts` is built to its own real `index.html` at build time, and `app.config.ts`
-calls `provideClientHydration()` so the browser adopts that markup instead of re-rendering it.
-There is no request-time server rendering — `app.config.server.ts` and `main.server.ts` exist
-only to run the prerender.
+This site is **prerendered, then hydrated**: every route in `app.routes.ts` is built to its own
+real `index.html` at build time, and `app.config.ts` calls `provideClientHydration()` so the
+browser adopts that markup instead of re-rendering it. Nothing renders at request time.
+
+`angular.json` sets `outputMode: "server"` (with `ssr.entry: "src/server.ts"`), which reads as a
+contradiction and is not one. That setting is what makes a `RenderMode.Server` route *possible*;
+it does not make one *happen*. `app.routes.server.ts` marks every route `RenderMode.Prerender`,
+so all of them still land on disk as real files and the site still deploys as plain static
+assets. The client bundle is byte-identical either way — measured at 361.37 kB / 99.32 kB under
+both `"static"` and `"server"`.
+
+The one thing that is *not* free is wiring the renderer into the Worker. Importing it inlines the
+whole Angular server app into the Worker script: 44.25 KiB -> 665.72 KiB gzipped, a 14x increase
+in what every request has to start. So `worker/index.ts` deliberately does not import it. The
+plumbing exists and is tested (`worker/lib/ssr.ts`, `worker/lib/ssr.spec.ts`) and the switch is a
+two-line change documented at the top of `worker/index.ts` — pay that cost when a route actually
+needs it, not before.
+
+`app.config.server.ts`, `main.server.ts` and `src/server.ts` otherwise exist only to run the
+prerender.
 
 The practical consequence is that anything a visitor-specific value decides must not be decided
 during construction, or the client’s first render disagrees with the prerendered HTML and trips

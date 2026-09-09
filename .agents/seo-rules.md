@@ -6,10 +6,15 @@ Google Play installs — SEO here isn't optional polish, it's the site's whole j
 
 ## 0. Prerendering Is Live
 
-`@angular/ssr` is configured with `outputMode: 'static'` (`angular.json` build target: `server:
-src/main.server.ts`, `src/app/app.routes.server.ts` sets `RenderMode.Prerender` for every route).
-`npm run build` fully prerenders all 11 routes to real static HTML at build time — no live Node
-server is needed to serve this site, it still deploys as plain static files. Per-route
+`@angular/ssr` is configured with `outputMode: 'server'` and `ssr.entry: 'src/server.ts'`, but
+`src/app/app.routes.server.ts` sets `RenderMode.Prerender` for **every** route, so in practice
+this site is still fully static: `npm run build` prerenders all 12 routes to real static HTML at
+build time and no live server is needed to serve them. `outputMode: 'server'` is there so a
+future dynamic route can opt into `RenderMode.Server` without an architecture change; until one
+does, nothing renders at request time and the deploy is plain static files exactly as before.
+
+Adding such a route means paying for it — see `AGENTS.md`'s rendering section for the measured
+Worker cost and the two-line switch in `worker/index.ts`. Do not turn it on speculatively. Per-route
 `Title`/`Meta` updates via `SeoService` (`og:title`/`og:description` included) are baked into each
 route's prerendered HTML, so non-JS-executing social-preview bots (Facebook/Twitter/LinkedIn link
 unfurlers) now see accurate, per-page tags too — not just `src/index.html`'s homepage defaults.

@@ -11,10 +11,22 @@ import { handleVersion, VersionEnv } from './routes/version';
  * Static assets are matched first by the assets binding (see wrangler.jsonc);
  * only requests with no matching file reach this handler, which is why the
  * API routes below can share the origin with the site without shadowing any
- * page. Anything else is handed back to the asset server, whose
- * not_found_handling: 'single-page-application' serves index.html so Angular's
- * router can render unknown deep links — the job public/_redirects did under
- * the Pages/Vercel setup.
+ * page. Anything else is handed back to the asset server, which holds a real
+ * prerendered file for every route the site has.
+ *
+ * SSR is deliberately NOT wired in here, even though angular.json is on
+ * `outputMode: "server"` and lib/ssr.ts is written and tested. Importing the
+ * renderer inlines the entire Angular server app into this Worker: measured,
+ * 44.25 KiB -> 665.72 KiB gzipped (200 KiB -> 2.8 MB raw), a 14x increase in
+ * the script every single request has to start, for a capability no route uses
+ * yet. Every route in app.routes.server.ts is RenderMode.Prerender.
+ *
+ * To turn it on, when a route actually needs RenderMode.Server:
+ *   1. import { serveWithSsr } from './lib/ssr';
+ *   2. replace the env.ASSETS.fetch(request) below with
+ *      serveWithSsr(request, env.ASSETS)
+ * lib/ssr.spec.ts already covers the behaviour, including the ordering that
+ * keeps prerendered routes on the zero-cost path.
  *
  * Two kinds of route live here:
  *  - /api/contact and /api/feedback relay mail through Resend (these replaced
