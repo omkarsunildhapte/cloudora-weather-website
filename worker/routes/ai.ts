@@ -33,33 +33,45 @@ const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions';
 /**
  * OpenRouter candidates, tried in this order until one answers.
  *
- * Five, on five different providers. A $0 model is not a stable dependency —
- * `z-ai/glm-5.2:free` sat in this list after it had already left the free tier
- * (the model still exists, but only as a paid one), so a third of the fallback
- * chain was dead and nothing said so. Spreading the list across providers means
- * one vendor delisting or rate-limiting its free pool cannot take the rest with
- * it, which a list of same-vendor variants would not survive.
+ * Five, on five different providers, and every one of them verified by an
+ * actual call — not by appearing in the catalogue. That distinction is the
+ * whole reason this comment exists. Two earlier entries were listed at $0 and
+ * looked perfectly healthy while being unusable:
  *
- * Domain-tuned free models are deliberately excluded even though they are
- * available: `inclusionai/ling-3.0-flash-sante` is health-focused and
- * `poolside/laguna-s-2.1` and `cohere/north-mini-code` are coding agents. This
- * route writes short weather prose, so a general instruction-tuned model is the
- * right shape.
+ *   thinkingmachines/inkling-small:free  "only available on agentic harnesses"
+ *   google/gemma-4-31b-it:free           "Provider returned error"
  *
- * `openrouter/free` is last on purpose: it is OpenRouter's own router, which
- * picks from whatever is free at that moment. It is the least predictable
- * choice and the only one that keeps working when every pinned id above has
- * been delisted — a backstop, not a default.
+ * and before them `z-ai/glm-5.2:free` had quietly left the free tier. A model
+ * being listed, priced at zero and correctly spelled tells you nothing about
+ * whether it will answer.
  *
- * Re-check against https://openrouter.ai/api/v1/models when AI starts failing;
- * listing is necessary but not sufficient, since a listed model's provider can
- * still error.
+ * Order is by output quality first, speed second. nvidia/nemotron-3.5-lightning
+ * is the fastest of the five (~170ms against nex-agi's ~390ms) but was measured
+ * leaking its own chain of thought into the answer 1 run in 5 — "Here's a
+ * thinking process: 1. **Analyze User Input:**" — despite `reasoning: {
+ * exclude: true }` being sent. First position serves most requests, and a
+ * fifth of users reading a model's internal monologue in the weather card is a
+ * worse trade than 200ms. nex-agi measured 0 in 5 on the same prompt, so it
+ * leads and nvidia sits fourth as a fast last-resort before the router.
+ *
+ * `openrouter/free` is last on purpose. It is OpenRouter's own router over
+ * whatever is free at that moment, so it is the least predictable choice and
+ * the only one that still works once every pinned id above has been delisted —
+ * a backstop, not a default.
+ *
+ * Domain-tuned free models are excluded even though they are available
+ * (`ling-3.0-flash-sante` is health, `laguna-s` and `north-mini-code` are
+ * coding agents). This route writes short weather prose.
+ *
+ * Re-verify with `npm run probe:models`, which fires the real request shape at
+ * each id and reports which actually serve. Do not edit this list from the
+ * catalogue alone.
  */
 const OPENROUTER_FREE_MODELS = [
-  'nvidia/nemotron-3.5-lightning:free',
-  'google/gemma-4-31b-it:free',
-  'thinkingmachines/inkling-small:free',
+  'nex-agi/nex-n2.5-mini:free',
   'liquid/lfm-2.5-2.6b:free',
+  'dots-studio/dots-3-note-preview:free',
+  'nvidia/nemotron-3.5-lightning:free',
   'openrouter/free',
 ];
 

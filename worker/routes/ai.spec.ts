@@ -63,10 +63,10 @@ describe('handleAi', () => {
     expect(init.headers.Authorization).toBe('Bearer or-test');
     const body = JSON.parse(init.body);
     expect(body.models).toEqual([
-      'nvidia/nemotron-3.5-lightning:free',
-      'google/gemma-4-31b-it:free',
-      'thinkingmachines/inkling-small:free',
+      'nex-agi/nex-n2.5-mini:free',
       'liquid/lfm-2.5-2.6b:free',
+      'dots-studio/dots-3-note-preview:free',
+      'nvidia/nemotron-3.5-lightning:free',
       'openrouter/free',
     ]);
     expect(body.reasoning).toEqual({ exclude: true });

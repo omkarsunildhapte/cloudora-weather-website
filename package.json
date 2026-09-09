@@ -12,7 +12,8 @@
     "worker:dev": "npm run build && wrangler dev",
     "worker:deploy": "npm run build && wrangler deploy",
     "test:worker": "vitest run --config vitest.worker.config.ts",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "probe:models": "node scripts/probe-models.mjs"
   },
   "private": true,
   "packageManager": "npm@11.9.0",
