@@ -1,6 +1,6 @@
 # Cloudora Weather
 
-> A free Android weather app with real-time conditions, hourly and 5-day forecasts, air quality index, UV/wind/pressure details, and an AI-generated weather insight for the day. Built by Vernoka Technology. Privacy-first: preferences and consent choices stay on the user's device; location is used only to fetch the weather.
+> A free Android weather app with real-time conditions, hourly and 5-day forecasts, air quality index, UV/wind/pressure details, and an AI-generated weather insight for the day. Built by Vernoka Software Technology. Privacy-first: preferences and consent choices stay on the user's device; location is used only to fetch the weather.
 
 Cloudora Weather is a mobile app, not a web app — this site is its marketing
 and documentation home. The app itself is distributed through Google Play.

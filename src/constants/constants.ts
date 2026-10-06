@@ -32,9 +32,9 @@ export const OG_IMAGE_URL = `${SITE_URL}/icon-256.png`;
 
 export const CONTACT_EMAIL = 'support@vernokasoftwaretechnology.com';
 
-export const COMPANY_NAME = 'Vernoka Technology';
+export const COMPANY_NAME = 'Vernoka Software Technology';
 
-export const COMPANY_URL = 'https://vernoka-sand.vercel.app/';
+export const COMPANY_URL = 'https://vernokasoftwaretechnology.com/';
 
 /** GA4 measurement id for this website (not the app — the app ships no
  *  analytics). Also hardcoded in the inline consent stub in src/index.html,

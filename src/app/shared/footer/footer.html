@@ -69,7 +69,7 @@
   <div
     class="max-w-6xl mx-auto px-5 md:px-8 pb-10 text-xs text-gray-400 flex flex-col md:flex-row gap-2 md:justify-between"
   >
-    <span>&copy; {{ year }} {{ company }}. All rights reserved.</span>
+    <span>&copy; {{ year }} <a [href]="companyUrl" target="_blank" rel="noopener" class="underline-offset-2 hover:underline">{{ company }}</a>. All rights reserved.</span>
     <span>Cloudora Weather is available on Android via Google Play.</span>
   </div>
 </footer>
